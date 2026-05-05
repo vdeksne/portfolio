@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "name": "Next.js",
+      "link": "https://nextjs.org/",
+      "icon": "custom:next"
+    },
+    {
+      "name": "React",
+      "link": "https://react.dev/",
+      "icon": "custom:react"
+    },
+    {
+      "name": "Node",
+      "link": "https://nodejs.org",
+      "icon": "custom:node"
+    },
+    {
+      "name": "Nest",
+      "link": "https://nestjs.com/",
+      "icon": "custom:nest"
+    },
+    {
+      "name": "TailwindCSS",
+      "link": "https://tailwindcss.com/",
+      "icon": "custom:tailwind"
+    },
+    {
+      "name": "Vercel",
+      "link": "https://vercel.com/",
+      "icon": "custom:vercel"
+    },
+    {
+      "name": "C++",
+      "link": "https://learn.microsoft.com/en-us/cpp/?view=msvc-170",
+      "icon": "custom:cpp"
+    },
+    {
+      "name": "C#",
+      "link": "https://dotnet.microsoft.com/en-us/languages/csharp",
+      "icon": "custom:csharp"
+    },
+    {
+      "name": "C",
+      "link": "https://learn.microsoft.com/en-us/cpp/?view=msvc-170",
+      "icon": "custom:c"
+    },
+    {
+      "name": "Python",
+      "link": "https://www.python.org/",
+      "icon": "custom:python"
+    },
+    {
+      "name": "PHP",
+      "link": "https://www.php.net/",
+      "icon": "custom:php"
+    },
+    {
+      "name": "Figma",
+      "link": "https://www.figma.com/",
+      "icon": "custom:figma"
+    },
+    {
+      "name": "AfterEffects",
+      "link": "https://calendar.cron.com/",
+      "icon": "custom:after"
+    },
+    {
+      "name": "PremierePro",
+      "link": "https://www.adobe.com/products/premiere.html#",
+      "icon": "custom:premiere"
+    },
+    {
+      "name": "InDesign",
+      "link": "https://www.adobe.com/products/indesign.html",
+      "icon": "custom:in"
+    },
+    {
+      "name": "Photoshop",
+      "link": "https://www.adobe.com/products/photoshop.html",
+      "icon": "custom:photoshop"
+    },
+    {
+      "name": "Illustrator",
+      "link": "https://www.adobe.com/products/illustrator.html",
+      "icon": "custom:illustrator"
+    },
+    {
+      "name": "Lightroom",
+      "link": "https://www.adobe.com/products/photoshop-lightroom.html",
+      "icon": "custom:lightroom"
+    }
+  ]
+}

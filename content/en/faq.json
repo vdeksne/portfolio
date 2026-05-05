@@ -1,0 +1,53 @@
+{
+  "title": "FAQ",
+  "subtitle": "Common questions I hear",
+  "faqQuestions": [
+    {
+      "title": "Services",
+      "questions": [
+        {
+          "label": "What services do you offer?",
+          "content": "I offer a range of services including web design, web development, branding, and creative design. I can also help with SEO and social media marketing."
+        },
+        {
+          "label": "Can you teach me how to make a website?",
+          "content": "I don't offer courses at the moment, but I can recommend resources and advice to help you get the most out of your learning."
+        }
+      ]
+    },
+    {
+      "title": "Pricing",
+      "questions": [
+        {
+          "label": "How much does a project cost?",
+          "content": "The cost of a project varies based on several factors, including its size, features, and development time. My web services start at €500, with typical projects ranging between €500 and €3,000. For other design or consulting services, I charge a flat rate of €100 per day."
+        },
+        {
+          "label": "How does payment work for a project?",
+          "content": "I ask for a 40% deposit before starting a project, and the remaining 60% after successful delivery. I accept payments by bank transfer, PayPal, etc..."
+        },
+        {
+          "label": "How long does a project take?",
+          "content": "It's difficult to give an exact estimate, as each project is different, but the majority of my past work has taken between 2 weeks and 2 months."
+        },
+        {
+          "label": "Do you offer discounts?",
+          "content": "I offer a 15% discount for students and non-profit organizations."
+        }
+      ]
+    },
+    {
+      "title": "Personal",
+      "questions": [
+        {
+          "label": "What do you enjoy most about this work?",
+          "content": "What I enjoy most is the blend of creativity and problem-solving. The ability to take an idea - whether through design, development, or painting - and transform it into something visually striking and functional is incredibly rewarding. Every project is a new challenge, an opportunity to push boundaries and create something that resonates. Seeing the final result come to life and knowing it engages, inspires, or solves a problem makes the process exciting every time."
+        },
+        {
+          "label": "Hobbies outside of work?",
+          "content": "Since I am passionate about my work, I dedicate a significant amount of time to my projects. However, I also have a deep love for the outdoors. I enjoy running, going to the gym, and swimming to stay active. Beyond that, I find inspiration in painting and reading - both fuel my creativity and bring balance to my life."
+        }
+      ]
+    }
+  ]
+}

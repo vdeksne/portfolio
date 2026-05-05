@@ -1,0 +1,10 @@
+{
+  "/api/emails/send/route": "/api/emails/send",
+  "/_not-found/page": "/_not-found",
+  "/[locale]/page": "/[locale]",
+  "/[locale]/about/page": "/[locale]/about",
+  "/[locale]/writing/page": "/[locale]/writing",
+  "/[locale]/works/page": "/[locale]/works",
+  "/[locale]/contact/page": "/[locale]/contact",
+  "/[locale]/articles/[slug]/page": "/[locale]/articles/[slug]"
+}

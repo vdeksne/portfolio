@@ -1,0 +1,30 @@
+# Nested clone / scratch folder (not a submodule)
+portfolio/
+
+# Nuxt dev/build outputs
+.output
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.vercel
+.data
+
+rt_base
+
+.history

@@ -1,0 +1,53 @@
+{
+  "title": "Biežāk uzdotie jautājumi",
+  "subtitle": "Svarīgas detaļas, par kurām bieži tiek uzdoti jautājumi",
+  "faqQuestions": [
+    {
+      "title": "Pakalpojumi",
+      "questions": [
+        {
+          "label": "Kādus pakalpojumus jūs piedāvājat?",
+          "content": "Es piedāvāju plašu pakalpojumu klāstu, tostarp tīmekļa dizainu, tīmekļa izstrādi, zīmolvedību un radošo dizainu. Es varu arī palīdzēt ar SEO un sociālo mediju mārketingu."
+        },
+        {
+          "label": "Vai jūs varat iemācīt man izveidot mājaslapu?",
+          "content": "Pašlaik es nepiedāvāju kursus, bet es varu ieteikt resursus un padomus, lai jūs varētu maksimāli izmantot savas mācīšanās iespējas."
+        }
+      ]
+    },
+    {
+      "title": "Cenas",
+      "questions": [
+        {
+          "label": "Cik maksā projekts?",
+          "content": "Projekta izmaksas mainās atkarībā no vairākiem faktoriem, tostarp tā apjoma, funkcijām un izstrādes laika. Mani tīmekļa pakalpojumi sākas no 500 €, un tipiski projekti svārstās no 500 € līdz 3000 €. Par citiem dizaina vai konsultāciju pakalpojumiem es iekasēju fiksētu likmi 100 € dienā."
+        },
+        {
+          "label": "Kā notiek samaksa par projektu?",
+          "content": "Es pieprasu 40% depozītu pirms projekta uzsākšanas un atlikušos 60% pēc veiksmīgas nodošanas. Es pieņemu maksājumus ar bankas pārskaitījumu, PayPal u.c."
+        },
+        {
+          "label": "Cik ilgi aizņem projekta izstrāde?",
+          "content": "Ir grūti sniegt precīzu aplēsi, jo katrs projekts ir atšķirīgs, bet lielākā daļa manu iepriekšējo darbu ir prasījusi no 2 nedēļām līdz 2 mēnešiem."
+        },
+        {
+          "label": "Vai jūs piedāvājat atlaides?",
+          "content": "Es piedāvāju 15% atlaidi studentiem un bezpeļņas organizācijām."
+        }
+      ]
+    },
+    {
+      "title": "Personīgais",
+      "questions": [
+        {
+          "label": "Kas jums šajā darbā patīk visvairāk?",
+          "content": "Visvairāk mani aizrauj radošuma un problēmu risināšanas apvienojums. Spēja paņemt ideju - vai tas būtu caur dizainu, izstrādi vai gleznošanu - un pārvērst to par kaut ko vizuāli iespaidīgu un funkcionālu ir ārkārtīgi gandarīga. Katrs projekts ir jauns izaicinājums, iespēja pārkāpt robežas un radīt kaut ko, kas uzrunā. Redzēt gala rezultātu atdzīvojamies un zināt, ka tas iesaista, iedvesmo vai atrisina problēmu, padara procesu aizraujošu katru reizi."
+        },
+        {
+          "label": "Kādi ir jūsu hobiji ārpus darba?",
+          "content": "Tā kā esmu aizrautīga par savu darbu, es tam veltu ievērojamu laiku. Tomēr man ir arī dziļa mīlestība pret dabā pavadītu laiku. Es izbaudu skriešanu, sporta zāles apmeklējumu un peldēšanu, lai uzturētu aktivitāti. Bez tā es smeļos iedvesmu gleznošanā un lasīšanā - abi šie hobiji baro manu radošumu un ienes līdzsvaru manā dzīvē."
+        }
+      ]
+    }
+  ]
+}
