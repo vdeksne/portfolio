@@ -2,6 +2,21 @@
 
 Personal portfolio site built with **Next.js** (App Router), **React**, **Tailwind CSS v4**, and **next-intl** for localized routes. Content lives in `content/` as Markdown and JSON.
 
+## Stack versions
+
+| Package | Version (see `package.json`) |
+|--------|------------------------------|
+| **React** / **React DOM** | 19.x (`^19.0.0`) |
+| **Next.js** | 15.2.6 |
+| **TypeScript** | 5.7.x |
+| **Tailwind CSS** | 4.x |
+
+To see the exact versions installed in your tree:
+
+```bash
+pnpm list react react-dom next
+```
+
 ## Features
 
 - **App Router** – Server components, static generation for pages and articles, API route for the contact form.
