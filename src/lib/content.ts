@@ -7,6 +7,13 @@ import {
   serializeMdcBlock,
 } from "./mdc";
 import type { Locale } from "./types";
+import {
+  fetchCmsPageOverlay,
+  mergeCmsOverlay,
+  routeKeyToDbPageKey,
+  upsertCmsPageRow,
+} from "./cms-pages-db";
+import { getDb } from "./db";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -51,24 +58,43 @@ export const PAGE_FILES: Record<string, string> = {
 const ALL_LOCALES: Locale[] = ["en", "lv"];
 
 /**
- * After saving About in one locale, copy `profile_image` into the other locale’s file.
- * One photo URL avoids “upload works in admin but /en/about still shows the old GitHub image”.
+ * After saving About in one locale, copy `profile_image` into the other locale’s file
+ * (local) or DB row (Vercel).
  */
-export function syncAboutProfileImageToOtherLocales(
+export async function syncAboutProfileImageToOtherLocales(
   savedLocale: Locale,
   profileImage: string,
 ) {
+  if (process.env.VERCEL === "1") {
+    const db = getDb();
+    if (!db) return;
+    const pageKey = routeKeyToDbPageKey("about");
+    for (const loc of ALL_LOCALES) {
+      if (loc === savedLocale) continue;
+      const disk = loadPageFromDisk(loc, "about");
+      if (!disk) continue;
+      const overlay = await fetchCmsPageOverlay(pageKey, loc);
+      const merged = mergeCmsOverlay(disk, overlay);
+      const slots = { ...merged.slots, profile_image: profileImage };
+      await upsertCmsPageRow(pageKey, loc, { ...merged, slots });
+    }
+    return;
+  }
   for (const loc of ALL_LOCALES) {
     if (loc === savedLocale) continue;
-    const page = getPageForAdmin(loc, "about");
+    const page = await getPageForAdmin(loc, "about");
     if (!page) continue;
     const slots = { ...page.slots, profile_image: profileImage };
     writePageMarkdown(loc, "about", page.meta, page.block, slots);
   }
 }
 
-function readPageFile(locale: Locale, base: string) {
+/** Markdown on disk only (no DB overlay). */
+export function loadPageFromDisk(locale: Locale, routeKey: string) {
+  const base = PAGE_FILES[routeKey];
+  if (!base) return null;
   const filePath = path.join(CONTENT_DIR, locale, `${base}.md`);
+  if (!fs.existsSync(filePath)) return null;
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   const block = firstMdcBlockName(content);
@@ -80,10 +106,18 @@ function readPageFile(locale: Locale, base: string) {
   };
 }
 
-export function getPageByRoute(locale: Locale, routeKey: string) {
-  const base = PAGE_FILES[routeKey];
-  if (!base) return null;
-  return readPageFile(locale, base);
+export async function getPageByRoute(locale: Locale, routeKey: string) {
+  const disk = loadPageFromDisk(locale, routeKey);
+  if (!disk) return null;
+  const overlay = await fetchCmsPageOverlay(
+    routeKeyToDbPageKey(routeKey),
+    locale,
+  );
+  return mergeCmsOverlay(disk, overlay);
+}
+
+export async function getPageForAdmin(locale: Locale, routeKey: string) {
+  return getPageByRoute(locale, routeKey);
 }
 
 export function listArticles(locale: Locale): {
@@ -178,22 +212,6 @@ export function adminPageSlugToRouteKey(slug: string): string | null {
 export function routeKeyToAdminSlug(routeKey: string): string {
   if (routeKey === "") return "home";
   return routeKey;
-}
-
-export function getPageForAdmin(locale: Locale, routeKey: string) {
-  const base = PAGE_FILES[routeKey];
-  if (!base) return null;
-  const filePath = path.join(CONTENT_DIR, locale, `${base}.md`);
-  if (!fs.existsSync(filePath)) return null;
-  const raw = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(raw);
-  const block = firstMdcBlockName(content);
-  const slots = parseMdcBlock(content, block);
-  return {
-    meta: data as PageMeta,
-    slots,
-    block,
-  };
 }
 
 export function writePageMarkdown(

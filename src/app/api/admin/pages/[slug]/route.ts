@@ -5,10 +5,11 @@ import {
   writePageMarkdown,
 } from "@/lib/content";
 import { requireCmsAuth } from "@/lib/cms/guard";
-import { rejectIfVercelCmsFilesystemWrite } from "@/lib/cms/vercel-readonly-guard";
 import { pageWriteSchema } from "@/lib/cms/schemas";
 import { localeFromRequest } from "@/lib/cms/query";
 import { siteConfig } from "@/lib/site-config";
+import { routeKeyToDbPageKey, upsertCmsPageRow } from "@/lib/cms-pages-db";
+import { getDb } from "@/lib/db";
 
 function coercePageWriteBody(raw: unknown) {
   const o = raw as {
@@ -54,7 +55,7 @@ export async function GET(
   if (routeKey === null) {
     return Response.json({ error: "Unknown page" }, { status: 404 });
   }
-  const page = getPageForAdmin(locale, routeKey);
+  const page = await getPageForAdmin(locale, routeKey);
   if (!page) return Response.json({ error: "Not found" }, { status: 404 });
   return Response.json({ routeKey, ...page });
 }
@@ -65,8 +66,6 @@ export async function PUT(
 ) {
   const denied = await requireCmsAuth();
   if (denied) return denied;
-  const readonlyFs = rejectIfVercelCmsFilesystemWrite();
-  if (readonlyFs) return readonlyFs;
   const locale = localeFromRequest(req);
   if (!locale) {
     return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
@@ -82,17 +81,51 @@ export async function PUT(
   if (!parsed.success) {
     return Response.json({ error: parsed.error.flatten() }, { status: 400 });
   }
+
   try {
-    writePageMarkdown(locale, routeKey, parsed.data.meta, parsed.data.block, parsed.data.slots);
-    if (routeKey === "about") {
-      syncAboutProfileImageToOtherLocales(locale, parsed.data.slots.profile_image ?? "");
+    if (process.env.VERCEL === "1") {
+      const db = getDb();
+      if (!db) {
+        return Response.json(
+          {
+            error:
+              "Set DATABASE_URL on Vercel and run pnpm db:migrate so the cms_pages table exists—then admin saves work in production.",
+          },
+          { status: 503 },
+        );
+      }
+      await upsertCmsPageRow(routeKeyToDbPageKey(routeKey), locale, {
+        meta: parsed.data.meta,
+        slots: parsed.data.slots,
+        block: parsed.data.block,
+      });
+      if (routeKey === "about") {
+        await syncAboutProfileImageToOtherLocales(
+          locale,
+          parsed.data.slots.profile_image ?? "",
+        );
+      }
+    } else {
+      writePageMarkdown(
+        locale,
+        routeKey,
+        parsed.data.meta,
+        parsed.data.block,
+        parsed.data.slots,
+      );
+      if (routeKey === "about") {
+        await syncAboutProfileImageToOtherLocales(
+          locale,
+          parsed.data.slots.profile_image ?? "",
+        );
+      }
     }
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Write failed.";
     console.error("[admin/pages PUT]", e);
     return Response.json(
       {
-        error: `Could not save (${msg}). Serverless hosts like Vercel have a read-only app filesystem — use git edits for content, or run /admin locally.`,
+        error: `Could not save (${msg}).`,
       },
       { status: 503 },
     );

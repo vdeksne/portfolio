@@ -4,13 +4,15 @@ import type { Locale } from "@/lib/types";
 import { siteConfig } from "@/lib/site-config";
 import { HomeSection } from "@/components/Home/HomeSection";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const page = getPageByRoute(locale, "");
+  const page = await getPageByRoute(locale, "");
   return {
     title: page?.meta.title,
     description: page?.meta.description,
@@ -30,7 +32,7 @@ export default async function HomePage({
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
-  const page = getPageByRoute(locale, "");
+  const page = await getPageByRoute(locale, "");
   if (!page) throw new Error("Missing home content");
   const projects = listProjects(locale);
   const faq = getFaq(locale);

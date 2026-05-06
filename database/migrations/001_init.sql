@@ -23,3 +23,15 @@ CREATE TABLE IF NOT EXISTS portfolio_projects (
 
 CREATE INDEX IF NOT EXISTS idx_portfolio_projects_locale
   ON portfolio_projects (locale);
+
+CREATE TABLE IF NOT EXISTS cms_pages (
+  page_key TEXT NOT NULL,
+  locale TEXT NOT NULL,
+  meta JSONB NOT NULL DEFAULT '{}'::jsonb,
+  slots JSONB NOT NULL DEFAULT '{}'::jsonb,
+  block TEXT NOT NULL DEFAULT '',
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (page_key, locale)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cms_pages_updated_at ON cms_pages (updated_at DESC);
