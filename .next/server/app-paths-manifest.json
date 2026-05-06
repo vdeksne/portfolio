@@ -1,7 +1,9 @@
 {
-  "/[locale]/contact/page": "app/[locale]/contact/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/(protected)/page": "app/admin/(protected)/page.js",
+  "/api/admin/articles/route": "app/api/admin/articles/route.js",
+  "/api/admin/experiences/route": "app/api/admin/experiences/route.js",
   "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js",
-  "/api/emails/send/route": "app/api/emails/send/route.js"
+  "/api/admin/projects/route": "app/api/admin/projects/route.js",
+  "/api/admin/stack/route": "app/api/admin/stack/route.js"
 }

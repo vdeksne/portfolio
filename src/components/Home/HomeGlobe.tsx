@@ -3,9 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-/** NASA topo + bathy (~5.4k wide). Requires `maxTextureSize` ≥ ~5500 for a valid GPU upload. */
-const EARTH_MAP_HD =
-  "https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73909/world.topo.bathy.200412.3x5400x2700.jpg";
 /** Sharp 4096×2048 day texture when GPU cap is 4096–8192 (HD NASA would be clamped / invalid). */
 const EARTH_MAP_4K =
   "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r170/examples/textures/planets/earth_day_4096.jpg";
@@ -83,7 +80,6 @@ function loadDataTexture(
 
 function diffuseUrlsForGpu(maxTextureSize: number): string[] {
   const out: string[] = [];
-  if (maxTextureSize >= 5400) out.push(EARTH_MAP_HD);
   if (maxTextureSize >= 4096) out.push(EARTH_MAP_4K);
   out.push(EARTH_MAP_FALLBACK);
   return out;

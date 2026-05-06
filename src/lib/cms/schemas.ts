@@ -46,6 +46,7 @@ export const projectSchema: z.ZodType<Project> = z.object({
   release: z.string().min(1),
   date: z.string().optional(),
   featured: z.boolean().optional(),
+  order: z.number().int().min(0).optional(),
 });
 
 export const pageMetaSchema: z.ZodType<PageMeta> = z.object({

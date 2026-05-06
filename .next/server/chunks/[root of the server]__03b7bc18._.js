@@ -322,6 +322,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$
 ;
 ;
 const CONTENT_DIR = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(process.cwd(), "content");
+function projectYear(p) {
+    const date = (p.date ?? "").trim();
+    const m1 = date.match(/^(\d{4})/);
+    if (m1?.[1]) return Number(m1[1]);
+    const rel = (p.release ?? "").trim();
+    const m2 = rel.match(/(19\d{2}|20\d{2})/);
+    if (m2?.[1]) return Number(m2[1]);
+    return null;
+}
 const PAGE_FILES = {
     "": "1.index",
     works: "2.works",
@@ -416,10 +425,23 @@ function getArticle(locale, slug) {
 function listProjects(locale) {
     const dir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects");
     if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return [];
-    return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
+    const items = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
         const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(dir, f), "utf8");
         return JSON.parse(raw);
     });
+    items.sort((a, b)=>{
+        const ao = typeof a.order === "number" ? a.order : Number.POSITIVE_INFINITY;
+        const bo = typeof b.order === "number" ? b.order : Number.POSITIVE_INFINITY;
+        if (ao !== bo) return ao - bo;
+        const ay = projectYear(a) ?? Number.NEGATIVE_INFINITY;
+        const by = projectYear(b) ?? Number.NEGATIVE_INFINITY;
+        if (ay !== by) return by - ay; // newest first
+        const af = a.featured ? 1 : 0;
+        const bf = b.featured ? 1 : 0;
+        if (af !== bf) return bf - af;
+        return String(a.name ?? "").localeCompare(String(b.name ?? ""));
+    });
+    return items;
 }
 function getStack() {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "stack.json"), "utf8");
@@ -470,7 +492,7 @@ function writeExperiencesFile(data) {
 function listProjectRows(locale) {
     const dir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects");
     if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return [];
-    return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
+    const rows = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
         const id = f.replace(/\.json$/, "");
         const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(dir, f), "utf8");
         return {
@@ -478,6 +500,16 @@ function listProjectRows(locale) {
             project: JSON.parse(raw)
         };
     });
+    rows.sort((a, b)=>{
+        const ao = typeof a.project.order === "number" ? a.project.order : Number.POSITIVE_INFINITY;
+        const bo = typeof b.project.order === "number" ? b.project.order : Number.POSITIVE_INFINITY;
+        if (ao !== bo) return ao - bo;
+        const ay = projectYear(a.project) ?? Number.NEGATIVE_INFINITY;
+        const by = projectYear(b.project) ?? Number.NEGATIVE_INFINITY;
+        if (ay !== by) return by - ay; // newest first
+        return a.id.localeCompare(b.id);
+    });
+    return rows;
 }
 function readProjectFile(locale, id) {
     if (!/^[a-z0-9][a-z0-9-]{0,120}$/i.test(id)) return null;
@@ -683,7 +715,8 @@ const projectSchema = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_m
     link: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])().min(1),
     release: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])().min(1),
     date: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])().optional(),
-    featured: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["boolean"])().optional()
+    featured: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["boolean"])().optional(),
+    order: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["number"])().int().min(0).optional()
 });
 const pageMetaSchema = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["object"])({
     title: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])().min(1),

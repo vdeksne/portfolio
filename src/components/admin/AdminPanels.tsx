@@ -9,6 +9,7 @@ import {
   Heading2,
   Image as ImageIcon,
   Layers,
+  Pencil,
   Plus,
   Trash2,
 } from "lucide-react";
@@ -602,8 +603,10 @@ export function ProjectsPanel({
   const [release, setRelease] = useState("");
   const [date, setDate] = useState("");
   const [featured, setFeatured] = useState(false);
+  const [order, setOrder] = useState("");
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [jumpToEditorNonce, setJumpToEditorNonce] = useState(0);
 
   const load = useCallback(async () => {
     setErr(null);
@@ -623,6 +626,7 @@ export function ProjectsPanel({
     setRelease("");
     setDate("");
     setFeatured(false);
+    setOrder("");
   }, [locale]);
 
   useEffect(() => {
@@ -649,6 +653,7 @@ export function ProjectsPanel({
     setRelease(p.release);
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
+    setOrder(p.order != null ? String(p.order) : "");
   }
 
   useEffect(() => {
@@ -663,16 +668,19 @@ export function ProjectsPanel({
     setRelease(p.release);
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
+    setOrder(p.order != null ? String(p.order) : "");
   }, [selected, rows]);
 
   async function save() {
     setErr(null);
+    const orderNum = Number.isFinite(Number(order)) ? Number(order) : undefined;
     const project: Project = {
       name,
       image,
       link,
       release,
       ...(date.trim() ? { date: date.trim() } : {}),
+      ...(orderNum != null ? { order: orderNum } : {}),
     };
     if (featured) project.featured = true;
     try {
@@ -703,6 +711,7 @@ export function ProjectsPanel({
         link: link || "https://",
         release: release || "soon",
         ...(date.trim() ? { date: date.trim() } : {}),
+        ...(order.trim() ? { order: Number(order) } : {}),
       };
       if (featured) proj.featured = true;
       await adminJson(`/api/admin/projects?locale=${locale}`, {
@@ -744,6 +753,26 @@ export function ProjectsPanel({
     }
   }
 
+  useEffect(() => {
+    if (jumpToEditorNonce === 0) return;
+    const el = document.getElementById("admin-project-editor");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [jumpToEditorNonce]);
+
+  async function saveOrder(nextRows: ProjectRow[]) {
+    setErr(null);
+    try {
+      await adminJson(`/api/admin/projects/order?locale=${locale}`, {
+        method: "PUT",
+        body: JSON.stringify({ ids: nextRows.map((r) => r.id) }),
+      });
+      flash("Order saved.");
+      await load();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Save order failed");
+    }
+  }
+
   if (loading) {
     return (
       <p className="text-sm text-white/55" role="status">
@@ -763,6 +792,116 @@ export function ProjectsPanel({
         <strong className="font-medium text-white/70">Featured on home</strong> for the project
         highlighted on the landing page.
       </p>
+
+      <div className={`${panelCard} border-white/[0.06] bg-black/15`}>
+        <EditorSectionHeader
+          icon={ArrowUp}
+          title="Portfolio order"
+          description="Controls the order in your public project lists. Move items, then save order."
+        />
+        {rows.length === 0 ? (
+          <p className="text-sm text-white/55">No projects yet.</p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {rows.map((r, idx) => (
+              <div
+                key={r.id}
+                className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-white/80">
+                    {idx + 1}. {r.project.name}
+                  </p>
+                  <p className="truncate text-xs text-white/40">{r.id}</p>
+                </div>
+                <div className="flex shrink-0 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCreating(false);
+                      setSelected(r.id);
+                      fillFrom(r.project, r.id);
+                      setJumpToEditorNonce((x) => x + 1);
+                    }}
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Edit"
+                  >
+                    <Pencil className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!window.confirm(`Delete project file "${r.id}.json"?`)) return;
+                      setErr(null);
+                      adminJson(`/api/admin/projects/${encodeURIComponent(r.id)}?locale=${locale}`, {
+                        method: "DELETE",
+                      })
+                        .then(() => {
+                          flash("Project deleted.");
+                          // If it was selected, clear editor.
+                          if (selected === r.id) {
+                            setSelected("");
+                            setId("");
+                            setName("");
+                            setImage("");
+                            setLink("");
+                            setRelease("");
+                            setDate("");
+                            setFeatured(false);
+                            setOrder("");
+                          }
+                          return load();
+                        })
+                        .catch((e: Error) => setErr(e.message));
+                    }}
+                    className={`${btnDanger} px-3 py-2`}
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={idx === 0}
+                    onClick={() => {
+                      const next = [...rows];
+                      const t = next[idx - 1]!;
+                      next[idx - 1] = next[idx]!;
+                      next[idx] = t;
+                      setRows(next);
+                    }}
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move up"
+                  >
+                    <ArrowUp className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={idx === rows.length - 1}
+                    onClick={() => {
+                      const next = [...rows];
+                      const t = next[idx + 1]!;
+                      next[idx + 1] = next[idx]!;
+                      next[idx] = t;
+                      setRows(next);
+                    }}
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move down"
+                  >
+                    <ArrowDown className="size-4" aria-hidden />
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            <button type="button" onClick={() => void saveOrder(rows)} className={`${btnPrimary} w-fit`}>
+              Save order
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div id="admin-project-editor" />
+
       <div className="flex flex-wrap items-end gap-3">
         <label className="flex flex-col gap-1.5">
           <span className={labelText}>Project</span>
@@ -842,6 +981,19 @@ export function ProjectsPanel({
         <label className="flex flex-col gap-1.5">
           <span className={labelText}>Date (optional)</span>
           <input value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
+        </label>
+        <label className="flex flex-col gap-1.5">
+          <span className={labelText}>Order (optional)</span>
+          <input
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+            className={inputCls}
+            inputMode="numeric"
+            placeholder="0, 1, 2… (lower first)"
+          />
+          <span className="text-xs text-white/40">
+            Leave empty and use “Portfolio order” above.
+          </span>
         </label>
       </div>
       <label className="flex cursor-pointer items-center gap-2.5 text-sm text-white/80">

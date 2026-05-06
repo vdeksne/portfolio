@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST='{"components/Home/HomeGlobeDynamic.tsx -> @/components/Home/HomeGlobe":{"id":3932,"files":["static/chunks/198f8915.082a1f43261486ff.js","static/chunks/932.4d38ffbc0e95e040.js"]}}';
+self.__REACT_LOADABLE_MANIFEST='{"components/Home/HomeGlobeDynamic.tsx -> @/components/Home/HomeGlobe":{"id":3932,"files":["static/chunks/198f8915.082a1f43261486ff.js","static/chunks/932.40f51001d51822f8.js"]}}';
