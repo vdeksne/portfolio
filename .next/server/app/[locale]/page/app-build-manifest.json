@@ -1,0 +1,23 @@
+{
+  "pages": {
+    "/[locale]/page": [
+      "static/chunks/src_app_globals_b805903d.css",
+      "static/chunks/43366_next_dist_8d8886c7._.js",
+      "static/chunks/src_app_layout_tsx_09a7316d._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_5eeb2665._.js",
+      "static/chunks/node_modules__pnpm_b79a8be4._.js",
+      "static/chunks/src_3a58996a._.js",
+      "static/chunks/src_app_[locale]_layout_tsx_f8d93a84._.js",
+      "static/chunks/src_components_Home_HomeGlobe_tsx_ceb173cd._.js",
+      "static/chunks/_46a87822._.js",
+      "static/chunks/src_app_[locale]_page_tsx_50af1ef2._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_e7b4b9ce._.js",
+      "static/chunks/43366_next_dist_compiled_b2866974._.js",
+      "static/chunks/43366_next_dist_client_a9f0de9b._.js",
+      "static/chunks/43366_next_dist_20e776a2._.js",
+      "static/chunks/61dca_@swc_helpers_cjs_e27e0aca._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_1af62e14._.js"
+    ]
+  }
+}

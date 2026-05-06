@@ -8,7 +8,11 @@ import { requireCmsAuth } from "@/lib/cms/guard";
 import { pageWriteSchema } from "@/lib/cms/schemas";
 import { localeFromRequest } from "@/lib/cms/query";
 import { siteConfig } from "@/lib/site-config";
-import { routeKeyToDbPageKey, upsertCmsPageRow } from "@/lib/cms-pages-db";
+import {
+  fetchCmsPageOverlay,
+  routeKeyToDbPageKey,
+  upsertCmsPageRow,
+} from "@/lib/cms-pages-db";
 import { getDb } from "@/lib/db";
 
 function coercePageWriteBody(raw: unknown) {
@@ -57,7 +61,34 @@ export async function GET(
   }
   const page = await getPageForAdmin(locale, routeKey);
   if (!page) return Response.json({ error: "Not found" }, { status: 404 });
-  return Response.json({ routeKey, ...page });
+  const url = new URL(req.url);
+  const debug = url.searchParams.get("debug") === "1";
+  if (!debug) return Response.json({ routeKey, ...page });
+
+  const db = getDb();
+  const pageKey = routeKeyToDbPageKey(routeKey);
+  let overlay: unknown = null;
+  let overlayError: string | null = null;
+  if (db) {
+    try {
+      overlay = await fetchCmsPageOverlay(pageKey, locale);
+    } catch (e) {
+      overlayError = e instanceof Error ? e.message : String(e);
+    }
+  }
+
+  return Response.json({
+    routeKey,
+    ...page,
+    debug: {
+      vercel: process.env.VERCEL ?? null,
+      vercelEnv: process.env.VERCEL_ENV ?? null,
+      dbConfigured: !!db,
+      pageKey,
+      overlay,
+      overlayError,
+    },
+  });
 }
 
 export async function PUT(

@@ -51,7 +51,7 @@
       },
       {
         "protocol": "https",
-        "hostname": "^(?:(?!\\.)(?=.)[^/]*?\\.public\\.blob\\.vercel-storage\\.com)$",
+        "hostname": "^(?:(?!\\.)[^/]*?\\.public\\.blob\\.vercel-storage\\.com)$",
         "pathname": "^(?:\\/(?!\\.{1,2}(?:\\/|$))(?:(?:(?!(?:^|\\/)\\.{1,2}(?:\\/|$)).)*?))$"
       }
     ],

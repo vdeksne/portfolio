@@ -12,6 +12,8 @@ export function AboutProfilePicture({ pictureSrc }: AboutProfilePictureProps) {
   const fromCms = normalizePublicImageUrl(pictureSrc ?? "");
   const picture = fromCms || siteConfig.profile.picture;
   const isLocalUpload = picture.startsWith("/uploads/");
+  const isVercelBlob = /^https?:\/\/.+\.public\.blob\.vercel-storage\.com\//.test(picture);
+  const unoptimized = isLocalUpload || isVercelBlob;
   const alt = `${siteConfig.profile.name} photo`;
 
   return (
@@ -23,7 +25,7 @@ export function AboutProfilePicture({ pictureSrc }: AboutProfilePictureProps) {
             alt=""
             fill
             sizes="256px"
-            unoptimized={isLocalUpload}
+            unoptimized={unoptimized}
             className="z-0 object-cover blur-xl grayscale saturate-200 transition-all duration-300 scale-110 group-hover:blur-[32px] group-hover:grayscale-0"
             aria-hidden
           />
@@ -32,7 +34,7 @@ export function AboutProfilePicture({ pictureSrc }: AboutProfilePictureProps) {
             alt={alt}
             fill
             sizes="256px"
-            unoptimized={isLocalUpload}
+            unoptimized={unoptimized}
             className="z-10 object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
           />
         </div>
@@ -44,7 +46,7 @@ export function AboutProfilePicture({ pictureSrc }: AboutProfilePictureProps) {
             alt={alt}
             fill
             sizes="256px"
-            unoptimized={isLocalUpload}
+            unoptimized={unoptimized}
             className="object-cover transition-all duration-300"
           />
         </div>
