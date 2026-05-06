@@ -1,9 +1,24 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/admin/(protected)/page": "app/admin/(protected)/page.js",
+  "/api/admin/articles/[slug]/route": "app/api/admin/articles/[slug]/route.js",
   "/api/admin/articles/route": "app/api/admin/articles/route.js",
+  "/api/admin/login/route": "app/api/admin/login/route.js",
+  "/api/admin/faq/route": "app/api/admin/faq/route.js",
   "/api/admin/experiences/route": "app/api/admin/experiences/route.js",
+  "/api/admin/logout/route": "app/api/admin/logout/route.js",
+  "/api/admin/projects/[id]/route": "app/api/admin/projects/[id]/route.js",
   "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js",
   "/api/admin/projects/route": "app/api/admin/projects/route.js",
-  "/api/admin/stack/route": "app/api/admin/stack/route.js"
+  "/api/admin/projects/order/route": "app/api/admin/projects/order/route.js",
+  "/api/admin/stack/route": "app/api/admin/stack/route.js",
+  "/api/emails/send/route": "app/api/emails/send/route.js",
+  "/api/admin/upload/route": "app/api/admin/upload/route.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/works/page": "app/[locale]/works/page.js",
+  "/[locale]/writing/page": "app/[locale]/writing/page.js",
+  "/[locale]/contact/page": "app/[locale]/contact/page.js",
+  "/[locale]/articles/[slug]/page": "app/[locale]/articles/[slug]/page.js",
+  "/[locale]/about/page": "app/[locale]/about/page.js",
+  "/admin/(protected)/page": "app/admin/(protected)/page.js"
 }
