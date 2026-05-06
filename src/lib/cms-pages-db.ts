@@ -17,6 +17,22 @@ export type CmsPageData = {
   block: string;
 };
 
+function safeJsonObject<T extends Record<string, unknown>>(
+  v: unknown,
+): T | null {
+  if (!v) return null;
+  if (typeof v === "string") {
+    try {
+      const parsed = JSON.parse(v) as unknown;
+      return safeJsonObject<T>(parsed);
+    } catch {
+      return null;
+    }
+  }
+  if (typeof v !== "object" || Array.isArray(v)) return null;
+  return v as T;
+}
+
 export async function fetchCmsPageOverlay(
   pageKey: string,
   locale: Locale,
@@ -27,16 +43,15 @@ export async function fetchCmsPageOverlay(
     SELECT meta, slots, block FROM cms_pages
     WHERE page_key = ${pageKey} AND locale = ${locale}
     LIMIT 1
-  `) as { meta: CmsPageMeta; slots: Record<string, string>; block: string }[];
+  `) as { meta: unknown; slots: unknown; block: unknown }[];
   const row = rows[0];
   if (!row) return null;
+  const metaObj = safeJsonObject<CmsPageMeta>(row.meta) ?? ({} as CmsPageMeta);
+  const slotsObj = safeJsonObject<Record<string, string>>(row.slots) ?? {};
   return {
-    meta: { ...(row.meta ?? {}) },
-    slots:
-      row.slots && typeof row.slots === "object" && !Array.isArray(row.slots)
-        ? { ...row.slots }
-        : {},
-    block: row.block ?? "",
+    meta: { ...metaObj },
+    slots: { ...slotsObj },
+    block: typeof row.block === "string" ? row.block : "",
   };
 }
 
