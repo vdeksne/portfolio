@@ -26,6 +26,6 @@ export default async function WorksPage({
   const { locale } = await params;
   const page = await getPageByRoute(locale, "works");
   if (!page) throw new Error("Missing works content");
-  const projects = listProjects(locale);
+  const projects = await listProjects(locale);
   return <WorksSection slots={page.slots} projects={projects} />;
 }

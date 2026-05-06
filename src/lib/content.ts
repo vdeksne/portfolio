@@ -14,6 +14,7 @@ import {
   upsertCmsPageRow,
 } from "./cms-pages-db";
 import { getDb } from "./db";
+import { listProjectsFromDb } from "./projects-db";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -157,7 +158,28 @@ export function getArticle(locale: Locale, slug: string) {
   return { meta: data as ArticleMeta, body: content.trim() };
 }
 
-export function listProjects(locale: Locale): Project[] {
+export async function listProjects(locale: Locale): Promise<Project[]> {
+  if (process.env.VERCEL === "1") {
+    const dbRows = await listProjectsFromDb(locale);
+    if (dbRows) {
+      const items = dbRows.map((r) => r.project);
+      items.sort((a, b) => {
+        const ao =
+          typeof a.order === "number" ? a.order : Number.POSITIVE_INFINITY;
+        const bo =
+          typeof b.order === "number" ? b.order : Number.POSITIVE_INFINITY;
+        if (ao !== bo) return ao - bo;
+        const ay = projectYear(a) ?? Number.NEGATIVE_INFINITY;
+        const by = projectYear(b) ?? Number.NEGATIVE_INFINITY;
+        if (ay !== by) return by - ay;
+        const af = a.featured ? 1 : 0;
+        const bf = b.featured ? 1 : 0;
+        if (af !== bf) return bf - af;
+        return String(a.name ?? "").localeCompare(String(b.name ?? ""));
+      });
+      return items;
+    }
+  }
   const dir = path.join(CONTENT_DIR, locale, "projects");
   if (!fs.existsSync(dir)) return [];
   const items = fs

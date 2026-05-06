@@ -34,7 +34,7 @@ export default async function HomePage({
   const { locale } = await params;
   const page = await getPageByRoute(locale, "");
   if (!page) throw new Error("Missing home content");
-  const projects = listProjects(locale);
+  const projects = await listProjects(locale);
   const faq = getFaq(locale);
   const { hero_title: heroTitle, hero_subtitle: heroSubtitle } = page.slots;
   if (!heroTitle || !heroSubtitle) throw new Error("Home slots missing");

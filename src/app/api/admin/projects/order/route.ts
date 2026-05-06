@@ -2,6 +2,8 @@ import { readProjectFile, writeProjectFile, type Project } from "@/lib/content";
 import { requireCmsAuth } from "@/lib/cms/guard";
 import { rejectIfVercelCmsFilesystemWrite } from "@/lib/cms/vercel-readonly-guard";
 import { localeFromRequest } from "@/lib/cms/query";
+import { getDb } from "@/lib/db";
+import { getProjectFromDb, upsertProjectToDb } from "@/lib/projects-db";
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -11,8 +13,6 @@ const bodySchema = z.object({
 export async function PUT(req: Request) {
   const denied = await requireCmsAuth();
   if (denied) return denied;
-  const readonlyFs = rejectIfVercelCmsFilesystemWrite();
-  if (readonlyFs) return readonlyFs;
   const locale = localeFromRequest(req);
   if (!locale) {
     return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
@@ -30,12 +30,31 @@ export async function PUT(req: Request) {
     return true;
   });
 
-  for (let i = 0; i < ids.length; i++) {
-    const id = ids[i]!;
-    const existing = readProjectFile(locale, id);
-    if (!existing) continue;
-    const next: Project = { ...existing, order: i };
-    writeProjectFile(locale, id, next);
+  if (process.env.VERCEL === "1") {
+    const db = getDb();
+    if (!db) {
+      return Response.json(
+        { error: "Projects ordering needs Postgres (set DATABASE_URL or POSTGRES_URL on Vercel)." },
+        { status: 503 },
+      );
+    }
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i]!;
+      const existing = await getProjectFromDb(locale, id);
+      if (!existing) continue;
+      const next: Project = { ...existing, order: i };
+      await upsertProjectToDb(locale, id, next);
+    }
+  } else {
+    const readonlyFs = rejectIfVercelCmsFilesystemWrite();
+    if (readonlyFs) return readonlyFs;
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i]!;
+      const existing = readProjectFile(locale, id);
+      if (!existing) continue;
+      const next: Project = { ...existing, order: i };
+      writeProjectFile(locale, id, next);
+    }
   }
 
   return Response.json({ ok: true });
