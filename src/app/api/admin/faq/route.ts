@@ -1,0 +1,30 @@
+import { getFaq, writeFaqFile } from "@/lib/content";
+import { requireCmsAuth } from "@/lib/cms/guard";
+import { faqSchema } from "@/lib/cms/schemas";
+import { localeFromRequest } from "@/lib/cms/query";
+
+export async function GET(req: Request) {
+  const denied = await requireCmsAuth();
+  if (denied) return denied;
+  const locale = localeFromRequest(req);
+  if (!locale) {
+    return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
+  }
+  return Response.json(getFaq(locale));
+}
+
+export async function PUT(req: Request) {
+  const denied = await requireCmsAuth();
+  if (denied) return denied;
+  const locale = localeFromRequest(req);
+  if (!locale) {
+    return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
+  }
+  const json = await req.json();
+  const parsed = faqSchema.safeParse(json);
+  if (!parsed.success) {
+    return Response.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+  writeFaqFile(locale, parsed.data);
+  return Response.json({ ok: true });
+}

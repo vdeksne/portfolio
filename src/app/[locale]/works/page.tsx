@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPageByRoute, listProjects } from "@/lib/content";
 import type { Locale } from "@/lib/types";
-import { WorksSection } from "@/components/works-section";
+import { WorksSection } from "@/components/Works/WorksSection";
 
 export async function generateMetadata({
   params,

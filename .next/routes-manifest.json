@@ -10,10 +10,46 @@
       "internal": true,
       "statusCode": 308,
       "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/fr",
+      "destination": "/lv",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/fr(?:/)?$"
+    },
+    {
+      "source": "/fr/:path*",
+      "destination": "/lv/:path*",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/fr(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
     }
   ],
   "headers": [],
   "dynamicRoutes": [
+    {
+      "page": "/api/admin/articles/[slug]",
+      "regex": "^/api/admin/articles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/api/admin/articles/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/pages/[slug]",
+      "regex": "^/api/admin/pages/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/api/admin/pages/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/projects/[id]",
+      "regex": "^/api/admin/projects/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/projects/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
     {
       "page": "/[locale]",
       "regex": "^/([^/]+?)(?:/)?$",
@@ -70,6 +106,18 @@
       "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/admin",
+      "regex": "^/admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin(?:/)?$"
+    },
+    {
+      "page": "/admin/login",
+      "regex": "^/admin/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/login(?:/)?$"
     }
   ],
   "dataRoutes": [],

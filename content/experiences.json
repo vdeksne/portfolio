@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "title": "Front-End Developer",
+      "company": "ShowHeroes",
+      "date": "2021 - Today"
+    },
+    {
+      "title": "Web Designer",
+      "company": "YourMove",
+      "date": "2018 - 2021"
+    },
+    {
+      "title": "Art Director",
+      "company": "Art Ovation Hotel",
+      "date": "2017"
+    },
+    {
+      "title": "Art Director",
+      "company": "Porter Family Vineyards",
+      "date": "2016"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPageByRoute, listArticles } from "@/lib/content";
 import type { Locale } from "@/lib/types";
-import { WritingGrid } from "@/components/writing-grid";
+import { WritingGrid } from "@/components/Writing/WritingGrid";
 
 export async function generateMetadata({
   params,

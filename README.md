@@ -20,7 +20,7 @@ pnpm list react react-dom next
 ## Features
 
 - **App Router** – Server components, static generation for pages and articles, API route for the contact form.
-- **Internationalization** – English and French (locale prefix: `/en`, `/fr`) via [next-intl](https://next-intl.dev/).
+- **Internationalization** – English and Latvian (locale codes: `/en`, `/lv`) via [next-intl](https://next-intl.dev/). Legacy `/fr/**` URLs redirect to `/lv/**`.
 - **Content** – Section pages and articles from Markdown; projects, FAQ, and stack from JSON under `content/`.
 - **Contact form** – Optional email delivery with [Resend](https://resend.com/) when an API key is set.
 - **Analytics** – Optional [Plausible](https://plausible.io/) via `NEXT_PUBLIC_*` variables.
@@ -30,7 +30,7 @@ pnpm list react react-dom next
 ## Requirements
 
 - **Node.js** 20+ (recommended)
-- **pnpm** 9+ (`corepack enable` or install from [pnpm.io](https://pnpm.io))
+- **pnpm** 9+ (`corepack enable` or install from [pnpm.io](https://pnpm.io)). This repo lists pnpm in `packageManager`; using **`npm install`** on a pnpm layout can trigger npm bugs (e.g. `edgesOut`). Prefer **`pnpm install`**.
 
 ## Quick setup
 
@@ -50,9 +50,17 @@ pnpm list react react-dom next
 
    | Variable | Purpose |
    |----------|---------|
+   | `DATABASE_URL` | Optional [Neon](https://neon.tech) Postgres (pooled URI). Enables DB logging for admin image uploads and a `portfolio_projects` table for future CMS sync. |
+   | `CMS_SECRET` | Password for `/admin` content editor. |
    | `RESEND_API_KEY` or `NUXT_PRIVATE_RESEND_API_KEY` | Enables `/api/emails/send` for the contact form. |
    | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Plausible site domain; if unset, analytics script is not loaded. |
    | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT` | Optional override for self-hosted Plausible (defaults to `https://plausible.io/js/script.js`). |
+
+   After setting `DATABASE_URL`, create tables once (with dependencies installed via **`pnpm install`**):
+
+   ```bash
+   pnpm run db:migrate
+   ```
 
 4. **Development server**
 
@@ -78,15 +86,16 @@ pnpm list react react-dom next
 | `pnpm start` | Run the production server (after `build`). |
 | `pnpm lint` | ESLint. |
 | `pnpm typecheck` | TypeScript check (`tsc --noEmit`). |
+| `pnpm run db:migrate` | Create Neon tables (needs `DATABASE_URL`). |
 
 ## Project structure (high level)
 
 - `src/app/` – App Router: `[locale]` routes, layouts, API routes.
 - `src/components/` – React UI components.
 - `src/lib/` – Site config, content loaders, MDC-style block parsing for section markdown.
-- `src/messages/` – next-intl JSON messages (`en`, `fr`).
-- `content/` – `en/` and `fr/` markdown + JSON (projects, FAQ); `stack.json` for the about page stack grid.
-- `public/icons/` – SVG icons for social and stack links.
+- `src/messages/` – next-intl JSON messages (`en`, `lv`).
+- `content/` – `en/` and `lv/` markdown + JSON (projects, FAQ); `stack.json` supplies linked tool names on About (minimal text list).
+- `public/icons/` – SVG icons for social and any non-About uses; About stack is text-only on the site.
 
 Site-specific copy (name, socials, meeting link, SEO defaults) is in **`src/lib/site-config.ts`**.
 

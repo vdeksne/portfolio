@@ -8,15 +8,14 @@ export type HomeNavName =
 export type NavigationItem = {
   name: HomeNavName;
   to: string;
-  icon: "Home" | "Briefcase" | "Library" | "User" | "Mail";
 };
 
 export function getHomeNavItems(): NavigationItem[] {
   return [
-    { name: "home", to: "/", icon: "Home" },
-    { name: "works", to: "/works", icon: "Briefcase" },
-    { name: "writing", to: "/writing", icon: "Library" },
-    { name: "about", to: "/about", icon: "User" },
-    { name: "contact", to: "/contact", icon: "Mail" },
+    { name: "home", to: "/" },
+    { name: "works", to: "/works" },
+    { name: "writing", to: "/writing" },
+    { name: "about", to: "/about" },
+    { name: "contact", to: "/contact" },
   ];
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPageByRoute } from "@/lib/content";
 import type { Locale } from "@/lib/types";
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "@/components/Contact/ContactForm";
 
 export async function generateMetadata({
   params,

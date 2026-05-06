@@ -1,14 +1,44 @@
 {
   "items": [
     {
+      "name": "React",
+      "link": "https://react.dev/",
+      "icon": "custom:react"
+    },
+    {
       "name": "Next.js",
       "link": "https://nextjs.org/",
       "icon": "custom:next"
     },
     {
-      "name": "React",
-      "link": "https://react.dev/",
-      "icon": "custom:react"
+      "name": "Vercel",
+      "link": "https://vercel.com/",
+      "icon": "custom:vercel"
+    },
+    {
+      "name": "Supabase",
+      "link": "https://supabase.com/",
+      "icon": "custom:supabase"
+    },
+    {
+      "name": "Stripe",
+      "link": "https://stripe.com/",
+      "icon": "custom:stripe"
+    },
+    {
+      "name": "Storybook",
+      "link": "https://storybook.js.org/",
+      "icon": "custom:storybook"
+    },
+    {
+      "name": "shadcn/ui",
+      "link": "https://ui.shadcn.com/",
+      "icon": "custom:shadcn"
+    },
+    {
+      "name": "Tailwind CSS",
+      "link": "https://tailwindcss.com/",
+      "icon": "custom:tailwind"
     },
     {
       "name": "Node",
@@ -19,16 +49,6 @@
       "name": "Nest",
       "link": "https://nestjs.com/",
       "icon": "custom:nest"
-    },
-    {
-      "name": "TailwindCSS",
-      "link": "https://tailwindcss.com/",
-      "icon": "custom:tailwind"
-    },
-    {
-      "name": "Vercel",
-      "link": "https://vercel.com/",
-      "icon": "custom:vercel"
     },
     {
       "name": "C++",
@@ -62,7 +82,7 @@
     },
     {
       "name": "AfterEffects",
-      "link": "https://calendar.cron.com/",
+      "link": "https://www.adobe.com/products/aftereffects.html",
       "icon": "custom:after"
     },
     {

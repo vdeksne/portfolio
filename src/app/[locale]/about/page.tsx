@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPageByRoute } from "@/lib/content";
 import type { Locale } from "@/lib/types";
-import { AboutSection } from "@/components/about-section";
+import { AboutSection } from "@/components/About/AboutSection";
 
 export async function generateMetadata({
   params,

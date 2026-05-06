@@ -62,6 +62,16 @@
           "protocol": "https",
           "hostname": "raw.githubusercontent.com",
           "pathname": "/**"
+        },
+        {
+          "protocol": "https",
+          "hostname": "github.com",
+          "pathname": "/**"
+        },
+        {
+          "protocol": "https",
+          "hostname": "canvas.hrcd.fr",
+          "pathname": "/**"
         }
       ],
       "unoptimized": false
@@ -159,7 +169,7 @@
       "middlewarePrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 11,
+      "cpus": 1,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -284,7 +294,19 @@
     },
     "htmlLimitedBots": "Mediapartners-Google|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview",
     "bundlePagesRouterDependencies": false,
-    "configFileName": "next.config.ts"
+    "configFileName": "next.config.ts",
+    "_originalRedirects": [
+      {
+        "source": "/fr",
+        "destination": "/lv",
+        "permanent": true
+      },
+      {
+        "source": "/fr/:path*",
+        "destination": "/lv/:path*",
+        "permanent": true
+      }
+    ]
   },
   "appDir": "/Users/viktorijadeksne/Documents/VD_Portfolio_2026",
   "relativeAppDir": "",
@@ -308,6 +330,6 @@
     ".next/server/next-font-manifest.json"
   ],
   "ignore": [
-    "node_modules/.pnpm/next@15.2.4_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/**/*"
+    "node_modules/.pnpm/next@15.2.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/**/*"
   ]
 }

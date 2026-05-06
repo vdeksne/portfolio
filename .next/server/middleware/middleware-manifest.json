@@ -3,22 +3,22 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge/chunks/_ae8c2f37._.js",
+        "server/edge/chunks/_e7d7327f._.js",
         "server/edge/chunks/41428_@formatjs_intl-localematcher_lib_afff050a._.js",
-        "server/edge/chunks/node_modules__pnpm_55069950._.js",
-        "server/edge/chunks/[root of the server]__f608f7ec._.js",
-        "server/edge/chunks/edge-wrapper_7e054799.js"
+        "server/edge/chunks/node_modules__pnpm_12739bd1._.js",
+        "server/edge/chunks/[root of the server]__a9e109aa._.js",
+        "server/edge/chunks/edge-wrapper_4a5ffd83.js"
       ],
       "name": "middleware",
       "page": "/",
       "matchers": [
         {
-          "regexp": "/:nextData(_next/data/[^/]{1,})?/(/?index|/?index\\\\.json)?",
-          "originalSource": "/"
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/((?!api|admin|_next|_vercel|.*\\..*).*){(\\\\.json)}?",
+          "originalSource": "/((?!api|admin|_next|_vercel|.*\\..*).*)"
         },
         {
-          "regexp": "/:nextData(_next/data/[^/]{1,})?/(en|fr)/:path*{(\\\\.json)}?",
-          "originalSource": "/(en|fr)/:path*"
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/(/?index|/?index\\\\.json)?",
+          "originalSource": "/"
         }
       ],
       "wasm": [],
@@ -26,9 +26,9 @@
       "env": {
         "__NEXT_BUILD_ID": "development",
         "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "/X2xbifGwVaJWlFdjxy02i0C9CMCL37qXVvt8Ub970A=",
-        "__NEXT_PREVIEW_MODE_ID": "1066c9c24522326c387e4f2736c72286",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "df24dca7f2d178abd46f226c56a6e7f1152237d7922335ba3e23249a87cf9a27",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "c026c912bb0c911f0ff97f1db9bad7a8ae034d50e0582f0d4f87898298eb32dc"
+        "__NEXT_PREVIEW_MODE_ID": "cf288ae024a3c5eb8bb333d603806807",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "6ee47ae13d4e7b144a70bca7cf3eb86d36405393108d02dd0cdfcc9805bfe797",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "654d419f061e66946a8dda3c4d9cce34e482688b7bec8f1a377a2c9789d07e35"
       }
     }
   },

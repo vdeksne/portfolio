@@ -1,1 +1,9 @@
-{}
+{
+  "components/Home/HomeGlobeDynamic.tsx -> @/components/Home/HomeGlobe": {
+    "id": 7128,
+    "files": [
+      "static/chunks/198f8915.228d21e48b8f519e.js",
+      "static/chunks/128.939e30f535099698.js"
+    ]
+  }
+}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getFaq, getPageByRoute, listProjects } from "@/lib/content";
 import type { Locale } from "@/lib/types";
 import { siteConfig } from "@/lib/site-config";
-import { HomeSection } from "@/components/home-section";
+import { HomeSection } from "@/components/Home/HomeSection";
 
 export async function generateMetadata({
   params,

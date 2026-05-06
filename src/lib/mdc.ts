@@ -1,3 +1,17 @@
+/** Serialize slots back to an MDC block (matches `parseMdcBlock` shape). */
+export function serializeMdcBlock(
+  blockName: string,
+  slots: Record<string, string>,
+): string {
+  const lines: string[] = [`::${blockName}`];
+  for (const [key, value] of Object.entries(slots)) {
+    lines.push(`#${key}`);
+    lines.push(value);
+  }
+  lines.push("::");
+  return `${lines.join("\n")}\n`;
+}
+
 /** Parse Nuxt Content MDC body blocks `::name ... ::` with `#slot` keys. */
 export function parseMdcBlock(
   body: string,

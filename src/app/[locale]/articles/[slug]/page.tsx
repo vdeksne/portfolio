@@ -5,7 +5,7 @@ import type { Locale } from "@/lib/types";
 import { Link, routing } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
-import { MarkdownBody } from "@/components/markdown-body";
+import { MarkdownBody } from "@/components/MarkdownBody";
 
 export async function generateStaticParams() {
   const paths: { locale: string; slug: string }[] = [];
@@ -49,14 +49,14 @@ export default async function ArticlePage({
     <>
       <Link
         href="/writing"
-        className="mx-auto my-8 flex max-w-4xl cursor-pointer items-center gap-2 px-4 text-muted transition-colors duration-200 hover:text-[var(--font-primary)]"
+        className="mx-auto my-8 flex w-full max-w-5xl cursor-pointer items-center gap-2 px-4 text-muted transition-colors duration-200 hover:text-[var(--font-primary)] xl:max-w-6xl"
       >
         <ArrowLeft className="size-4 flex-shrink-0" />
         <span className="text-sm font-extralight">{t("title")}</span>
       </Link>
-      <article className="writing mx-auto max-w-4xl px-4 pb-16 sm:max-w-2xl md:max-w-3xl lg:max-w-4xl">
+      <article className="writing mx-auto w-full max-w-5xl px-4 pb-16 xl:max-w-6xl">
         <h1>{meta.title}</h1>
-        <div className="info-section mt-1 flex flex-col gap-2 text-[#7d8084] sm:flex-row sm:gap-4">
+        <div className="info-section mt-4 flex flex-col gap-2 text-[#7d8084] sm:mt-5 sm:flex-row sm:gap-4">
           <p>{meta.date}</p>
           <p className="hidden sm:block">|</p>
           <p>

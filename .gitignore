@@ -28,3 +28,10 @@ logs
 rt_base
 
 .history
+
+# CMS image uploads (keep directory via public/uploads/.gitkeep)
+public/uploads/*
+!public/uploads/.gitkeep
+
+*storybook.log
+storybook-static
