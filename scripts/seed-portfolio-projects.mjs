@@ -4,7 +4,7 @@
  * Run: `pnpm run db:seed-projects`
  * Options:
  *   --dry-run     Print actions only
- *   --locale=en   Only one locale (default: en and lv)
+ *   --locale=lv   Only Latvian (default: en only)
  *
  * Uses the same DATABASE_URL resolution as `pnpm run db:migrate`.
  */
@@ -67,13 +67,13 @@ const dryRun = args.includes("--dry-run");
 const localeArg = args.find((a) => a.startsWith("--locale="));
 const locales = localeArg
   ? [localeArg.split("=", 2)[1]?.trim()].filter(Boolean)
-  : ["en", "lv"];
+  : ["en"];
 
 const raw = resolveRawPostgresEnv();
 if (!raw) {
   console.error(
     "No Postgres URL. Set DATABASE_URL (or POSTGRES_URL, etc.) in .env, then run:\n" +
-      "  pnpm run db:seed-projects",
+      "  pnpm run db:seed-projects"
   );
   process.exit(1);
 }
@@ -119,7 +119,9 @@ async function main() {
         typeof project.link !== "string" ||
         typeof project.release !== "string"
       ) {
-        console.error(`Skip ${locale}/${file}: missing name/image/link/release`);
+        console.error(
+          `Skip ${locale}/${file}: missing name/image/link/release`
+        );
         continue;
       }
       const payload = JSON.stringify(project);
