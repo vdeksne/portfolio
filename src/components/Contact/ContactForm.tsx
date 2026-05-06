@@ -45,17 +45,26 @@ export function ContactForm({
   });
 
   async function onSubmit(data: FormValues) {
+    if (!resendEnabled) {
+      toast.error("Email is not configured yet.");
+      return;
+    }
     try {
       const res = await fetch("/api/emails/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error("send failed");
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: unknown };
+        const msg =
+          typeof j.error === "string" ? j.error : JSON.stringify(j.error ?? "send failed");
+        throw new Error(msg);
+      }
       reset();
       toast.success(t("success"));
-    } catch {
-      toast.error(t("error"));
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : t("error"));
     }
   }
 

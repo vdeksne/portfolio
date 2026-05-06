@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/viktorijadeksne/Documents/VD_Portfolio_2026/src/app/admin/layout.tsx"],"sourcesContent":["import type { Metadata } from \"next\";\nimport type { ReactNode } from \"react\";\n\nexport const metadata: Metadata = {\n  title: \"Content admin\",\n  robots: { index: false, follow: false },\n};\n\nexport default function AdminRootLayout({ children }: { children: ReactNode }) {\n  return (\n    <div className=\"min-h-screen bg-[var(--ui-bg)] text-[var(--font-primary)]\">\n      {children}\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAGO,MAAM,WAAqB;IAChC,OAAO;IACP,QAAQ;QAAE,OAAO;QAAO,QAAQ;IAAM;AACxC;AAEe,SAAS,gBAAgB,EAAE,QAAQ,EAA2B;IAC3E,qBACE,+YAAC;QAAI,WAAU;kBACZ;;;;;;AAGP","debugId":null}}]
+}
