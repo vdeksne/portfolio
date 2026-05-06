@@ -79,9 +79,20 @@ export async function PUT(
   if (!parsed.success) {
     return Response.json({ error: parsed.error.flatten() }, { status: 400 });
   }
-  writePageMarkdown(locale, routeKey, parsed.data.meta, parsed.data.block, parsed.data.slots);
-  if (routeKey === "about") {
-    syncAboutProfileImageToOtherLocales(locale, parsed.data.slots.profile_image ?? "");
+  try {
+    writePageMarkdown(locale, routeKey, parsed.data.meta, parsed.data.block, parsed.data.slots);
+    if (routeKey === "about") {
+      syncAboutProfileImageToOtherLocales(locale, parsed.data.slots.profile_image ?? "");
+    }
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Write failed.";
+    console.error("[admin/pages PUT]", e);
+    return Response.json(
+      {
+        error: `Could not save (${msg}). Serverless hosts like Vercel have a read-only app filesystem — use git edits for content, or run /admin locally.`,
+      },
+      { status: 503 },
+    );
   }
   return Response.json({ ok: true });
 }

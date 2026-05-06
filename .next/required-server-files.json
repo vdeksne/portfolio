@@ -72,6 +72,11 @@
           "protocol": "https",
           "hostname": "canvas.hrcd.fr",
           "pathname": "/**"
+        },
+        {
+          "protocol": "https",
+          "hostname": "*.public.blob.vercel-storage.com",
+          "pathname": "/**"
         }
       ],
       "unoptimized": false
@@ -169,7 +174,7 @@
       "middlewarePrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 1,
+      "cpus": 11,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -295,6 +300,11 @@
     "htmlLimitedBots": "Mediapartners-Google|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
+    "outputFileTracingIncludes": {
+      "/*": [
+        "./content/**/*"
+      ]
+    },
     "_originalRedirects": [
       {
         "source": "/fr",
@@ -330,6 +340,6 @@
     ".next/server/next-font-manifest.json"
   ],
   "ignore": [
-    "node_modules/.pnpm/next@15.2.6_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/**/*"
+    "node_modules/.pnpm/next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/@ampproject/toolbox-optimizer/**/*"
   ]
 }

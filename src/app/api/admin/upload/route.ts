@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
+import { put } from "@vercel/blob";
 import { requireCmsAuth } from "@/lib/cms/guard";
 import { getDb } from "@/lib/db";
 
-/** Writes to `public/uploads`. On ephemeral hosts (e.g. some serverless), files may not persist—use external URLs or object storage in production if needed. */
+/** Local: `public/uploads`. Production (Vercel): set `BLOB_READ_WRITE_TOKEN` (Blob store) — disk writes are not supported. */
 export const runtime = "nodejs";
 
 /** Stay under typical serverless request body limits (~4.5 MB on Vercel). */
@@ -169,34 +170,60 @@ export async function POST(req: Request) {
   }
 
   const filename = `${Date.now()}-${randomBytes(8).toString("hex")}${resolved.ext}`;
-  const dir = path.join(process.cwd(), "public", "uploads");
-
-  try {
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, filename), buf);
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : "Write failed.";
-    return Response.json(
-      {
-        error: `Could not save file (${msg}). On serverless hosting, local disk may be read-only — paste an image URL instead.`,
-      },
-      { status: 500 },
-    );
-  }
-
-  const publicUrl = `/uploads/${filename}`;
   const mimeForDb =
     file.type?.trim() || EXT_TO_MIME[resolved.ext] || "application/octet-stream";
+
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  let publicUrl: string;
+  let storagePath: string;
+
+  if (blobToken) {
+    try {
+      const pathname = `uploads/${filename}`;
+      const blob = await put(pathname, buf, {
+        access: "public",
+        token: blobToken,
+        contentType: mimeForDb,
+      });
+      publicUrl = blob.url;
+      storagePath = pathname;
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Blob upload failed.";
+      console.error("[admin/upload] Vercel Blob upload failed", e);
+      return Response.json(
+        {
+          error: `Could not upload file (${msg}). Check BLOB_READ_WRITE_TOKEN and the Blob store in your Vercel project.`,
+        },
+        { status: 502 },
+      );
+    }
+  } else {
+    const dir = path.join(process.cwd(), "public", "uploads");
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, filename), buf);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Write failed.";
+      return Response.json(
+        {
+          error: `Could not save file (${msg}). On Vercel, add a Blob store so BLOB_READ_WRITE_TOKEN is set, or paste an image URL instead.`,
+        },
+        { status: 500 },
+      );
+    }
+    publicUrl = `/uploads/${filename}`;
+    storagePath = filename;
+  }
 
   const db = getDb();
   if (db) {
     try {
       await db`
         INSERT INTO uploaded_files (public_url, storage_path, mime_type, byte_size)
-        VALUES (${publicUrl}, ${filename}, ${mimeForDb}, ${buf.length})
+        VALUES (${publicUrl}, ${storagePath}, ${mimeForDb}, ${buf.length})
       `;
     } catch (e) {
-      console.error("[admin/upload] DB insert failed (file saved on disk)", e);
+      console.error("[admin/upload] DB insert failed (upload succeeded)", e);
     }
   }
 

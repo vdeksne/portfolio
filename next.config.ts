@@ -4,6 +4,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  /** Ensure markdown/JSON under `content/` ships with serverless functions (not always traced from `fs` usage). */
+  outputFileTracingIncludes: {
+    "/*": ["./content/**/*"],
+  },
   async redirects() {
     return [
       { source: "/fr", destination: "/lv", permanent: true },
@@ -25,6 +29,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "canvas.hrcd.fr",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
         pathname: "/**",
       },
     ],
