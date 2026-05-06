@@ -135,6 +135,16 @@ export async function POST(req: Request) {
   const denied = await requireCmsAuth();
   if (denied) return denied;
 
+  if (process.env.VERCEL === "1" && !process.env.BLOB_READ_WRITE_TOKEN?.trim()) {
+    return Response.json(
+      {
+        error:
+          "Upload requires Vercel Blob. Project → Storage → Blob → create or link a store (sets BLOB_READ_WRITE_TOKEN), or paste an external image URL.",
+      },
+      { status: 503 },
+    );
+  }
+
   let form: FormData;
   try {
     form = await req.formData();

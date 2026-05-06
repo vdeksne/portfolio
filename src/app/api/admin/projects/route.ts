@@ -4,6 +4,7 @@ import {
   type Project,
 } from "@/lib/content";
 import { requireCmsAuth } from "@/lib/cms/guard";
+import { rejectIfVercelCmsFilesystemWrite } from "@/lib/cms/vercel-readonly-guard";
 import { projectSchema } from "@/lib/cms/schemas";
 import { localeFromRequest } from "@/lib/cms/query";
 import * as z from "zod";
@@ -26,6 +27,8 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const denied = await requireCmsAuth();
   if (denied) return denied;
+  const readonlyFs = rejectIfVercelCmsFilesystemWrite();
+  if (readonlyFs) return readonlyFs;
   const locale = localeFromRequest(req);
   if (!locale) {
     return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
