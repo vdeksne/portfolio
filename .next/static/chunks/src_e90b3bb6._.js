@@ -24,11 +24,17 @@ async function adminUploadImage(file) {
         const msg = typeof data.error === "string" ? data.error : JSON.stringify(data.error ?? res.statusText);
         throw new Error(msg);
     }
-    if (typeof data.url !== "string" || !data.url.startsWith("/uploads/")) {
-        throw new Error("Upload failed.");
+    const url = typeof data.url === "string" ? data.url.trim() : "";
+    const ok = url.startsWith("/uploads/") || url.startsWith("http://") || url.startsWith("https://");
+    if (!ok) {
+        throw new Error(`Upload failed. Server returned: ${JSON.stringify({
+            status: res.status,
+            url: data.url,
+            error: data.error
+        }, null, 2)}`);
     }
     return {
-        url: data.url
+        url
     };
 }
 async function adminJson(path, init) {
