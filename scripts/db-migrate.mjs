@@ -41,11 +41,27 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const raw = process.env.DATABASE_URL?.trim();
+function resolveRawPostgresEnv() {
+  const keys = [
+    "DATABASE_URL",
+    "POSTGRES_URL",
+    "NEON_DATABASE_URL",
+    "POSTGRES_PRISMA_URL",
+  ];
+  for (const key of keys) {
+    const v = process.env[key]?.trim();
+    if (!v) continue;
+    const normalized = normalizeNeonConnectionString(v);
+    if (normalized.startsWith("postgres")) return v;
+  }
+  return undefined;
+}
+
+const raw = resolveRawPostgresEnv();
 if (!raw) {
   console.error(
-    "DATABASE_URL is not set. Add your Neon connection string to .env (copy from .env.example), or run:\n" +
-      '  DATABASE_URL="postgresql://…" pnpm run db:migrate',
+    "No Postgres URL found. Set one of DATABASE_URL, POSTGRES_URL, NEON_DATABASE_URL, or POSTGRES_PRISMA_URL in .env, then run:\n" +
+      '  pnpm run db:migrate',
   );
   process.exit(1);
 }

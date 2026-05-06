@@ -135,7 +135,12 @@ export async function POST(req: Request) {
   const denied = await requireCmsAuth();
   if (denied) return denied;
 
-  if (process.env.VERCEL === "1" && !process.env.BLOB_READ_WRITE_TOKEN?.trim()) {
+  /** Production/preview serverless: disk is read-only — Blob required unless token set. `vercel dev` uses VERCEL_ENV=development and can write public/uploads. */
+  const blobRequiredOnVercel =
+    process.env.VERCEL === "1" &&
+    process.env.VERCEL_ENV !== "development" &&
+    !process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  if (blobRequiredOnVercel) {
     return Response.json(
       {
         error:

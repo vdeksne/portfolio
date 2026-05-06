@@ -89,7 +89,7 @@ export async function PUT(
         return Response.json(
           {
             error:
-              "Set DATABASE_URL on Vercel and run pnpm db:migrate so the cms_pages table exists—then admin saves work in production.",
+              "Vercel admin page saves need Postgres. Add DATABASE_URL or POSTGRES_URL (your Neon connection string) in Vercel → Settings → Environment Variables for Production, redeploy, then from your machine run: pnpm db:migrate",
           },
           { status: 503 },
         );
@@ -121,8 +121,20 @@ export async function PUT(
       }
     }
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "Write failed.";
+    const msg = e instanceof Error ? e.message : String(e);
     console.error("[admin/pages PUT]", e);
+    const code = typeof e === "object" && e !== null && "code" in e ? String((e as { code: unknown }).code) : "";
+    const missingTable =
+      code === "42P01" || /relation ["']cms_pages["'] does not exist/i.test(msg);
+    if (missingTable) {
+      return Response.json(
+        {
+          error:
+            "The cms_pages table is missing. On your computer run pnpm db:migrate using the same Neon URL as Vercel (DATABASE_URL or POSTGRES_URL), then try Save again.",
+        },
+        { status: 503 },
+      );
+    }
     return Response.json(
       {
         error: `Could not save (${msg}).`,

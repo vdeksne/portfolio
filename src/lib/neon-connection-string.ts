@@ -13,3 +13,20 @@ export function normalizeNeonConnectionString(raw: string): string {
   }
   return s;
 }
+
+/** First env value that looks like a `postgresql://` URL (Vercel + Neon vary naming). */
+export function resolvePostgresUrlFromEnv(): string | undefined {
+  const keys = [
+    "DATABASE_URL",
+    "POSTGRES_URL",
+    "NEON_DATABASE_URL",
+    "POSTGRES_PRISMA_URL",
+  ] as const;
+  for (const key of keys) {
+    const raw = process.env[key]?.trim();
+    if (!raw) continue;
+    const url = normalizeNeonConnectionString(raw);
+    if (url.startsWith("postgres")) return url;
+  }
+  return undefined;
+}
