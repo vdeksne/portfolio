@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "db:migrate": "node scripts/db-migrate.mjs",
+    "db:seed-projects": "node scripts/seed-portfolio-projects.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
