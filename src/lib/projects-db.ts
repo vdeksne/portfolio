@@ -18,12 +18,18 @@ function safeJsonObject<T extends Record<string, unknown>>(v: unknown): T | null
 export async function listProjectsFromDb(locale: Locale): Promise<ProjectFileRow[] | null> {
   const db = getDb();
   if (!db) return null;
-  const rows = (await db`
-    SELECT id, payload
-    FROM portfolio_projects
-    WHERE locale = ${locale}
-    ORDER BY updated_at DESC
-  `) as { id: string; payload: unknown }[];
+  const readRows = async (loc: Locale) =>
+    ((await db`
+      SELECT id, payload
+      FROM portfolio_projects
+      WHERE locale = ${loc}
+      ORDER BY updated_at DESC
+    `) as { id: string; payload: unknown }[]);
+
+  const primary = await readRows(locale);
+  // Projects are locale-neutral. If a locale has no rows, fall back to English.
+  const rows = primary.length ? primary : locale === "en" ? primary : await readRows("en");
+
   return rows
     .map((r) => {
       const obj = safeJsonObject<Project>(r.payload) ?? null;
@@ -39,15 +45,17 @@ export async function getProjectFromDb(
 ): Promise<Project | null> {
   const db = getDb();
   if (!db) return null;
-  const rows = (await db`
-    SELECT payload
-    FROM portfolio_projects
-    WHERE id = ${id} AND locale = ${locale}
-    LIMIT 1
-  `) as { payload: unknown }[];
-  const row = rows[0];
-  if (!row) return null;
-  return safeJsonObject<Project>(row.payload) ?? null;
+  const readOne = async (loc: Locale) =>
+    ((await db`
+      SELECT payload
+      FROM portfolio_projects
+      WHERE id = ${id} AND locale = ${loc}
+      LIMIT 1
+    `) as { payload: unknown }[])[0] ?? null;
+
+  const primary = await readOne(locale);
+  const row = primary ?? (locale === "en" ? null : await readOne("en"));
+  return row ? safeJsonObject<Project>(row.payload) ?? null : null;
 }
 
 export async function upsertProjectToDb(

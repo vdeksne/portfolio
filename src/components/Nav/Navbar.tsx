@@ -58,7 +58,7 @@ export function Navbar() {
     <header
       inert={concealed ? true : undefined}
       className={clsx(
-        "fixed top-0 left-0 right-0 z-50 bg-[#070707]/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md",
+        "fixed top-0 left-0 right-0 z-50 bg-(--ui-bg)/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md",
         "max-sm:transition-transform max-sm:duration-300 max-sm:ease-out motion-reduce:max-sm:transition-none",
         concealed && "max-sm:pointer-events-none max-sm:-translate-y-full",
       )}
@@ -121,7 +121,7 @@ export function Navbar() {
                       "rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[var(--font-primary)]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]",
                       active
                         ? "underline decoration-2 text-[var(--font-primary)] decoration-[var(--font-primary)] max-sm:decoration-1"
-                        : "no-underline text-white/45 hover:underline hover:decoration-2 hover:text-white/88 hover:decoration-white/25 active:text-white/92 max-sm:hover:decoration-1",
+                        : "no-underline text-muted hover:underline hover:decoration-2 hover:text-(--font-primary) hover:decoration-current/25 active:text-(--font-primary) max-sm:hover:decoration-1",
                     )}
                   >
                     {t(item.name)}

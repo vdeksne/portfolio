@@ -4,7 +4,7 @@
  * Run: `pnpm run db:seed-projects`
  * Options:
  *   --dry-run     Print actions only
- *   --locale=lv   Only Latvian (default: en only)
+ *   --locale=en   Only one locale (default: seed both en + lv from available files)
  *
  * Uses the same DATABASE_URL resolution as `pnpm run db:migrate`.
  */
@@ -27,6 +27,7 @@ function normalizeNeonConnectionString(raw) {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, "..");
 const envPath = path.join(__dirname, "..", ".env");
 if (fs.existsSync(envPath)) {
   for (const line of fs.readFileSync(envPath, "utf8").split(/\r?\n/)) {
@@ -67,7 +68,7 @@ const dryRun = args.includes("--dry-run");
 const localeArg = args.find((a) => a.startsWith("--locale="));
 const locales = localeArg
   ? [localeArg.split("=", 2)[1]?.trim()].filter(Boolean)
-  : ["en"];
+  : ["en", "lv"];
 
 const raw = resolveRawPostgresEnv();
 if (!raw) {
@@ -92,15 +93,27 @@ async function main() {
       console.error(`Unknown locale: ${locale}`);
       process.exit(1);
     }
-    const dir = path.join(process.cwd(), "content", locale, "projects");
-    if (!fs.existsSync(dir)) {
-      console.warn(`Skip locale ${locale}: missing ${dir}`);
+    // Projects are locale-neutral: allow seeding lv from en files if lv folder is absent.
+    const preferredDir = path.join(projectRoot, "content", locale, "projects");
+    const fallbackDir = path.join(projectRoot, "content", "en", "projects");
+    const readFiles = (dir) =>
+      fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith(".json"))
+        .sort();
+
+    let dir = preferredDir;
+    let files = fs.existsSync(preferredDir) ? readFiles(preferredDir) : [];
+    if (!files.length) {
+      dir = fallbackDir;
+      files = fs.existsSync(fallbackDir) ? readFiles(fallbackDir) : [];
+    }
+    if (!files.length) {
+      console.warn(
+        `Skip locale ${locale}: no project JSON found in ${preferredDir} (or ${fallbackDir})`,
+      );
       continue;
     }
-    const files = fs
-      .readdirSync(dir)
-      .filter((f) => f.endsWith(".json"))
-      .sort();
     for (const file of files) {
       const id = file.replace(/\.json$/i, "").toLowerCase();
       const rawFile = fs.readFileSync(path.join(dir, file), "utf8");

@@ -27,6 +27,58 @@ html {
   --font-placeholder: #707070;
 }
 
+html.light {
+  --ui-bg: #fff;
+  --bg-secondary: #fff;
+  --bg-card: #fff;
+  --bg-card-hover: #fff;
+
+  --font-primary: #000;
+  --font-muted: #000;
+  --font-inverted: #fff;
+
+  --border-primary: #000;
+  --border-primary-hover: #000;
+  --border-muted: #000;
+  --font-placeholder: #000;
+}
+
+/* Home globe overlays need a lighter treatment in light mode. */
+.home-globe-dim {
+  background: rgba(0, 0, 0, 0.52);
+}
+html.light .home-globe-dim {
+  background: transparent;
+}
+
+.home-globe-vignette {
+  background: radial-gradient(
+    ellipse 68% 58% at 50% 42%,
+    transparent 0%,
+    transparent 42%,
+    var(--ui-bg) 88%
+  );
+  opacity: 0.86;
+}
+html.light .home-globe-vignette {
+  opacity: 0.12;
+}
+
+.home-globe-bottom-fade {
+  height: 30%;
+  background: linear-gradient(
+    to top,
+    var(--ui-bg),
+    color-mix(in oklab, var(--ui-bg) 55%, transparent),
+    transparent
+  );
+}
+@media (min-width: 640px) {
+  .home-globe-bottom-fade {
+    height: 34%;
+  }
+}
+
 html,
 body {
   height: 100%;
@@ -34,6 +86,29 @@ body {
   text-align: left;
   background-color: var(--ui-bg);
   color: var(--font-primary);
+}
+
+/* The logo SVG is authored for dark backgrounds; invert in light mode. */
+html.light .logo-mark {
+  filter: invert(1);
+}
+
+/* Works project cards: light grey “frames” in light mode */
+html.light .project-card-frame {
+  background: #f2f2f2;
+  box-shadow: none;
+}
+html.light .project-card-caption {
+  background: rgba(242, 242, 242, 0.92);
+}
+html.light .project-card-title {
+  color: #000;
+}
+html.light .project-card-meta {
+  color: rgba(0, 0, 0, 0.6);
+}
+html.light .project-card-arrow {
+  color: #000;
 }
 
 ::-webkit-scrollbar {
@@ -52,6 +127,51 @@ body {
 
 .text-muted {
   color: color-mix(in oklab, var(--font-primary) 55%, transparent);
+}
+
+/* Light mode should be crisp: no shadowy text backing. */
+html.light .text-white-shadow,
+html.light .home-hero-copy {
+  text-shadow: none !important;
+}
+
+/* FAQ tabs: underline style (no pills) */
+.faq-tab {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Dark mode */
+html:not(.light) .faq-tab[aria-selected="true"] {
+  color: var(--font-primary) !important;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
+}
+html:not(.light) .faq-tab[aria-selected="false"] {
+  color: color-mix(in oklab, var(--font-primary) 55%, transparent) !important;
+}
+html:not(.light) .faq-tab:hover {
+  color: var(--font-primary) !important;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
+}
+html.light .faq-tab[aria-selected="true"] {
+  color: #000 !important;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
+}
+html.light .faq-tab[aria-selected="false"] {
+  color: rgba(0, 0, 0, 0.55) !important;
+}
+html.light .faq-tab:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35rem;
 }
 
 @layer components {

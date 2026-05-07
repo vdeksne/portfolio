@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/viktorijadeksne/Documents/VD_Portfolio_2026/src/components/primitives/SpotlightCard.tsx"],"sourcesContent":["\"use client\";\n\nimport clsx from \"clsx\";\nimport type { ReactNode } from \"react\";\n\ntype SpotlightCardProps = {\n  children: ReactNode;\n  className?: string;\n  white?: boolean;\n};\n\nexport function SpotlightCard({\n  children,\n  className,\n  white = false,\n}: SpotlightCardProps) {\n  if (white) {\n    return (\n      <div\n        className={clsx(\n          \"relative overflow-hidden rounded-lg bg-zinc-950\",\n          className,\n        )}\n      >\n        <div className=\"relative flex h-full flex-col\">{children}</div>\n      </div>\n    );\n  }\n\n  return <div className={clsx(\"relative overflow-hidden\", className)}>{children}</div>;\n}\n"],"names":[],"mappings":";;;;AAEA;AAFA;;;AAWO,SAAS,cAAc,EAC5B,QAAQ,EACR,SAAS,EACT,QAAQ,KAAK,EACM;IACnB,IAAI,OAAO;QACT,qBACE,8VAAC;YACC,WAAW,CAAA,GAAA,yLAAA,CAAA,UAAI,AAAD,EACZ,mDACA;sBAGF,cAAA,8VAAC;gBAAI,WAAU;0BAAiC;;;;;;;;;;;IAGtD;IAEA,qBAAO,8VAAC;QAAI,WAAW,CAAA,GAAA,yLAAA,CAAA,UAAI,AAAD,EAAE,4BAA4B;kBAAa;;;;;;AACvE;KAnBgB","debugId":null}}]
+}

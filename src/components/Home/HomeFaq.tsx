@@ -25,7 +25,7 @@ export function HomeFaq({ faq }: { faq: FaqData }) {
       </div>
       <div className="mx-auto flex min-w-0 w-full max-w-5xl flex-col gap-4 xl:max-w-6xl">
         <div
-          className="relative flex w-full flex-wrap justify-center gap-2 sm:gap-2.5"
+          className="relative flex w-full flex-wrap justify-center gap-3 sm:gap-5 md:gap-7"
           role="tablist"
           aria-label={faq.title}
         >
@@ -37,6 +37,7 @@ export function HomeFaq({ faq }: { faq: FaqData }) {
               aria-selected={tab === i}
               onClick={() => setTab(i)}
               className={clsx(
+                "faq-tab",
                 "relative inline-flex min-h-11 min-w-0 max-w-full items-center justify-start rounded-full bg-white/[0.06] px-4 py-2.5 text-left text-sm font-medium touch-manipulation transition-colors duration-200 sm:min-h-10 sm:px-3 sm:py-2 sm:text-base",
                 tab === i
                   ? "bg-white/12 text-white"

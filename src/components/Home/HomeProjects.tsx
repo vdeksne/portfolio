@@ -20,20 +20,17 @@ export function HomeProjects({ projects }: { projects: Project[] }) {
               : project.release;
           const row = (
             <>
-              <span className="min-w-0 break-words font-medium sm:shrink-0 sm:whitespace-nowrap">
+              <span className="min-w-0 wrap-break-word font-medium sm:shrink-0 sm:whitespace-nowrap">
                 {project.name}
               </span>
-              <span
-                className="hidden min-w-[0.5rem] flex-1 sm:block"
-                aria-hidden
-              />
-              <span className="min-w-0 text-sm text-white/75 sm:shrink-0 sm:whitespace-nowrap sm:text-base">
+              <span className="hidden min-w-2 flex-1 sm:block" aria-hidden />
+              <span className="min-w-0 text-sm text-muted sm:shrink-0 sm:whitespace-nowrap sm:text-base">
                 {releaseLabel}
               </span>
             </>
           );
           const className =
-            "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 rounded-lg px-3 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-4 sm:py-2 hover:bg-[#070707] hover:drop-shadow-[0px_0px_2px_#ffffff] active:bg-[#070707]/80";
+            "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 px-1 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-0 sm:py-2 border-b border-transparent hover:border-(--font-primary) active:border-(--font-primary)";
           if (project.release === "soon") {
             return (
               <Link

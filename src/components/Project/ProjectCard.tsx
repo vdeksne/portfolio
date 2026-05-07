@@ -13,7 +13,7 @@ export function ProjectCard({ project }: { project: Project }) {
       href={project.link}
       target="_blank"
       rel="noreferrer"
-      className="group relative flex cursor-pointer flex-col gap-1 rounded-lg bg-zinc-900/80 p-1 shadow-2xl shadow-zinc-950/50 backdrop-blur-sm"
+      className="project-card-frame group relative flex cursor-pointer flex-col gap-1 rounded-lg bg-zinc-900/80 p-1 shadow-2xl shadow-zinc-950/50 backdrop-blur-sm"
     >
       <div className="flex gap-1 px-1 py-[2px]">
         <div className="size-2 rounded-full bg-red-500/90 transition-all duration-300 group-hover:bg-red-500/90 sm:bg-white/10" />
@@ -30,20 +30,20 @@ export function ProjectCard({ project }: { project: Project }) {
         />
       </div>
       <div className="absolute bottom-0 flex w-full justify-center">
-        <div className="rounded-t-lg bg-zinc-950/85 px-4 py-[5px] shadow-md backdrop-blur-md sm:w-2/3">
+        <div className="project-card-caption rounded-t-lg bg-zinc-950/85 px-4 py-[5px] shadow-md backdrop-blur-md sm:w-2/3">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <span className="whitespace-nowrap text-sm font-semibold text-white">
+              <span className="project-card-title whitespace-nowrap text-sm font-semibold text-white">
                 {project.name}
               </span>
-              <span className="whitespace-nowrap text-xs text-neutral-500">
+              <span className="project-card-meta whitespace-nowrap text-xs text-neutral-500">
                 {project.release === "soon"
                   ? `${t("soon")}...`
                   : project.release}
               </span>
             </div>
             <div className="flex items-center justify-center rounded-full p-1 shadow-md backdrop-blur-md transition-all duration-500 group-hover:-rotate-45">
-              <ArrowRight className="size-3 text-white" />
+              <ArrowRight className="project-card-arrow size-3 text-white" />
             </div>
           </div>
         </div>

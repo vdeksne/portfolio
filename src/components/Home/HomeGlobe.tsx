@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 /** Sharp 4096×2048 day texture when GPU cap is 4096–8192 (HD NASA would be clamped / invalid). */
 const EARTH_MAP_4K =
@@ -30,6 +31,42 @@ function configureTexture(
   tex.minFilter = THREE.LinearMipmapLinearFilter;
   tex.magFilter = THREE.LinearFilter;
   tex.generateMipmaps = true;
+}
+
+function clamp01(x: number) {
+  return Math.max(0, Math.min(1, x));
+}
+
+async function createGrayscaleCanvasTexture(
+  src: HTMLImageElement,
+  maxAniso: number,
+): Promise<THREE.CanvasTexture> {
+  const canvas = document.createElement("canvas");
+  const w = src.naturalWidth || src.width;
+  const h = src.naturalHeight || src.height;
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("no 2d context");
+  ctx.drawImage(src, 0, 0, w, h);
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i] / 255;
+    const g = d[i + 1] / 255;
+    const b = d[i + 2] / 255;
+    // Luminance + a touch of “ceramic” lift/contrast.
+    const lum = r * 0.2126 + g * 0.7152 + b * 0.0722;
+    const boosted = clamp01(lum * 1.18 + 0.05);
+    const out = Math.round(boosted * 255);
+    d[i] = out;
+    d[i + 1] = out;
+    d[i + 2] = out;
+  }
+  ctx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(canvas);
+  configureTexture(tex, maxAniso, THREE.SRGBColorSpace);
+  return tex;
 }
 
 /** Linear data map (packed channels); strong aniso keeps grazing angles cleaner without huge blur. */
@@ -145,6 +182,11 @@ export function HomeGlobe() {
 
     const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
+    // Environment map for metallic/studio look (used in light mode).
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    scene.environment = envTex;
+
     const ambient = new THREE.AmbientLight(0xffffff, 0.22);
     scene.add(ambient);
     const key = new THREE.DirectionalLight(0xfff5e8, 1.05);
@@ -176,11 +218,54 @@ export function HomeGlobe() {
       normalScale: new THREE.Vector2(0.32, 0.32),
     });
 
+    // Light mode: metallic studio render (still grayscale via map swap).
+    const lightMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.22,
+      metalness: 0.9,
+      clearcoat: 0.62,
+      clearcoatRoughness: 0.18,
+      envMapIntensity: 1.35,
+      normalScale: new THREE.Vector2(0.45, 0.45),
+      transparent: true,
+      opacity: 0.82,
+    });
+
+    let themeUniform: { value: number } | null = null;
+    let desiredLightTheme = false;
+    let diffuseOriginal: THREE.Texture | null = null;
+    let diffuseGray: THREE.Texture | null = null;
+    let packedBumpRoughCloud: THREE.Texture | null = null;
+
+    const syncDiffuseMapToTheme = () => {
+      if (desiredLightTheme) {
+        if (diffuseGray) material.map = diffuseGray;
+        else if (diffuseOriginal) material.map = diffuseOriginal;
+        lightMaterial.map = diffuseGray ?? diffuseOriginal ?? null;
+      } else {
+        // Dark mode is a black-metal render: avoid the colorful diffuse texture.
+        material.map = null;
+        lightMaterial.map = diffuseGray ?? diffuseOriginal ?? null;
+      }
+      material.needsUpdate = true;
+      lightMaterial.needsUpdate = true;
+    };
+
     material.onBeforeCompile = (shader) => {
+      shader.uniforms.uLightTheme = { value: 0 };
+      themeUniform = shader.uniforms.uLightTheme as { value: number };
+      themeUniform.value = desiredLightTheme ? 1 : 0;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "void main() {",
+        `
+        uniform float uLightTheme;
+        void main() {`,
+      );
+
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <opaque_fragment>",
         `
-        {
+        if (uLightTheme < 0.5) {
           vec3 alb = diffuseColor.rgb;
           float ocean = smoothstep(0.035, 0.2, alb.b - alb.r)
             * smoothstep(-0.02, 0.14, alb.b - alb.g * 0.92);
@@ -189,8 +274,51 @@ export function HomeGlobe() {
         }
         #include <opaque_fragment>`,
       );
+
+      // After lighting, push a bright modern grayscale look in light mode.
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <dithering_fragment>",
+        `
+        if (uLightTheme > 0.5) {
+          // Bright “ceramic” grayscale base (reference-like: white/light-grey).
+          float lum = dot(outgoingLight, vec3(0.2126, 0.7152, 0.0722));
+          vec3 baseWhite = vec3(0.95);
+          vec3 ceramic = mix(baseWhite, vec3(lum), 0.20);
+
+          // Stylized outlines + subtle grid.
+          float outline = 0.0;
+          #ifdef USE_MAP
+            // MeshPhysicalMaterial uses vMapUv (not vUv).
+            vec2 uv = vMapUv;
+            vec2 dx = dFdx(uv);
+            vec2 dy = dFdy(uv);
+            float c = texture2D(map, uv).r;
+            float cx = texture2D(map, uv + dx * 2.0).r;
+            float cy = texture2D(map, uv + dy * 2.0).r;
+            float e = abs(c - cx) + abs(c - cy);
+            outline = smoothstep(0.025, 0.11, e);
+          #endif
+
+          float grid = 0.0;
+          #ifdef USE_MAP
+            float u = uv.x;
+            float v = uv.y;
+            float gu = 1.0 - smoothstep(0.0, 0.06, abs(fract(u * 18.0) - 0.5));
+            float gv = 1.0 - smoothstep(0.0, 0.06, abs(fract(v * 9.0) - 0.5));
+            grid = max(gu, gv) * 0.12;
+          #endif
+
+          vec3 ink = vec3(0.18);
+          vec3 styled = ceramic;
+          styled = mix(styled, ink, outline * 0.85);
+          styled = mix(styled, vec3(0.72), grid);
+
+          outgoingLight = clamp(styled * 1.14 + vec3(0.03), 0.0, 0.998);
+        }
+        #include <dithering_fragment>`,
+      );
     };
-    material.customProgramCacheKey = () => "globe-ocean-darken-v2";
+    material.customProgramCacheKey = () => "globe-ocean-darken-v3-gray";
 
     const earth = new THREE.Mesh(geometry, material);
     group.add(earth);
@@ -291,8 +419,22 @@ export function HomeGlobe() {
 
         if (diffuse) {
           textureDisposables.push(diffuse);
-          material.map = diffuse;
-          material.needsUpdate = true;
+          diffuseOriginal = diffuse;
+
+          // Generate a true grayscale map for light mode (matches the reference look reliably).
+          const img = diffuse.image as unknown;
+          if (img && typeof (img as HTMLImageElement).naturalWidth === "number") {
+            try {
+              diffuseGray = await createGrayscaleCanvasTexture(
+                img as HTMLImageElement,
+                maxAniso,
+              );
+              textureDisposables.push(diffuseGray);
+            } catch {
+              // optional; fall back to shader-only grayscale
+            }
+          }
+          syncDiffuseMapToTheme();
         } else if (!disposed) {
           material.color.set(0x1a3a52);
         }
@@ -311,6 +453,11 @@ export function HomeGlobe() {
           textureDisposables.push(normal);
           material.normalMap = normal;
           material.needsUpdate = true;
+
+          // Light mode: exaggerate surface relief while keeping it “clean”.
+          lightMaterial.normalMap = normal;
+          lightMaterial.normalScale.set(0.62, 0.62);
+          lightMaterial.needsUpdate = true;
         } catch {
           /* optional */
         }
@@ -326,8 +473,24 @@ export function HomeGlobe() {
             return;
           }
           textureDisposables.push(cloudTex);
+          packedBumpRoughCloud = cloudTex;
           cloudMat.uniforms.cloudMap.value = cloudTex;
           cloudMat.uniforms.uUsePacked.value = 1;
+
+          // Reuse packed data for subtle relief in light mode (raw model feel).
+          lightMaterial.bumpMap = cloudTex;
+          lightMaterial.bumpScale = 0.11;
+          lightMaterial.roughnessMap = cloudTex;
+          // Push 3D form: small displacement adds “edgy” contour without looking noisy.
+          lightMaterial.displacementMap = cloudTex;
+          lightMaterial.displacementScale = 0.018;
+          lightMaterial.needsUpdate = true;
+
+          // Dark mode: use the same packed map for metallic surface detail.
+          material.bumpMap = cloudTex;
+          material.bumpScale = 0.06;
+          material.roughnessMap = cloudTex;
+          material.needsUpdate = true;
         } catch {
           try {
             const cloudTex = await loadTexture(
@@ -353,6 +516,9 @@ export function HomeGlobe() {
         renderer.render(scene, camera);
         requestAnimationFrame(() => {
           if (disposed) return;
+          // Shader uniforms exist after the first render; re-apply theme so light mode takes effect.
+          applyThemeTuning(isLightTheme());
+          syncDiffuseMapToTheme();
           renderer.render(scene, camera);
           setGlobeReady(true);
         });
@@ -384,14 +550,72 @@ export function HomeGlobe() {
     const stars = new THREE.Points(starsGeo, starsMat);
     scene.add(stars);
 
+    const isLightTheme = () => document.documentElement.classList.contains("light");
+    const applyThemeTuning = (light: boolean) => {
+      desiredLightTheme = light;
+      // Dark is the current baseline; light mode needs more contrast and fewer "space" cues.
+      renderer.toneMappingExposure = light ? 1.14 : 0.88;
+
+      ambient.intensity = light ? 0.42 : 0.22;
+      key.color.set(light ? 0xffffff : 0xfff5e8);
+      key.intensity = light ? 1.22 : 1.05;
+      rim.intensity = light ? 0.22 : 0.36;
+      fill.intensity = light ? 0.09 : 0.14;
+
+      atmosphereInnerMat.color.set(light ? 0xe9eef5 : 0x5a9fe8);
+      atmosphereOuterMat.color.set(light ? 0xf4f6fb : 0x6ca8ff);
+      atmosphereInnerMat.opacity = light ? 0.035 : 0.08;
+      atmosphereOuterMat.opacity = light ? 0.02 : 0.045;
+
+      starsMat.opacity = light ? 0.14 : 0.55;
+      starsMat.color.set(light ? 0xaab7c8 : 0xc8d8f0);
+      starsMat.needsUpdate = true;
+
+      cloudMat.uniforms.uOpacity.value = light ? 0.16 : 0.72;
+
+      // Dark mode: black metallic “product” globe.
+      if (!light) {
+        material.color.set(0x0b0b10);
+        material.metalness = 0.92;
+        material.roughness = 0.28;
+        material.clearcoat = 0.5;
+        material.clearcoatRoughness = 0.24;
+        material.envMapIntensity = 1.05;
+        material.normalScale.setScalar(0.42);
+        material.needsUpdate = true;
+      }
+
+      if (themeUniform) themeUniform.value = light ? 1 : 0;
+      syncDiffuseMapToTheme();
+
+      // Light mode: show only the earth (no clouds/atmosphere/stars).
+      earth.material = light ? lightMaterial : material;
+      clouds.visible = !light;
+      atmosphereInner.visible = !light;
+      atmosphereOuter.visible = !light;
+      stars.visible = !light;
+    };
+
+    applyThemeTuning(isLightTheme());
+    const themeObserver = new MutationObserver(() => {
+      applyThemeTuning(isLightTheme());
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
     const pointer = { x: 0, y: 0 };
     const target = { x: 0, y: 0 };
 
     const onMove = (clientX: number, clientY: number) => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      target.x = (clientX / w - 0.5) * 1.15;
-      target.y = (clientY / h - 0.5) * 0.85;
+      // Light mode should still “follow” the mouse like before — just slightly smoother.
+      const sx = desiredLightTheme ? 1.35 : 1.15;
+      const sy = desiredLightTheme ? 1.05 : 0.85;
+      target.x = (clientX / w - 0.5) * sx;
+      target.y = (clientY / h - 0.5) * sy;
     };
 
     const mouseMove = (e: MouseEvent) => onMove(e.clientX, e.clientY);
@@ -419,15 +643,27 @@ export function HomeGlobe() {
       const delta = Math.min((now - t0) / 1000, 0.05);
       t0 = now;
 
-      pointer.x = lerp(pointer.x, target.x, 0.065);
-      pointer.y = lerp(pointer.y, target.y, 0.065);
+      // If the shader compiled after initial theme apply, sync uniform once available.
+      if (themeUniform) themeUniform.value = desiredLightTheme ? 1 : 0;
+
+      const damp = desiredLightTheme ? 0.06 : 0.065;
+      pointer.x = lerp(pointer.x, target.x, damp);
+      pointer.y = lerp(pointer.y, target.y, damp);
 
       const slow = reduceMotionRef.current ? 0 : 1;
-      /* Base spin (rad/s) — keep clouds / pointer terms scaled to match. */
-      group.rotation.y += delta * 0.15 * slow;
-      group.rotation.x = lerp(group.rotation.x, pointer.y * 0.38, 0.08);
-      group.rotation.y += pointer.x * delta * 0.38 * slow;
-      group.rotation.z = lerp(group.rotation.z, pointer.x * 0.12, 0.06);
+      if (desiredLightTheme) {
+        // Metallic “product render”: keep it stable, but respond like the original.
+        group.rotation.y += delta * 0.065;
+        group.rotation.x = lerp(group.rotation.x, pointer.y * 0.44, 0.085);
+        group.rotation.y += pointer.x * delta * 0.38;
+        group.rotation.z = lerp(group.rotation.z, pointer.x * 0.15, 0.075);
+      } else {
+        /* Base spin (rad/s) — keep clouds / pointer terms scaled to match. */
+        group.rotation.y += delta * 0.15 * slow;
+        group.rotation.x = lerp(group.rotation.x, pointer.y * 0.38, 0.08);
+        group.rotation.y += pointer.x * delta * 0.38 * slow;
+        group.rotation.z = lerp(group.rotation.z, pointer.x * 0.12, 0.06);
+      }
 
       /* Slightly faster cloud drift vs solid Earth */
       clouds.rotation.y += delta * 0.029 * slow;
@@ -445,6 +681,7 @@ export function HomeGlobe() {
       window.removeEventListener("touchmove", touchMove);
       window.removeEventListener("touchstart", touchMove);
       ro.disconnect();
+      themeObserver.disconnect();
       geometry.dispose();
       cloudGeo.dispose();
       cloudMat.dispose();
@@ -456,7 +693,10 @@ export function HomeGlobe() {
       starsMat.dispose();
       for (const t of textureDisposables) t.dispose();
       material.dispose();
+      lightMaterial.dispose();
       renderer.dispose();
+      envTex.dispose();
+      pmrem.dispose();
       if (renderer.domElement.parentElement === container) {
         container.removeChild(renderer.domElement);
       }

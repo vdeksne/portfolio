@@ -58,7 +58,7 @@ function HomeFaq({ faq }) {
                 className: "mx-auto flex min-w-0 w-full max-w-5xl flex-col gap-4 xl:max-w-6xl",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "relative flex w-full flex-wrap justify-center gap-2 sm:gap-2.5",
+                        className: "relative flex w-full flex-wrap justify-center gap-3 sm:gap-5 md:gap-7",
                         role: "tablist",
                         "aria-label": faq.title,
                         children: items.map((item, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -66,13 +66,13 @@ function HomeFaq({ faq }) {
                                 role: "tab",
                                 "aria-selected": tab === i,
                                 onClick: ()=>setTab(i),
-                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])("relative inline-flex min-h-11 min-w-0 max-w-full items-center justify-start rounded-full bg-white/[0.06] px-4 py-2.5 text-left text-sm font-medium touch-manipulation transition-colors duration-200 sm:min-h-10 sm:px-3 sm:py-2 sm:text-base", tab === i ? "bg-white/12 text-white" : "text-neutral-400 hover:bg-[#070707]/80 active:bg-[#070707]"),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])("faq-tab", "relative inline-flex min-h-11 min-w-0 max-w-full items-center justify-start rounded-full bg-white/[0.06] px-4 py-2.5 text-left text-sm font-medium touch-manipulation transition-colors duration-200 sm:min-h-10 sm:px-3 sm:py-2 sm:text-base", tab === i ? "bg-white/12 text-white" : "text-neutral-400 hover:bg-[#070707]/80 active:bg-[#070707]"),
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "break-words text-left",
                                     children: item.label
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                    lineNumber: 46,
+                                    lineNumber: 47,
                                     columnNumber: 15
                                 }, this)
                             }, item.key, false, {
@@ -98,20 +98,20 @@ function HomeFaq({ faq }) {
                                                 children: q.label
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                                lineNumber: 59,
+                                                lineNumber: 60,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$468$2e$0_react$40$19$2e$0$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                                 className: "mt-0.5 size-4 shrink-0 transition-transform group-open:rotate-135 sm:mt-0"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                                lineNumber: 62,
+                                                lineNumber: 63,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                        lineNumber: 58,
+                                        lineNumber: 59,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -119,18 +119,18 @@ function HomeFaq({ faq }) {
                                         children: q.content
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                        lineNumber: 64,
+                                        lineNumber: 65,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, q.label, true, {
                                 fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                                lineNumber: 54,
+                                lineNumber: 55,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home/HomeFaq.tsx",
-                        lineNumber: 52,
+                        lineNumber: 53,
                         columnNumber: 9
                     }, this)
                 ]
@@ -221,7 +221,7 @@ function HomeProjects({ projects }) {
                     const row = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "min-w-0 break-words font-medium sm:shrink-0 sm:whitespace-nowrap",
+                                className: "min-w-0 wrap-break-word font-medium sm:shrink-0 sm:whitespace-nowrap",
                                 children: project.name
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Home/HomeProjects.tsx",
@@ -229,7 +229,7 @@ function HomeProjects({ projects }) {
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "hidden min-w-[0.5rem] flex-1 sm:block",
+                                className: "hidden min-w-2 flex-1 sm:block",
                                 "aria-hidden": true
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Home/HomeProjects.tsx",
@@ -237,16 +237,16 @@ function HomeProjects({ projects }) {
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "min-w-0 text-sm text-white/75 sm:shrink-0 sm:whitespace-nowrap sm:text-base",
+                                className: "min-w-0 text-sm text-muted sm:shrink-0 sm:whitespace-nowrap sm:text-base",
                                 children: releaseLabel
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                                lineNumber: 30,
+                                lineNumber: 27,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true);
-                    const className = "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 rounded-lg px-3 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-4 sm:py-2 hover:bg-[#070707] hover:drop-shadow-[0px_0px_2px_#ffffff] active:bg-[#070707]/80";
+                    const className = "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 px-1 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-0 sm:py-2 border-b border-transparent hover:border-(--font-primary) active:border-(--font-primary)";
                     if (project.release === "soon") {
                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Link"], {
                             href: "/",
@@ -255,7 +255,7 @@ function HomeProjects({ projects }) {
                             children: row
                         }, project.name, false, {
                             fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                            lineNumber: 39,
+                            lineNumber: 36,
                             columnNumber: 15
                         }, this);
                     }
@@ -268,7 +268,7 @@ function HomeProjects({ projects }) {
                         children: row
                     }, project.name, false, {
                         fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                        lineNumber: 50,
+                        lineNumber: 47,
                         columnNumber: 13
                     }, this);
                 })
@@ -285,12 +285,12 @@ function HomeProjects({ projects }) {
                     children: t("global.see_more")
                 }, void 0, false, {
                     fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                    lineNumber: 67,
+                    lineNumber: 64,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                lineNumber: 63,
+                lineNumber: 60,
                 columnNumber: 7
             }, this)
         ]

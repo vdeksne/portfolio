@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     const db = getDb();
     if (db) {
       const rows = await listProjectsFromDb(locale);
-      if (rows) return Response.json(rows);
+      if (rows && rows.length > 0) return Response.json(rows);
     }
   }
   return Response.json(listProjectRows(locale));

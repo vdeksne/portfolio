@@ -68,6 +68,9 @@ export function ContactForm({
     }
   }
 
+  const fieldCls =
+    "w-full rounded-md border border-(--border-primary) bg-(--bg-card) px-3 py-2 text-(--font-primary) placeholder:opacity-60 outline-none transition-[border-color,box-shadow] focus-visible:ring-2 focus-visible:ring-(--font-primary)/20 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg)";
+
   return (
     <section className="mx-auto mt-4 flex w-full max-w-5xl flex-col p-7 sm:mt-20 xl:max-w-6xl">
       <h1 className="font-newsreader text-left text-4xl text-white-shadow">
@@ -87,7 +90,7 @@ export function ContactForm({
             <input
               {...register("fullname")}
               autoComplete="name"
-              className="w-full rounded-md bg-zinc-900/85 px-3 py-2 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-white/25"
+              className={fieldCls}
             />
             {errors.fullname ? (
               <span className="text-red-400">{errors.fullname.message}</span>
@@ -99,7 +102,7 @@ export function ContactForm({
               type="email"
               {...register("email")}
               autoComplete="email"
-              className="w-full rounded-md bg-zinc-900/85 px-3 py-2 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-white/25"
+              className={fieldCls}
             />
             {errors.email ? (
               <span className="text-red-400">{errors.email.message}</span>
@@ -110,14 +113,14 @@ export function ContactForm({
             <input
               {...register("phone")}
               autoComplete="tel"
-              className="w-full rounded-md bg-zinc-900/85 px-3 py-2 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-white/25"
+              className={fieldCls}
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
             <span>{t("subject")}</span>
             <input
               {...register("subject")}
-              className="w-full rounded-md bg-zinc-900/85 px-3 py-2 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-white/25"
+              className={fieldCls}
             />
             {errors.subject ? (
               <span className="text-red-400">{errors.subject.message}</span>
@@ -128,7 +131,7 @@ export function ContactForm({
             <textarea
               {...register("message")}
               rows={4}
-              className="w-full rounded-md bg-zinc-900/85 px-3 py-2 outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-white/25"
+              className={`${fieldCls} min-h-28 resize-y`}
             />
             {errors.message ? (
               <span className="text-red-400">{errors.message.message}</span>

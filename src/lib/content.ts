@@ -18,6 +18,21 @@ import { listProjectsFromDb } from "./projects-db";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
+/** Projects are locale-neutral: use this locale’s JSON if present, else English. */
+function resolveProjectsContentDir(locale: Locale): string {
+  const preferred = path.join(CONTENT_DIR, locale, "projects");
+  if (!fs.existsSync(preferred)) {
+    return path.join(CONTENT_DIR, "en", "projects");
+  }
+  const hasJson = fs
+    .readdirSync(preferred)
+    .some((f) => f.endsWith(".json"));
+  if (!hasJson && locale !== "en") {
+    return path.join(CONTENT_DIR, "en", "projects");
+  }
+  return preferred;
+}
+
 export type PageMeta = {
   title: string;
   description: string;
@@ -133,35 +148,106 @@ export async function getPageForAdmin(locale: Locale, routeKey: string) {
   return getPageByRoute(locale, routeKey);
 }
 
+/** Writing is locale-neutral: English is canonical; other locales merge translated frontmatter when present. */
+function mergeArticleMeta(
+  base: ArticleMeta,
+  override?: ArticleMeta,
+): ArticleMeta {
+  if (!override) return base;
+  return { ...base, ...override };
+}
+
 export function listArticles(locale: Locale): {
   slug: string;
   meta: ArticleMeta;
 }[] {
-  const dir = path.join(CONTENT_DIR, locale, "articles");
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => {
+  const enDir = path.join(CONTENT_DIR, "en", "articles");
+  const locDir = path.join(CONTENT_DIR, locale, "articles");
+
+  const readMetaMap = (dir: string) => {
+    const m = new Map<string, ArticleMeta>();
+    if (!fs.existsSync(dir)) return m;
+    for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".md"))) {
       const slug = f.replace(/\.md$/, "");
       const raw = fs.readFileSync(path.join(dir, f), "utf8");
-      const { data } = matter(raw);
-      return { slug, meta: data as ArticleMeta };
-    });
+      m.set(slug, matter(raw).data as ArticleMeta);
+    }
+    return m;
+  };
+
+  if (locale === "en") {
+    if (!fs.existsSync(enDir)) return [];
+    return fs
+      .readdirSync(enDir)
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => {
+        const slug = f.replace(/\.md$/, "");
+        const raw = fs.readFileSync(path.join(enDir, f), "utf8");
+        return { slug, meta: matter(raw).data as ArticleMeta };
+      });
+  }
+
+  const enMetas = readMetaMap(enDir);
+  const locMetas = readMetaMap(locDir);
+  const slugs = new Set<string>([...enMetas.keys(), ...locMetas.keys()]);
+  const items = [...slugs]
+    .map((slug) => {
+      const enMeta = enMetas.get(slug);
+      const locMeta = locMetas.get(slug);
+      if (!enMeta && locMeta) return { slug, meta: locMeta };
+      if (!enMeta) return null;
+      return {
+        slug,
+        meta: mergeArticleMeta(enMeta, locMeta),
+      };
+    })
+    .filter(Boolean) as { slug: string; meta: ArticleMeta }[];
+  return items;
 }
 
 export function getArticle(locale: Locale, slug: string) {
-  const filePath = path.join(CONTENT_DIR, locale, "articles", `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
-  const raw = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(raw);
-  return { meta: data as ArticleMeta, body: content.trim() };
+  const enPath = path.join(CONTENT_DIR, "en", "articles", `${slug}.md`);
+  const locPath = path.join(CONTENT_DIR, locale, "articles", `${slug}.md`);
+
+  if (locale === "en") {
+    if (!fs.existsSync(enPath)) return null;
+    const raw = fs.readFileSync(enPath, "utf8");
+    const { data, content } = matter(raw);
+    return { meta: data as ArticleMeta, body: content.trim() };
+  }
+
+  const hasEn = fs.existsSync(enPath);
+  const hasLoc = fs.existsSync(locPath);
+
+  if (!hasEn && hasLoc) {
+    const raw = fs.readFileSync(locPath, "utf8");
+    const { data, content } = matter(raw);
+    return { meta: data as ArticleMeta, body: content.trim() };
+  }
+
+  if (!hasEn) return null;
+
+  const enRaw = fs.readFileSync(enPath, "utf8");
+  const enParsed = matter(enRaw);
+  const enMeta = enParsed.data as ArticleMeta;
+  const enBody = enParsed.content.trim();
+
+  if (!hasLoc) {
+    return { meta: enMeta, body: enBody };
+  }
+
+  const locParsed = matter(fs.readFileSync(locPath, "utf8"));
+  const locMeta = locParsed.data as ArticleMeta;
+  const locBody = locParsed.content.trim();
+  const meta = mergeArticleMeta(enMeta, locMeta);
+  const body = locBody.length > 0 ? locBody : enBody;
+  return { meta, body };
 }
 
 export async function listProjects(locale: Locale): Promise<Project[]> {
   if (process.env.VERCEL === "1") {
     const dbRows = await listProjectsFromDb(locale);
-    if (dbRows) {
+    if (dbRows && dbRows.length > 0) {
       const items = dbRows.map((r) => r.project);
       items.sort((a, b) => {
         const ao =
@@ -179,8 +265,9 @@ export async function listProjects(locale: Locale): Promise<Project[]> {
       });
       return items;
     }
+    /* DB missing or empty: use bundled content (same neutral project JSON as en). */
   }
-  const dir = path.join(CONTENT_DIR, locale, "projects");
+  const dir = resolveProjectsContentDir(locale);
   if (!fs.existsSync(dir)) return [];
   const items = fs
     .readdirSync(dir)
@@ -294,7 +381,7 @@ export function writeExperiencesFile(data: { items: Experience[] }) {
 export type ProjectFileRow = { id: string; project: Project };
 
 export function listProjectRows(locale: Locale): ProjectFileRow[] {
-  const dir = path.join(CONTENT_DIR, locale, "projects");
+  const dir = resolveProjectsContentDir(locale);
   if (!fs.existsSync(dir)) return [];
   const rows = fs
     .readdirSync(dir)
@@ -324,7 +411,12 @@ export function listProjectRows(locale: Locale): ProjectFileRow[] {
 
 export function readProjectFile(locale: Locale, id: string): Project | null {
   if (!/^[a-z0-9][a-z0-9-]{0,120}$/i.test(id)) return null;
-  const filePath = path.join(CONTENT_DIR, locale, "projects", `${id}.json`);
+  const tryPath = (loc: Locale) =>
+    path.join(CONTENT_DIR, loc, "projects", `${id.toLowerCase()}.json`);
+  let filePath = tryPath(locale);
+  if (!fs.existsSync(filePath) && locale !== "en") {
+    filePath = tryPath("en");
+  }
   if (!fs.existsSync(filePath)) return null;
   return JSON.parse(fs.readFileSync(filePath, "utf8")) as Project;
 }

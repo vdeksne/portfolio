@@ -7,7 +7,7 @@ export function ExperiencesList({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="mb-6 font-newsreader text-2xl tracking-tight text-white sm:text-3xl">
+      <h3 className="mb-6 font-newsreader text-2xl tracking-tight text-(--font-primary) sm:text-3xl">
         {heading}
       </h3>
       <div className="flex flex-col gap-4">
@@ -15,9 +15,9 @@ export function ExperiencesList({
           <div key={`${experience.title}-${experience.company}`}>
             <h4 className="font-semibold">{experience.title}</h4>
             <div className="flex gap-1">
-              <p>{experience.date}</p>
+              <p className="text-muted">{experience.date}</p>
               <span className="mx-1"> / </span>
-              <p>{experience.company}</p>
+              <p className="text-muted">{experience.company}</p>
             </div>
           </div>
         ))}

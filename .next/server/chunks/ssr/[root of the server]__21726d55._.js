@@ -278,12 +278,15 @@ function safeJsonObject(v) {
 async function listProjectsFromDb(locale) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) return null;
-    const rows = await db`
-    SELECT id, payload
-    FROM portfolio_projects
-    WHERE locale = ${locale}
-    ORDER BY updated_at DESC
-  `;
+    const readRows = async (loc)=>await db`
+      SELECT id, payload
+      FROM portfolio_projects
+      WHERE locale = ${loc}
+      ORDER BY updated_at DESC
+    `;
+    const primary = await readRows(locale);
+    // Projects are locale-neutral. If a locale has no rows, fall back to English.
+    const rows = primary.length ? primary : locale === "en" ? primary : await readRows("en");
     return rows.map((r)=>{
         const obj = safeJsonObject(r.payload) ?? null;
         if (!obj) return null;
@@ -296,15 +299,15 @@ async function listProjectsFromDb(locale) {
 async function getProjectFromDb(locale, id) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) return null;
-    const rows = await db`
-    SELECT payload
-    FROM portfolio_projects
-    WHERE id = ${id} AND locale = ${locale}
-    LIMIT 1
-  `;
-    const row = rows[0];
-    if (!row) return null;
-    return safeJsonObject(row.payload) ?? null;
+    const readOne = async (loc)=>(await db`
+      SELECT payload
+      FROM portfolio_projects
+      WHERE id = ${id} AND locale = ${loc}
+      LIMIT 1
+    `)[0] ?? null;
+    const primary = await readOne(locale);
+    const row = primary ?? (locale === "en" ? null : await readOne("en"));
+    return row ? safeJsonObject(row.payload) ?? null : null;
 }
 async function upsertProjectToDb(locale, id, project) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
@@ -373,6 +376,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$projects$2d$db
 ;
 ;
 const CONTENT_DIR = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(process.cwd(), "content");
+/** Projects are locale-neutral: use this locale’s JSON if present, else English. */ function resolveProjectsContentDir(locale) {
+    const preferred = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects");
+    if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(preferred)) {
+        return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "en", "projects");
+    }
+    const hasJson = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(preferred).some((f)=>f.endsWith(".json"));
+    if (!hasJson && locale !== "en") {
+        return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "en", "projects");
+    }
+    return preferred;
+}
 function projectYear(p) {
     const date = (p.date ?? "").trim();
     const m1 = date.match(/^(\d{4})/);
@@ -450,33 +464,107 @@ async function getPageByRoute(locale, routeKey) {
 async function getPageForAdmin(locale, routeKey) {
     return getPageByRoute(locale, routeKey);
 }
+/** Writing is locale-neutral: English is canonical; other locales merge translated frontmatter when present. */ function mergeArticleMeta(base, override) {
+    if (!override) return base;
+    return {
+        ...base,
+        ...override
+    };
+}
 function listArticles(locale) {
-    const dir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "articles");
-    if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return [];
-    return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".md")).map((f)=>{
-        const slug = f.replace(/\.md$/, "");
-        const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(dir, f), "utf8");
-        const { data } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw);
+    const enDir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "en", "articles");
+    const locDir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "articles");
+    const readMetaMap = (dir)=>{
+        const m = new Map();
+        if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return m;
+        for (const f of __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((x)=>x.endsWith(".md"))){
+            const slug = f.replace(/\.md$/, "");
+            const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(dir, f), "utf8");
+            m.set(slug, (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw).data);
+        }
+        return m;
+    };
+    if (locale === "en") {
+        if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(enDir)) return [];
+        return __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(enDir).filter((f)=>f.endsWith(".md")).map((f)=>{
+            const slug = f.replace(/\.md$/, "");
+            const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(enDir, f), "utf8");
+            return {
+                slug,
+                meta: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw).data
+            };
+        });
+    }
+    const enMetas = readMetaMap(enDir);
+    const locMetas = readMetaMap(locDir);
+    const slugs = new Set([
+        ...enMetas.keys(),
+        ...locMetas.keys()
+    ]);
+    const items = [
+        ...slugs
+    ].map((slug)=>{
+        const enMeta = enMetas.get(slug);
+        const locMeta = locMetas.get(slug);
+        if (!enMeta && locMeta) return {
+            slug,
+            meta: locMeta
+        };
+        if (!enMeta) return null;
         return {
             slug,
-            meta: data
+            meta: mergeArticleMeta(enMeta, locMeta)
         };
-    });
+    }).filter(Boolean);
+    return items;
 }
 function getArticle(locale, slug) {
-    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "articles", `${slug}.md`);
-    if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(filePath)) return null;
-    const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(filePath, "utf8");
-    const { data, content } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw);
+    const enPath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "en", "articles", `${slug}.md`);
+    const locPath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "articles", `${slug}.md`);
+    if (locale === "en") {
+        if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(enPath)) return null;
+        const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(enPath, "utf8");
+        const { data, content } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw);
+        return {
+            meta: data,
+            body: content.trim()
+        };
+    }
+    const hasEn = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(enPath);
+    const hasLoc = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(locPath);
+    if (!hasEn && hasLoc) {
+        const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(locPath, "utf8");
+        const { data, content } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(raw);
+        return {
+            meta: data,
+            body: content.trim()
+        };
+    }
+    if (!hasEn) return null;
+    const enRaw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(enPath, "utf8");
+    const enParsed = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(enRaw);
+    const enMeta = enParsed.data;
+    const enBody = enParsed.content.trim();
+    if (!hasLoc) {
+        return {
+            meta: enMeta,
+            body: enBody
+        };
+    }
+    const locParsed = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$gray$2d$matter$40$4$2e$0$2e$3$2f$node_modules$2f$gray$2d$matter$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(locPath, "utf8"));
+    const locMeta = locParsed.data;
+    const locBody = locParsed.content.trim();
+    const meta = mergeArticleMeta(enMeta, locMeta);
+    const body = locBody.length > 0 ? locBody : enBody;
     return {
-        meta: data,
-        body: content.trim()
+        meta,
+        body
     };
 }
 async function listProjects(locale) {
     if (process.env.VERCEL === "1") {
         const dbRows = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$projects$2d$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["listProjectsFromDb"])(locale);
-        if (dbRows) {
+        if (dbRows && dbRows.length > 0) {
             const items = dbRows.map((r)=>r.project);
             items.sort((a, b)=>{
                 const ao = typeof a.order === "number" ? a.order : Number.POSITIVE_INFINITY;
@@ -492,8 +580,8 @@ async function listProjects(locale) {
             });
             return items;
         }
-    }
-    const dir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects");
+    /* DB missing or empty: use bundled content (same neutral project JSON as en). */ }
+    const dir = resolveProjectsContentDir(locale);
     if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return [];
     const items = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
         const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(dir, f), "utf8");
@@ -560,7 +648,7 @@ function writeExperiencesFile(data) {
     __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 function listProjectRows(locale) {
-    const dir = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects");
+    const dir = resolveProjectsContentDir(locale);
     if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(dir)) return [];
     const rows = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readdirSync(dir).filter((f)=>f.endsWith(".json")).map((f)=>{
         const id = f.replace(/\.json$/, "");
@@ -583,7 +671,11 @@ function listProjectRows(locale) {
 }
 function readProjectFile(locale, id) {
     if (!/^[a-z0-9][a-z0-9-]{0,120}$/i.test(id)) return null;
-    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "projects", `${id}.json`);
+    const tryPath = (loc)=>__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, loc, "projects", `${id.toLowerCase()}.json`);
+    let filePath = tryPath(locale);
+    if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(filePath) && locale !== "en") {
+        filePath = tryPath("en");
+    }
     if (!__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].existsSync(filePath)) return null;
     return JSON.parse(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(filePath, "utf8"));
 }
@@ -757,7 +849,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                 className: "pointer-events-none absolute inset-0 z-0 select-none",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute left-1/2 top-[36%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[38%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[40%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]",
+                        className: "absolute left-1/2 top-[22%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[24%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[26%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]",
                         "aria-hidden": true,
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2f$HomeGlobeDynamic$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["HomeGlobeDynamic"], {}, void 0, false, {
                             fileName: "[project]/src/components/Home/HomeSection.tsx",
@@ -770,7 +862,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "pointer-events-none absolute inset-0 z-[1] bg-black/52",
+                        className: "home-globe-dim pointer-events-none absolute inset-0 z-[1]",
                         "aria-hidden": true
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home/HomeSection.tsx",
@@ -778,7 +870,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_68%_58%_at_50%_42%,transparent_0%,transparent_42%,var(--ui-bg)_88%)] opacity-[0.86]",
+                        className: "home-globe-vignette pointer-events-none absolute inset-0 z-[1]",
                         "aria-hidden": true
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home/HomeSection.tsx",
@@ -786,7 +878,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[30%] bg-gradient-to-t from-[var(--ui-bg)] via-[var(--ui-bg)]/55 to-transparent sm:h-[34%]",
+                        className: "home-globe-bottom-fade pointer-events-none absolute inset-x-0 bottom-0 z-[1]",
                         "aria-hidden": true
                     }, void 0, false, {
                         fileName: "[project]/src/components/Home/HomeSection.tsx",
@@ -805,7 +897,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                     className: "relative z-10 flex min-w-0 w-full flex-col items-stretch sm:items-center",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "relative z-20 font-geist w-full min-w-0 max-w-5xl xl:max-w-6xl [text-shadow:0_2px_32px_var(--ui-bg),0_1px_12px_rgba(7,7,7,0.9)]",
+                            className: "home-hero-copy relative z-20 font-geist w-full min-w-0 max-w-5xl xl:max-w-6xl [text-shadow:0_2px_32px_var(--ui-bg),0_1px_12px_rgba(7,7,7,0.9)]",
                             style: {
                                 "--stagger": 1,
                                 "--delay": "10ms"
@@ -821,7 +913,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                    className: "mt-5 max-w-xl text-left text-base leading-relaxed text-white/60 antialiased sm:mt-6 sm:max-w-2xl md:max-w-3xl sm:text-lg sm:leading-relaxed",
+                                    className: "mt-5 max-w-xl text-left text-base leading-relaxed text-(--font-primary) antialiased sm:mt-6 sm:max-w-2xl md:max-w-3xl sm:text-lg sm:leading-relaxed",
                                     children: heroSubtitle
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Home/HomeSection.tsx",

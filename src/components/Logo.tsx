@@ -10,7 +10,7 @@ export function LogoMark({ size = 8 }: { size?: number }) {
       alt=""
       width={px}
       height={px}
-      className="object-contain"
+      className="logo-mark object-contain"
       style={{ width: px, height: px }}
     />
   );

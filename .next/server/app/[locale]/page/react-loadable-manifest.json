@@ -3,8 +3,9 @@
     "id": "[project]/src/components/Home/HomeGlobe.tsx [app-client] (ecmascript, next/dynamic entry)",
     "files": [
       "static/chunks/2fd53_three_build_three_module_bcbc2d7f.js",
+      "static/chunks/2fd53_three_examples_jsm_environments_RoomEnvironment_86a32f58.js",
       "static/chunks/src_components_Home_HomeGlobe_tsx_8d68f39a._.js",
-      "static/chunks/src_components_Home_HomeGlobe_tsx_d2bd7ac8._.js"
+      "static/chunks/src_components_Home_HomeGlobe_tsx_a40b2a27._.js"
     ]
   }
 }
