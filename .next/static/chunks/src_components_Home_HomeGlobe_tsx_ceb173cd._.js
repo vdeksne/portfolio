@@ -1,0 +1,17 @@
+(globalThis.TURBOPACK = globalThis.TURBOPACK || []).push(["static/chunks/src_components_Home_HomeGlobe_tsx_ceb173cd._.js", {
+
+"[project]/src/components/Home/HomeGlobe.tsx [app-client] (ecmascript, next/dynamic entry, async loader)": ((__turbopack_context__) => {
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.v((parentImport) => {
+    return Promise.all([
+  "static/chunks/2fd53_three_build_three_module_bcbc2d7f.js",
+  "static/chunks/src_components_Home_HomeGlobe_tsx_8d68f39a._.js",
+  "static/chunks/src_components_Home_HomeGlobe_tsx_d2bd7ac8._.js"
+].map((chunk) => __turbopack_context__.l(chunk))).then(() => {
+        return parentImport("[project]/src/components/Home/HomeGlobe.tsx [app-client] (ecmascript, next/dynamic entry)");
+    });
+});
+}}),
+}]);
