@@ -27,8 +27,8 @@ export const siteConfig = {
   seo: {
     title: "Viktorija Deksne Portfolio",
     description: "Made with ❤️ by Viktorija Deksne.",
-    /** Canonical site URL (trailing slash). Set NEXT_PUBLIC_SITE_URL on Vercel if the live domain differs. */
-    url: "https://viktorijadeksne.app/",
+    /** Canonical site URL (trailing slash). Apex → www redirect: prefer www for stable og:url. Override with NEXT_PUBLIC_SITE_URL on Vercel if needed. */
+    url: "https://www.deksne.com/",
     /** 1200×630 route — see `src/app/opengraph-image.tsx`. */
     ogImage: "/opengraph-image",
   },
