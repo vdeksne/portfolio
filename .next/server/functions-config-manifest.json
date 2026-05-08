@@ -2,8 +2,8 @@
   "version": 1,
   "functions": {
     "/api/admin/upload": {},
-    "/twitter-image": {},
     "/api/emails/send": {},
-    "/opengraph-image": {}
+    "/opengraph-image": {},
+    "/twitter-image": {}
   }
 }

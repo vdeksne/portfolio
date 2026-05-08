@@ -1,35 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/twitter-image": {
-      "initialHeaders": {
-        "cache-control": "public, immutable, no-transform, max-age=31536000",
-        "content-type": "image/png",
-        "x-next-cache-tags": "_N_T_/layout,_N_T_/twitter-image/layout,_N_T_/twitter-image/route,_N_T_/twitter-image"
-      },
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/twitter-image",
-      "dataRoute": null,
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/opengraph-image": {
       "initialHeaders": {
         "cache-control": "public, immutable, no-transform, max-age=31536000",
@@ -58,13 +29,42 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/twitter-image": {
+      "initialHeaders": {
+        "cache-control": "public, immutable, no-transform, max-age=31536000",
+        "content-type": "image/png",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/twitter-image/layout,_N_T_/twitter-image/route,_N_T_/twitter-image"
+      },
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/twitter-image",
+      "dataRoute": null,
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "84e4b481b2331b869cbf52d3f15cd51f",
-    "previewModeSigningKey": "f036ef06a6ebbdeffc0f57afbc134506713ec55f7f1d3210f7aa0acc5dd52256",
-    "previewModeEncryptionKey": "dd20a4d425d9e8efd4b96a084eaee8ed99f72888b089cace3e6e7f7dcdbfb8a6"
+    "previewModeId": "8882fa1599ea8f742dfba577ca752160",
+    "previewModeSigningKey": "63641b19bacbccd765431d132bec56f10d4b45d1aa6c0b1e3a460abf7bbcabec",
+    "previewModeEncryptionKey": "96ae2793bad44785a0d8b7dad3e899067bbf20dd7453c696db2b68cc01393d9c"
   }
 }
