@@ -3,5 +3,7 @@
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio2.jpg",
   "link": "https://gallery-tool.netlify.app/",
   "release": "2024",
+  "description": "A lightweight gallery builder for organizing images into clean, shareable layouts. Focused on fast loading, simple UX, and responsive presentation.",
+  "tools": ["React", "TypeScript", "Tailwind CSS", "Netlify"],
   "featured": true
 }

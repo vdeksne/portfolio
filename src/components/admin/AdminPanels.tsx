@@ -1147,6 +1147,8 @@ export function ProjectsPanel({
   const [image, setImage] = useState("");
   const [link, setLink] = useState("");
   const [release, setRelease] = useState("");
+  const [description, setDescription] = useState("");
+  const [tools, setTools] = useState("");
   const [date, setDate] = useState("");
   const [featured, setFeatured] = useState(false);
   const [order, setOrder] = useState("");
@@ -1170,6 +1172,8 @@ export function ProjectsPanel({
     setImage("");
     setLink("");
     setRelease("");
+    setDescription("");
+    setTools("");
     setDate("");
     setFeatured(false);
     setOrder("");
@@ -1197,6 +1201,8 @@ export function ProjectsPanel({
     setImage(p.image);
     setLink(p.link);
     setRelease(p.release);
+    setDescription(p.description ?? "");
+    setTools((p.tools ?? []).join(", "));
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
     setOrder(p.order != null ? String(p.order) : "");
@@ -1212,6 +1218,8 @@ export function ProjectsPanel({
     setImage(p.image);
     setLink(p.link);
     setRelease(p.release);
+    setDescription(p.description ?? "");
+    setTools((p.tools ?? []).join(", "));
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
     setOrder(p.order != null ? String(p.order) : "");
@@ -1225,6 +1233,10 @@ export function ProjectsPanel({
       image,
       link,
       release,
+      ...(description.trim() ? { description: description.trim() } : {}),
+      ...(tools.trim()
+        ? { tools: tools.split(",").map((x) => x.trim()).filter(Boolean) }
+        : {}),
       ...(date.trim() ? { date: date.trim() } : {}),
       ...(orderNum != null ? { order: orderNum } : {}),
     };
@@ -1514,6 +1526,25 @@ export function ProjectsPanel({
         <label className="flex flex-col gap-1.5 sm:col-span-2">
           <span className={labelText}>Project link</span>
           <input value={link} onChange={(e) => setLink(e.target.value)} className={inputCls} />
+        </label>
+        <label className="flex flex-col gap-1.5 sm:col-span-2">
+          <span className={labelText}>Project description (optional)</span>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            className={`${inputCls} min-h-24 leading-relaxed`}
+          />
+        </label>
+        <label className="flex flex-col gap-1.5 sm:col-span-2">
+          <span className={labelText}>Tools used (optional)</span>
+          <input
+            value={tools}
+            onChange={(e) => setTools(e.target.value)}
+            className={inputCls}
+            placeholder="e.g. Next.js, Tailwind, Sanity"
+          />
+          <span className="text-xs text-white/40">Comma-separated list.</span>
         </label>
         <label className="flex flex-col gap-1.5">
           <span className={labelText}>Release label</span>

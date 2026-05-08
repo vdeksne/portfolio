@@ -3,5 +3,7 @@
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio12.jpg",
   "link": "https://github.com/vdeksne/Women-s-Network",
   "release": "2024",
+  "description": "A community-focused web app concept built around profiles, posts, and connections. Emphasis on clean UI, simple navigation, and scalable component structure.",
+  "tools": ["React", "TypeScript", "Node.js", "PostgreSQL", "Supabase"],
   "date": "2024"
 }

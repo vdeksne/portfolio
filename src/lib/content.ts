@@ -53,6 +53,10 @@ export type Project = {
   image: string;
   link: string;
   release: string;
+  /** Optional longer blurb shown in Works modal. */
+  description?: string;
+  /** Optional list of tools used (e.g. ["Next.js","Tailwind"]). */
+  tools?: string[];
   date?: string;
   featured?: boolean;
   /** Admin-controlled sort order (lower comes first). */

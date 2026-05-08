@@ -50,6 +50,9 @@
     "meeting": "Pieteikt tikšanos",
     "available": "Pieejama jaunām iespējām",
     "unavailable": "Pašlaik strādāju pie citiem aizraujošiem projektiem",
+    "tools_used": "Izmantotie rīki",
+    "visit_site": "Atvērt projektu",
+    "close": "Aizvērt",
     "all_rights_reserved": "Visas tiesības aizsargātas"
   },
   "writing": {

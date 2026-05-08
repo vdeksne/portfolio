@@ -1,5 +1,5 @@
 import { Divider } from "@/components/primitives/Divider";
-import { ProjectCard } from "@/components/Project/ProjectCard";
+import { ProjectCardModal } from "@/components/Project/ProjectCardModal";
 import type { Project } from "@/lib/content";
 
 export function WorksSection({
@@ -20,7 +20,7 @@ export function WorksSection({
       <Divider className="mb-8 mt-2" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {projects.map((project) => (
-          <ProjectCard key={project.name} project={project} />
+          <ProjectCardModal key={project.name} project={project} />
         ))}
       </div>
     </section>

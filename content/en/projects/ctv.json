@@ -2,5 +2,7 @@
   "name": "CTV",
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio3.jpg",
   "link": "https://platform.showheroes.com/format-demos/ctv.html#cid=AAs147_v7GtgZ2xW&skip_delay=6&video_resolution=360&midroll=false&vip_mode=playing&source=https%3A%2F%2Fapi.create.showheroes.com%2Fcreatives%2F7851%2Fvast%3Fforce_vpaid%3D0%26version%3D3%26preview%3D1%26gdpr%3D%7Bgdpr%7D%26cs%3D%7Bgdpr_consent%7D%26cb%3D%7Brandom%7D%26domain%3D%7Bdomain%7D%26supply_id%3D%7Bsite_id%7D%26demand_id%3D%7Bcampaign_id%7D%26demand_id_2%3D%7Bline_item_id%7D%26device_type%3D%7Bdevice_type%7D",
-  "release": "2022"
+  "release": "2022",
+  "description": "Connected TV ad format demo focused on reliable playback, safe-area layouts, and remote-friendly UX. Built to validate video rendering, midroll behavior, and device constraints.",
+  "tools": ["TypeScript", "React", "Video player", "VAST", "Ad tech"]
 }

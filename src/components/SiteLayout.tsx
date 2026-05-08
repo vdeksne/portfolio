@@ -5,11 +5,13 @@ import { PlausibleScript } from "@/components/PlausibleScript";
 import { LanguageToggle } from "@/components/Nav/LanguageToggle";
 import { ThemeToggle } from "@/components/Nav/ThemeToggle";
 import { Toaster } from "sonner";
+import { NoImageCopy } from "@/components/NoImageCopy";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <PlausibleScript />
+      <NoImageCopy />
       <LanguageToggle />
       <ThemeToggle />
       <ScrollToTop />

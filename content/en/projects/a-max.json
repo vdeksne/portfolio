@@ -3,5 +3,7 @@
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio9.jpg",
   "link": "https://www.figma.com/proto/nAwjxFkWlRk6NoYG7WIHoF/MAX_Portfolio?page-id=270%3A18493&node-id=290-24000&viewport=404%2C386%2C0.09&t=tXfmAyK5V8dpWBNo-1&scaling=scale-down&content-scaling=fixed",
   "release": "2024",
+  "description": "Design exploration for a premium streaming/product experience with bold typography and modern layout grid. Built as a clickable prototype to validate navigation and motion.",
+  "tools": ["Figma", "Prototyping", "UI design", "Motion exploration"],
   "featured": true
 }

@@ -2,5 +2,7 @@
   "name": "Portfolio",
   "image": "https://aubbxtvesu7hcxlx.public.blob.vercel-storage.com/uploads/1778075122585-bdccf7bad5bc1760.png",
   "link": "https://kg-web-liart.vercel.app/lv",
-  "release": "2026"
+  "release": "2026",
+  "description": "Personal portfolio with multilingual content, modern typography, and a strong focus on interaction and performance. Built as a content-driven site so projects, writing, and page copy can evolve without code changes.",
+  "tools": ["Next.js", "React", "TypeScript", "Tailwind CSS", "next-intl", "Vercel"]
 }

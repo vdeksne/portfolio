@@ -3,5 +3,7 @@
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio10.jpg",
   "link": "https://www.recod3.com/PREVIEW/SMARTSKIN/interactive_tag_desk.php?skintag=RCD_Rcd36665150_r3af_sportwear_slidingvideocover_adidas",
   "release": "2025",
+  "description": "High-impact page skin format with responsive edge-to-edge layout and interactive video cover behavior. Built to stay lightweight while supporting multiple creative variations and breakpoints.",
+  "tools": ["JavaScript", "HTML", "CSS", "Ad tech", "Responsive design", "Animation"],
   "featured": true
 }

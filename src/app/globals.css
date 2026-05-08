@@ -88,6 +88,14 @@ body {
   color: var(--font-primary);
 }
 
+/* Best-effort: discourage image drag/copy. */
+img,
+picture,
+svg {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 /* The logo SVG is authored for dark backgrounds; invert in light mode. */
 html.light .logo-mark {
   filter: invert(1);

@@ -68,7 +68,7 @@ export function ContactForm({
   }
 
   const fieldCls =
-    "w-full rounded-md border border-(--border-primary) bg-(--bg-card) px-3 py-2 text-(--font-primary) placeholder:opacity-60 outline-none transition-[border-color,box-shadow] focus-visible:ring-2 focus-visible:ring-(--font-primary)/20 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg)";
+    "w-full rounded-xl border border-(--font-primary)/12 bg-(--ui-bg)/88 px-3 py-2 text-(--font-primary) placeholder:text-(--font-primary)/40 outline-none transition-[border-color,box-shadow,background-color] focus-visible:border-(--font-primary)/18 focus-visible:bg-(--ui-bg)/92 focus-visible:ring-2 focus-visible:ring-(--font-primary)/10 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg)";
 
   return (
     <section className="mx-auto mt-4 flex w-full max-w-5xl flex-col p-7 sm:mt-20 xl:max-w-6xl">
@@ -98,11 +98,8 @@ export function ContactForm({
             <MeetingButton />
           </div>
         </div>
-        <Divider className="my-10" />
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-3"
-        >
+        <div className="mt-8 w-full rounded-2xl border border-(--font-primary)/10 bg-(--ui-bg)/88 p-4 shadow-[0_22px_70px_-40px_rgba(0,0,0,0.65)] backdrop-blur-md sm:p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-3">
           <label className="flex flex-col gap-1 text-sm">
             <span>{t("fullname")}</span>
             <input
@@ -160,14 +157,15 @@ export function ContactForm({
               <button
                 type="submit"
                 disabled={!resendEnabled || isSubmitting}
-                className="w-full rounded-lg bg-white px-4 py-2 font-medium text-[#070707] underline-offset-[0.35rem] decoration-2 decoration-[#070707] transition-[text-decoration-color,background-color] duration-200 enabled:hover:underline hover:bg-white/90 disabled:opacity-40 disabled:no-underline"
+                className="w-full rounded-full border border-(--font-primary)/12 bg-(--ui-bg)/92 px-4 py-3 text-sm font-semibold tracking-tight text-(--font-primary) shadow-[0_1px_0_rgba(255,255,255,0.06)_inset] transition-[border-color,background-color,box-shadow] duration-300 hover:bg-(--ui-bg) hover:border-(--font-primary)/18 hover:shadow-[0_16px_50px_-34px_rgba(0,0,0,0.55)] disabled:opacity-40"
                 title={!resendEnabled ? t("disabled") : undefined}
               >
                 {t("submit")}
               </button>
             </div>
           </div>
-        </form>
+          </form>
+        </div>
       </div>
     </section>
   );

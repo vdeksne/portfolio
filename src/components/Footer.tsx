@@ -6,7 +6,7 @@ import { SocialLinks } from "@/components/SocialLinks";
 export async function Footer() {
   const t = await getTranslations("global");
   return (
-    <div className="mt-6 pb-20">
+    <div className="mt-6 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))] sm:pb-8">
       <Divider />
       <footer className="mx-auto flex w-full max-w-7xl flex-col items-center gap-5 px-4 py-8 text-center sm:py-10 2xl:max-w-[90rem]">
         <FooterLogo />

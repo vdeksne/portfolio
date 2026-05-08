@@ -3,5 +3,7 @@
   "image": "https://raw.githubusercontent.com/vdeksne/portfolio-images-2025/refs/heads/main/Portfolio1.jpg",
   "link": "https://platform.showheroes.com/format-demos/preview.html#midroll=true&preview=1&f=intext&source=https%3A%2F%2Fapi.create.showheroes.com%2Fcreatives%2F6336%2Fvast%3Fpreview_duration%3D20%26preview_countdown%3D3%26swipe_area%3D74%26version%3D3%26preview%3D1%26gdpr%3D%7Bgdpr%7D%26cs%3D%7Bgdpr_consent%7D%26cb%3D%7Brandom%7D%26domain%3D%7Bdomain%7D%26supply_id%3D%7Bsite_id%7D%26demand_id%3D%7Bcampaign_id%7D%26demand_id_2%3D%7Bline_item_id%7D%26device_type%3D%7Bdevice_type%7D%26utm_medium%3D%7Bcampaign_id%7D%26utm_campaign%3D%7Bcampaign_name%7D%26utm_term%3D%7Bline_item_name%7D%26utm_content%3D%7Bline_item_id%7D",
   "release": "2024",
+  "description": "Expandable in-page ad format with swipe/hover interactions and smooth transitions. Built to handle multiple creative states while remaining stable inside diverse publisher layouts.",
+  "tools": ["TypeScript", "React", "Animation", "VAST", "Ad tech", "Responsive UI"],
   "featured": true
 }

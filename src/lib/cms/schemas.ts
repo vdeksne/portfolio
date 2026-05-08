@@ -84,6 +84,8 @@ export const projectSchema: z.ZodType<Project> = z.object({
   image: z.string().min(1),
   link: z.string().min(1),
   release: z.string().min(1),
+  description: z.string().optional(),
+  tools: z.array(z.string()).optional(),
   date: z.string().optional(),
   featured: z.boolean().optional(),
   order: z.number().int().min(0).optional(),
