@@ -519,7 +519,9 @@ var { g: global, __dirname } = __turbopack_context__;
     "splitToolsIntoPresetsAndExtra": (()=>splitToolsIntoPresetsAndExtra)
 });
 const PROJECT_TOOL_PRESETS = [
+    "JavaScript",
     "React",
+    "Vue.js",
     "Next.js",
     "Vercel",
     "Supabase",

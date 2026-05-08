@@ -1,6 +1,8 @@
 /** Common stack options for the admin Projects “tools” field (display = stored value). */
 export const PROJECT_TOOL_PRESETS = [
+  "JavaScript",
   "React",
+  "Vue.js",
   "Next.js",
   "Vercel",
   "Supabase",
