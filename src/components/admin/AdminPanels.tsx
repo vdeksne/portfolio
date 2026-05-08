@@ -35,6 +35,11 @@ import {
   type PageEditorSlug,
 } from "@/components/admin/pageEditorConfig";
 import { normalizePublicImageUrl } from "@/lib/image-url";
+import {
+  mergeProjectTools,
+  PROJECT_TOOL_PRESETS,
+  splitToolsIntoPresetsAndExtra,
+} from "@/lib/cms/project-tool-presets";
 
 export const PAGE_OPTIONS: { slug: PageEditorSlug; label: string }[] = [
   { slug: "home", label: "Home" },
@@ -1148,7 +1153,10 @@ export function ProjectsPanel({
   const [link, setLink] = useState("");
   const [release, setRelease] = useState("");
   const [description, setDescription] = useState("");
-  const [tools, setTools] = useState("");
+  const [selectedToolPresets, setSelectedToolPresets] = useState(
+    () => new Set<string>(),
+  );
+  const [toolsExtra, setToolsExtra] = useState("");
   const [date, setDate] = useState("");
   const [featured, setFeatured] = useState(false);
   const [order, setOrder] = useState("");
@@ -1173,7 +1181,8 @@ export function ProjectsPanel({
     setLink("");
     setRelease("");
     setDescription("");
-    setTools("");
+    setSelectedToolPresets(new Set());
+    setToolsExtra("");
     setDate("");
     setFeatured(false);
     setOrder("");
@@ -1202,7 +1211,11 @@ export function ProjectsPanel({
     setLink(p.link);
     setRelease(p.release);
     setDescription(p.description ?? "");
-    setTools((p.tools ?? []).join(", "));
+    const { presets, extraCommaSeparated } = splitToolsIntoPresetsAndExtra(
+      p.tools,
+    );
+    setSelectedToolPresets(new Set(presets));
+    setToolsExtra(extraCommaSeparated);
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
     setOrder(p.order != null ? String(p.order) : "");
@@ -1219,7 +1232,11 @@ export function ProjectsPanel({
     setLink(p.link);
     setRelease(p.release);
     setDescription(p.description ?? "");
-    setTools((p.tools ?? []).join(", "));
+    const { presets, extraCommaSeparated } = splitToolsIntoPresetsAndExtra(
+      p.tools,
+    );
+    setSelectedToolPresets(new Set(presets));
+    setToolsExtra(extraCommaSeparated);
     setDate(p.date ?? "");
     setFeatured(Boolean(p.featured));
     setOrder(p.order != null ? String(p.order) : "");
@@ -1228,15 +1245,14 @@ export function ProjectsPanel({
   async function save() {
     setErr(null);
     const orderNum = Number.isFinite(Number(order)) ? Number(order) : undefined;
+    const mergedTools = mergeProjectTools(selectedToolPresets, toolsExtra);
     const project: Project = {
       name,
       image,
       link,
       release,
       ...(description.trim() ? { description: description.trim() } : {}),
-      ...(tools.trim()
-        ? { tools: tools.split(",").map((x) => x.trim()).filter(Boolean) }
-        : {}),
+      ...(mergedTools.length ? { tools: mergedTools } : {}),
       ...(date.trim() ? { date: date.trim() } : {}),
       ...(orderNum != null ? { order: orderNum } : {}),
     };
@@ -1263,11 +1279,14 @@ export function ProjectsPanel({
       return;
     }
     try {
+      const mergedTools = mergeProjectTools(selectedToolPresets, toolsExtra);
       const proj: Project = {
         name: name || "New project",
         image: image || "https://",
         link: link || "https://",
         release: release || "soon",
+        ...(description.trim() ? { description: description.trim() } : {}),
+        ...(mergedTools.length ? { tools: mergedTools } : {}),
         ...(date.trim() ? { date: date.trim() } : {}),
         ...(order.trim() ? { order: Number(order) } : {}),
       };
@@ -1303,8 +1322,12 @@ export function ProjectsPanel({
       setImage("");
       setLink("");
       setRelease("");
+      setDescription("");
+      setSelectedToolPresets(new Set());
+      setToolsExtra("");
       setDate("");
       setFeatured(false);
+      setOrder("");
       await load();
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Delete failed");
@@ -1404,6 +1427,9 @@ export function ProjectsPanel({
                             setImage("");
                             setLink("");
                             setRelease("");
+                            setDescription("");
+                            setSelectedToolPresets(new Set());
+                            setToolsExtra("");
                             setDate("");
                             setFeatured(false);
                             setOrder("");
@@ -1491,8 +1517,12 @@ export function ProjectsPanel({
             setImage("");
             setLink("");
             setRelease("");
+            setDescription("");
+            setSelectedToolPresets(new Set());
+            setToolsExtra("");
             setDate("");
             setFeatured(false);
+            setOrder("");
           }}
           className={btnSecondary}
         >
@@ -1536,16 +1566,41 @@ export function ProjectsPanel({
             className={`${inputCls} min-h-24 leading-relaxed`}
           />
         </label>
-        <label className="flex flex-col gap-1.5 sm:col-span-2">
+        <div className="flex flex-col gap-3 sm:col-span-2">
           <span className={labelText}>Tools used (optional)</span>
-          <input
-            value={tools}
-            onChange={(e) => setTools(e.target.value)}
-            className={inputCls}
-            placeholder="e.g. Next.js, Tailwind, Sanity"
-          />
-          <span className="text-xs text-white/40">Comma-separated list.</span>
-        </label>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+            {PROJECT_TOOL_PRESETS.map((opt) => (
+              <label
+                key={opt}
+                className="flex cursor-pointer items-center gap-2 text-sm text-white/80"
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedToolPresets.has(opt)}
+                  onChange={() => {
+                    setSelectedToolPresets((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(opt)) next.delete(opt);
+                      else next.add(opt);
+                      return next;
+                    });
+                  }}
+                  className="size-4 shrink-0 rounded border-white/30 accent-white"
+                />
+                <span className="min-w-0 break-words">{opt}</span>
+              </label>
+            ))}
+          </div>
+          <label className="flex flex-col gap-1.5">
+            <span className="text-xs text-white/55">Additional tools (comma-separated)</span>
+            <input
+              value={toolsExtra}
+              onChange={(e) => setToolsExtra(e.target.value)}
+              className={inputCls}
+              placeholder="e.g. Docker, AWS, Sanity"
+            />
+          </label>
+        </div>
         <label className="flex flex-col gap-1.5">
           <span className={labelText}>Release label</span>
           <input

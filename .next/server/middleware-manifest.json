@@ -3,34 +3,37 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge-runtime-webpack.js",
-        "server/src/middleware.js"
+        "server/edge/chunks/_e7d7327f._.js",
+        "server/edge/chunks/41428_@formatjs_intl-localematcher_lib_afff050a._.js",
+        "server/edge/chunks/node_modules__pnpm_12739bd1._.js",
+        "server/edge/chunks/[root of the server]__a9e109aa._.js",
+        "server/edge/chunks/edge-wrapper_4a5ffd83.js"
       ],
-      "name": "src/middleware",
+      "name": "middleware",
       "page": "/",
       "matchers": [
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!api|admin|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*))(\\.json)?[\\/#\\?]?$",
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!api|admin|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*))(\\\\.json)?[\\/#\\?]?$",
           "originalSource": "/((?!api|admin|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)"
         },
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/(\\/?index|\\/?index\\.json))?[\\/#\\?]?$",
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/(\\/?index|\\/?index\\\\.json))?[\\/#\\?]?$",
           "originalSource": "/"
         }
       ],
       "wasm": [],
       "assets": [],
       "env": {
-        "__NEXT_BUILD_ID": "FNbeUOcvTmeMxssDq4o5Z",
+        "__NEXT_BUILD_ID": "development",
         "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "/X2xbifGwVaJWlFdjxy02i0C9CMCL37qXVvt8Ub970A=",
-        "__NEXT_PREVIEW_MODE_ID": "8882fa1599ea8f742dfba577ca752160",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "96ae2793bad44785a0d8b7dad3e899067bbf20dd7453c696db2b68cc01393d9c",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "63641b19bacbccd765431d132bec56f10d4b45d1aa6c0b1e3a460abf7bbcabec"
+        "__NEXT_PREVIEW_MODE_ID": "2e0f3cbd3824b21bd2edd0f1fc161377",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "a01e8cf8ac0a4ca2b408b6052a5af064a849f16946b4d15681dd065f45afb08d",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "9b21e48fe2df0159b086f74c5089114002d07896b3f987a409558ae5d842410f"
       }
     }
   },
-  "functions": {},
   "sortedMiddleware": [
     "/"
-  ]
+  ],
+  "functions": {}
 }
