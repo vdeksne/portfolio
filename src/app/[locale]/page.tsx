@@ -21,7 +21,20 @@ export async function generateMetadata({
       description: page?.meta.description,
       url: siteConfig.seo.url,
       type: "website",
-      images: [{ url: siteConfig.seo.ogImage }],
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Viktorija Deksne — Portfolio",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: page?.meta.title ?? undefined,
+      description: page?.meta.description ?? undefined,
+      images: ["/twitter-image"],
     },
   };
 }

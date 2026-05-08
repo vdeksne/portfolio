@@ -1,13 +1,37 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import type { ReactNode } from "react";
+import { siteConfig } from "@/lib/site-config";
+
+const metadataBaseUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || siteConfig.seo.url
+).replace(/\/?$/, "/");
 
 export const metadata: Metadata = {
+  metadataBase: new URL(metadataBaseUrl),
   title: {
     default: "Viktorija Deksne Portfolio",
     template: "%s | Viktorija Deksne Portfolio",
   },
   description: "Made with ❤️ by Viktorija Deksne.",
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.seo.title,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Viktorija Deksne — Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+    images: ["/twitter-image"],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
