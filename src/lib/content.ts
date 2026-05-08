@@ -75,6 +75,21 @@ export type Experience = {
   date: string;
 };
 
+export type Certification = {
+  name: string;
+  issuer: string;
+  date: string;
+  /** Optional verify / info URL */
+  link?: string;
+};
+
+export type Education = {
+  school: string;
+  location?: string;
+  program: string;
+  date: string;
+};
+
 export const PAGE_FILES: Record<string, string> = {
   "": "1.index",
   works: "2.works",
@@ -311,6 +326,26 @@ export function getExperiences() {
   };
 }
 
+export function getCertifications() {
+  const raw = fs.readFileSync(
+    path.join(CONTENT_DIR, "certifications.json"),
+    "utf8",
+  );
+  return JSON.parse(raw) as {
+    items: Certification[];
+  };
+}
+
+export function getEducation() {
+  const raw = fs.readFileSync(
+    path.join(CONTENT_DIR, "education.json"),
+    "utf8",
+  );
+  return JSON.parse(raw) as {
+    items: Education[];
+  };
+}
+
 export type FaqData = {
   title: string;
   subtitle: string;
@@ -375,6 +410,16 @@ export function writeStackFile(data: { items: { name: string; link: string; icon
 
 export function writeExperiencesFile(data: { items: Experience[] }) {
   const filePath = path.join(CONTENT_DIR, "experiences.json");
+  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+
+export function writeCertificationsFile(data: { items: Certification[] }) {
+  const filePath = path.join(CONTENT_DIR, "certifications.json");
+  fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+
+export function writeEducationFile(data: { items: Education[] }) {
+  const filePath = path.join(CONTENT_DIR, "education.json");
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 

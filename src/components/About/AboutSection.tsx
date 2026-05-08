@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { getExperiences, getStack } from "@/lib/content";
+import { getCertifications, getEducation, getExperiences, getStack } from "@/lib/content";
 import { AboutSectionView } from "@/components/About/AboutSectionView";
 
 type AboutSlots = {
@@ -9,14 +9,23 @@ type AboutSlots = {
   intro?: string;
   stack_title?: string;
   stack_description?: string;
+  education_title?: string;
+  education_description?: string;
+  certifications_title?: string;
+  certifications_description?: string;
 };
 
 export async function AboutSection({ slots }: { slots: AboutSlots }) {
   const stack = getStack();
   const experiences = getExperiences();
+  const education = getEducation();
+  const certifications = getCertifications();
   const t = await getTranslations("global");
   const tNav = await getTranslations("navigation");
   const stackHeading = slots.stack_title?.trim() || tNav("stack");
+  const educationHeading = slots.education_title?.trim() || t("education");
+  const certificationsHeading =
+    slots.certifications_title?.trim() || t("certifications");
 
   return (
     <AboutSectionView
@@ -30,6 +39,12 @@ export async function AboutSection({ slots }: { slots: AboutSlots }) {
       stackHeading={stackHeading}
       stackDescription={slots.stack_description}
       stackItems={stack.items.map((x) => ({ name: x.name, link: x.link }))}
+      education={education.items}
+      educationHeading={educationHeading}
+      educationDescription={slots.education_description}
+      certifications={certifications.items}
+      certificationsHeading={certificationsHeading}
+      certificationsDescription={slots.certifications_description}
     />
   );
 }

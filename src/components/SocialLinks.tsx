@@ -33,7 +33,7 @@ export function SocialLinks({ compact = false }: { compact?: boolean }) {
           target="_blank"
           rel="noreferrer"
           className={clsx(
-            "flex shrink-0 touch-manipulation items-center justify-center rounded-md text-white transition-opacity hover:opacity-80 active:opacity-70",
+            "flex shrink-0 touch-manipulation items-center justify-center rounded-md text-(--font-primary) transition-opacity hover:opacity-80 active:opacity-70",
             compact
               ? "size-6 p-0.5 sm:size-6"
               : "size-11 min-h-11 min-w-11 sm:size-10 sm:min-h-10 sm:min-w-10",
@@ -46,7 +46,7 @@ export function SocialLinks({ compact = false }: { compact?: boolean }) {
             width={compact ? 12 : 24}
             height={compact ? 12 : 24}
             className={clsx(
-              "brightness-0 invert",
+              "social-links-icon",
               compact ? "size-3" : "size-6 sm:size-7",
             )}
           />

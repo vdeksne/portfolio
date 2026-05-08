@@ -5,7 +5,9 @@ import {
   AlignLeft,
   ArrowDown,
   ArrowUp,
+  Award,
   FileCode2,
+  GraduationCap,
   Heading2,
   Image as ImageIcon,
   Layers,
@@ -584,6 +586,550 @@ export function ExperiencesPanel({
   );
 }
 
+type CertificationRow = { name: string; issuer: string; date: string; link: string };
+
+export function CertificationsPanel({
+  flash,
+  setErr,
+}: {
+  flash: (s: string) => void;
+  setErr: (s: string | null) => void;
+}) {
+  const [items, setItems] = useState<CertificationRow[]>([]);
+  const [advanced, setAdvanced] = useState(false);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setErr(null);
+    adminJson<{ items: CertificationRow[] }>("/api/admin/certifications")
+      .then((data) => {
+        if (cancelled) return;
+        setItems(
+          (data.items ?? []).map((x) => ({
+            name: x.name ?? "",
+            issuer: x.issuer ?? "",
+            date: x.date ?? "",
+            link: x.link ?? "",
+          })),
+        );
+        setText(JSON.stringify(data, null, 2));
+      })
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [setErr]);
+
+  async function save() {
+    setErr(null);
+    const payload = {
+      items: items.map((x) => ({
+        name: x.name.trim(),
+        issuer: x.issuer.trim(),
+        date: x.date.trim(),
+        ...(x.link.trim() ? { link: x.link.trim() } : {}),
+      })),
+    };
+    try {
+      await adminJson("/api/admin/certifications", {
+        method: "PUT",
+        body: JSON.stringify(payload),
+      });
+      setText(JSON.stringify(payload, null, 2));
+      flash("Certifications saved.");
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Save failed");
+    }
+  }
+
+  if (loading) {
+    return (
+      <p className="text-sm text-white/55" role="status">
+        Loading certifications…
+      </p>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-5">
+      <p className={introText}>
+        This list powers the <strong className="font-medium text-white/70">Certifications</strong>{" "}
+        section on the public About page (below Stack). Reorder, edit, delete, or add items here.
+      </p>
+      <p className={tipBox}>
+        Shared for every language — stored in{" "}
+        <code className="text-amber-50/90">content/certifications.json</code>. Section title and
+        intro line are edited under Pages → About.
+      </p>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-white/40">
+            Items ({items.length})
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setItems((prev) => [
+                  ...prev,
+                  {
+                    name: "Certificate name",
+                    issuer: "Issuing organization",
+                    date: "Year",
+                    link: "",
+                  },
+                ])
+              }
+              className={btnSecondary}
+            >
+              <Plus className="mr-2 size-4" aria-hidden />
+              Add certification
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdvanced((v) => !v)}
+              className="w-max text-left text-sm font-medium text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white/80"
+            >
+              {advanced ? "Hide advanced JSON" : "Advanced JSON"}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {items.length === 0 ? (
+            <p className="text-sm text-white/55">
+              No certifications yet. Click “Add certification”.
+            </p>
+          ) : null}
+          {items.map((item, idx) => (
+            <div
+              key={`${item.name}-${item.issuer}-${idx}`}
+              className="rounded-xl border border-white/10 bg-black/20 p-4"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+                <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
+                  <label className="flex flex-col gap-1.5 sm:col-span-2">
+                    <span className={labelText}>Name</span>
+                    <input
+                      value={item.name}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, name: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5">
+                    <span className={labelText}>Issuer</span>
+                    <input
+                      value={item.issuer}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, issuer: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5">
+                    <span className={labelText}>Date</span>
+                    <input
+                      value={item.date}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, date: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5 sm:col-span-2">
+                    <span className={labelText}>Link (optional)</span>
+                    <input
+                      value={item.link}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, link: e.target.value } : p)),
+                        )
+                      }
+                      placeholder="https://…"
+                      className={inputCls}
+                    />
+                  </label>
+                </div>
+                <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col">
+                  <button
+                    type="button"
+                    disabled={idx === 0}
+                    onClick={() =>
+                      setItems((prev) => {
+                        if (idx === 0) return prev;
+                        const next = [...prev];
+                        const t = next[idx - 1]!;
+                        next[idx - 1] = next[idx]!;
+                        next[idx] = t;
+                        return next;
+                      })
+                    }
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move up"
+                  >
+                    <ArrowUp className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={idx === items.length - 1}
+                    onClick={() =>
+                      setItems((prev) => {
+                        if (idx >= prev.length - 1) return prev;
+                        const next = [...prev];
+                        const t = next[idx + 1]!;
+                        next[idx + 1] = next[idx]!;
+                        next[idx] = t;
+                        return next;
+                      })
+                    }
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move down"
+                  >
+                    <ArrowDown className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
+                    className={`${btnDanger} px-3 py-2`}
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="size-4" aria-hidden />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {advanced ? (
+          <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-black/20 p-4">
+            <p className="text-xs leading-relaxed text-white/45">
+              Advanced mode. Editing JSON updates the list above once valid.
+            </p>
+            <textarea
+              value={text}
+              onChange={(e) => {
+                const v = e.target.value;
+                setText(v);
+                try {
+                  const parsed = JSON.parse(v) as {
+                    items?: { name: string; issuer: string; date: string; link?: string }[];
+                  };
+                  if (parsed?.items && Array.isArray(parsed.items)) {
+                    setItems(
+                      parsed.items.map((x) => ({
+                        name: String(x.name ?? ""),
+                        issuer: String(x.issuer ?? ""),
+                        date: String(x.date ?? ""),
+                        link: String(x.link ?? ""),
+                      })),
+                    );
+                  }
+                } catch {
+                  /* keep text */
+                }
+              }}
+              rows={14}
+              className={`${inputCls} font-mono text-xs leading-relaxed sm:text-sm`}
+              spellCheck={false}
+            />
+          </div>
+        ) : null}
+      </div>
+
+      <button type="button" onClick={() => void save()} className={`${btnPrimary} w-fit`}>
+        Save certifications
+      </button>
+    </div>
+  );
+}
+
+type EducationRow = { school: string; location: string; program: string; date: string };
+
+export function EducationPanel({
+  flash,
+  setErr,
+}: {
+  flash: (s: string) => void;
+  setErr: (s: string | null) => void;
+}) {
+  const [items, setItems] = useState<EducationRow[]>([]);
+  const [advanced, setAdvanced] = useState(false);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setErr(null);
+    adminJson<{ items: EducationRow[] }>("/api/admin/education")
+      .then((data) => {
+        if (cancelled) return;
+        setItems(
+          (data.items ?? []).map((x) => ({
+            school: x.school ?? "",
+            location: x.location ?? "",
+            program: x.program ?? "",
+            date: x.date ?? "",
+          })),
+        );
+        setText(JSON.stringify(data, null, 2));
+      })
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [setErr]);
+
+  async function save() {
+    setErr(null);
+    const payload = {
+      items: items.map((x) => ({
+        school: x.school.trim(),
+        ...(x.location.trim() ? { location: x.location.trim() } : {}),
+        program: x.program.trim(),
+        date: x.date.trim(),
+      })),
+    };
+    try {
+      await adminJson("/api/admin/education", {
+        method: "PUT",
+        body: JSON.stringify(payload),
+      });
+      setText(JSON.stringify(payload, null, 2));
+      flash("Education saved.");
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Save failed");
+    }
+  }
+
+  if (loading) {
+    return (
+      <p className="text-sm text-white/55" role="status">
+        Loading education…
+      </p>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-5">
+      <p className={introText}>
+        This list powers the <strong className="font-medium text-white/70">Education</strong> section
+        on the public About page (between Experiences and Stack). Reorder, edit, delete, or add items
+        here.
+      </p>
+      <p className={tipBox}>
+        Shared for every language — stored in{" "}
+        <code className="text-amber-50/90">content/education.json</code>. Section title and intro line
+        are edited under Pages → About.
+      </p>
+
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-white/40">
+            Items ({items.length})
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setItems((prev) => [
+                  ...prev,
+                  {
+                    school: "School",
+                    location: "",
+                    program: "Program / course",
+                    date: "Year - Year",
+                  },
+                ])
+              }
+              className={btnSecondary}
+            >
+              <Plus className="mr-2 size-4" aria-hidden />
+              Add education
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdvanced((v) => !v)}
+              className="w-max text-left text-sm font-medium text-white/55 underline decoration-white/25 underline-offset-4 hover:text-white/80"
+            >
+              {advanced ? "Hide advanced JSON" : "Advanced JSON"}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {items.length === 0 ? (
+            <p className="text-sm text-white/55">No education yet. Click “Add education”.</p>
+          ) : null}
+          {items.map((item, idx) => (
+            <div
+              key={`${item.school}-${item.program}-${idx}`}
+              className="rounded-xl border border-white/10 bg-black/20 p-4"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+                <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
+                  <label className="flex flex-col gap-1.5 sm:col-span-2">
+                    <span className={labelText}>School</span>
+                    <input
+                      value={item.school}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, school: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5 sm:col-span-2">
+                    <span className={labelText}>Program</span>
+                    <input
+                      value={item.program}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, program: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5">
+                    <span className={labelText}>Date</span>
+                    <input
+                      value={item.date}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, date: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1.5">
+                    <span className={labelText}>Location (optional)</span>
+                    <input
+                      value={item.location}
+                      onChange={(e) =>
+                        setItems((prev) =>
+                          prev.map((p, i) => (i === idx ? { ...p, location: e.target.value } : p)),
+                        )
+                      }
+                      className={inputCls}
+                    />
+                  </label>
+                </div>
+                <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col">
+                  <button
+                    type="button"
+                    disabled={idx === 0}
+                    onClick={() =>
+                      setItems((prev) => {
+                        if (idx === 0) return prev;
+                        const next = [...prev];
+                        const t = next[idx - 1]!;
+                        next[idx - 1] = next[idx]!;
+                        next[idx] = t;
+                        return next;
+                      })
+                    }
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move up"
+                  >
+                    <ArrowUp className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={idx === items.length - 1}
+                    onClick={() =>
+                      setItems((prev) => {
+                        if (idx >= prev.length - 1) return prev;
+                        const next = [...prev];
+                        const t = next[idx + 1]!;
+                        next[idx + 1] = next[idx]!;
+                        next[idx] = t;
+                        return next;
+                      })
+                    }
+                    className={`${btnSecondary} px-3`}
+                    aria-label="Move down"
+                  >
+                    <ArrowDown className="size-4" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
+                    className={`${btnDanger} px-3 py-2`}
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="size-4" aria-hidden />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {advanced ? (
+          <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-black/20 p-4">
+            <p className="text-xs leading-relaxed text-white/45">
+              Advanced mode. Editing JSON updates the list above once valid.
+            </p>
+            <textarea
+              value={text}
+              onChange={(e) => {
+                const v = e.target.value;
+                setText(v);
+                try {
+                  const parsed = JSON.parse(v) as {
+                    items?: { school: string; location?: string; program: string; date: string }[];
+                  };
+                  if (parsed?.items && Array.isArray(parsed.items)) {
+                    setItems(
+                      parsed.items.map((x) => ({
+                        school: String(x.school ?? ""),
+                        location: String(x.location ?? ""),
+                        program: String(x.program ?? ""),
+                        date: String(x.date ?? ""),
+                      })),
+                    );
+                  }
+                } catch {
+                  /* keep text */
+                }
+              }}
+              rows={14}
+              className={`${inputCls} font-mono text-xs leading-relaxed sm:text-sm`}
+              spellCheck={false}
+            />
+          </div>
+        ) : null}
+      </div>
+
+      <button type="button" onClick={() => void save()} className={`${btnPrimary} w-fit`}>
+        Save education
+      </button>
+    </div>
+  );
+}
+
 type ProjectRow = { id: string; project: Project };
 
 export function ProjectsPanel({
@@ -793,7 +1339,7 @@ export function ProjectsPanel({
         highlighted on the landing page.
       </p>
 
-      <div className={`${panelCard} border-white/[0.06] bg-black/15`}>
+      <div className={`${panelCard} border-white/6 bg-black/15`}>
         <EditorSectionHeader
           icon={ArrowUp}
           title="Portfolio order"
@@ -1044,7 +1590,7 @@ function EditorSectionHeader({
           className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.07] text-white/65 ring-1 ring-white/10"
           aria-hidden
         >
-          <Icon className="size-[1.125rem]" strokeWidth={1.75} />
+          <Icon className="size-4.5" strokeWidth={1.75} />
         </span>
         <div className="min-w-0">
           <h4 className="text-sm font-semibold tracking-tight text-white">{title}</h4>
@@ -1076,18 +1622,21 @@ function AboutPageFields({
   const introF = field("intro")!;
   const stackTitleF = field("stack_title")!;
   const stackDescF = field("stack_description")!;
+  const eduTitleF = field("education_title")!;
+  const eduDescF = field("education_description")!;
+  const certTitleF = field("certifications_title")!;
+  const certDescF = field("certifications_description")!;
   const expF = field("experiences")!;
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={`${tipBox} border-white/10 bg-white/[0.04] text-white/70`}>
+      <div className={`${tipBox} border-white/10 bg-white/4 text-white/70`}>
         <p className="text-sm leading-relaxed">
           This mirrors your live <strong className="font-medium text-white/85">About</strong> page:
-          headline, square photo beside your bio, experiences, then a{" "}
-          <strong className="font-medium text-white/85">text-only stack</strong> (title + description
-          here; tool names come from the <strong className="font-medium text-white/85">Stack</strong>{" "}
-          tab). Saving syncs the <strong className="font-medium text-white/85">profile photo URL</strong>{" "}
-          across English and Latvian.
+          headline, square photo beside your bio, experiences, education, stack, then certifications
+          (titles/descriptions here; rows come from their respective tabs). Saving syncs the{" "}
+          <strong className="font-medium text-white/85">profile photo URL</strong> across English and
+          Latvian.
         </p>
       </div>
 
@@ -1135,7 +1684,7 @@ function AboutPageFields({
               largeProfilePreview
             />
           </div>
-          <label className="flex min-h-[8rem] flex-col gap-1.5 lg:pt-0">
+          <label className="flex min-h-32 flex-col gap-1.5 lg:pt-0">
             <span className={`${labelText} flex items-center gap-2`}>
               <AlignLeft className="size-3.5 text-white/35" strokeWidth={2} aria-hidden />
               {introF.label}
@@ -1144,7 +1693,7 @@ function AboutPageFields({
               value={slots.intro ?? ""}
               onChange={(e) => setSlot("intro", e.target.value)}
               rows={introF.rows ?? 10}
-              className={`${inputCls} min-h-[12rem] flex-1 leading-relaxed`}
+              className={`${inputCls} min-h-48 flex-1 leading-relaxed`}
             />
             {introF.hint ? (
               <span className="text-xs font-normal text-white/45">{introF.hint}</span>
@@ -1186,7 +1735,73 @@ function AboutPageFields({
         </div>
       </div>
 
-      <div className={`${panelCard} border-white/[0.06] bg-black/15`}>
+      <div className={panelCard}>
+        <EditorSectionHeader
+          icon={GraduationCap}
+          title="Education section"
+          description="Heading and intro above the list. Edit each row under Editor → Education (content/education.json)."
+        />
+        <div className="grid gap-4">
+          <label className="flex flex-col gap-1.5">
+            <span className={labelText}>{eduTitleF.label}</span>
+            <input
+              value={slots.education_title ?? ""}
+              onChange={(e) => setSlot("education_title", e.target.value)}
+              className={inputCls}
+            />
+            {eduTitleF.hint ? (
+              <span className="text-xs font-normal text-white/45">{eduTitleF.hint}</span>
+            ) : null}
+          </label>
+          <label className="flex flex-col gap-1.5">
+            <span className={labelText}>{eduDescF.label}</span>
+            <textarea
+              value={slots.education_description ?? ""}
+              onChange={(e) => setSlot("education_description", e.target.value)}
+              rows={eduDescF.rows ?? 3}
+              className={`${inputCls} min-h-11`}
+            />
+            {eduDescF.hint ? (
+              <span className="text-xs font-normal text-white/45">{eduDescF.hint}</span>
+            ) : null}
+          </label>
+        </div>
+      </div>
+
+      <div className={panelCard}>
+        <EditorSectionHeader
+          icon={Award}
+          title="Certifications section"
+          description="Heading and intro above the list. Edit each certificate under Editor → Certifications (content/certifications.json)."
+        />
+        <div className="grid gap-4">
+          <label className="flex flex-col gap-1.5">
+            <span className={labelText}>{certTitleF.label}</span>
+            <input
+              value={slots.certifications_title ?? ""}
+              onChange={(e) => setSlot("certifications_title", e.target.value)}
+              className={inputCls}
+            />
+            {certTitleF.hint ? (
+              <span className="text-xs font-normal text-white/45">{certTitleF.hint}</span>
+            ) : null}
+          </label>
+          <label className="flex flex-col gap-1.5">
+            <span className={labelText}>{certDescF.label}</span>
+            <textarea
+              value={slots.certifications_description ?? ""}
+              onChange={(e) => setSlot("certifications_description", e.target.value)}
+              rows={certDescF.rows ?? 3}
+              className={`${inputCls} min-h-11`}
+            />
+            {certDescF.hint ? (
+              <span className="text-xs font-normal text-white/45">{certDescF.hint}</span>
+            ) : null}
+          </label>
+        </div>
+      </div>
+
+      <div className={`${panelCard} border-white/6 bg-black/15`}>
         <EditorSectionHeader
           icon={FileCode2}
           title="Experience block (optional)"
@@ -1198,7 +1813,7 @@ function AboutPageFields({
             value={slots.experiences ?? ""}
             onChange={(e) => setSlot("experiences", e.target.value)}
             rows={expF.rows ?? 12}
-            className={`${inputCls} min-h-[10rem] font-mono text-xs leading-relaxed sm:text-sm`}
+            className={`${inputCls} min-h-40 font-mono text-xs leading-relaxed sm:text-sm`}
             spellCheck={false}
           />
           {expF.hint ? (

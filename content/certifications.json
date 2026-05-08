@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "name": "Python",
+      "issuer": "Riga Technical University",
+      "date": "2024"
+    },
+    {
+      "name": "Front End and Back End Development",
+      "issuer": "Riga Technical University",
+      "date": "2023"
+    },
+    {
+      "name": "Web Development",
+      "issuer": "Riga Coding School",
+      "date": "2022"
+    },
+    {
+      "name": "CS50x: Introduction to Computer Science",
+      "issuer": "Harvard University",
+      "date": "2024"
+    },
+    {
+      "name": "C# with Microsoft",
+      "issuer": "Microsoft",
+      "date": "2025"
+    },
+    {
+      "name": "Networks IP",
+      "issuer": "Cisco Networking Academy",
+      "date": "2025"
+    },
+    {
+      "name": "Linux",
+      "issuer": "Cisco Networking Academy",
+      "date": "2025"
+    },
+    {
+      "name": "Endpoint Security",
+      "issuer": "Cisco Networking Academy",
+      "date": "2025"
+    },
+    {
+      "name": "Cybersecurity (CyberStart)",
+      "issuer": "CyberStart",
+      "date": "2026"
+    }
+  ]
+}

@@ -7,8 +7,8 @@ import { getHomeNavItems } from "@/lib/get-navigation";
 import { Logo } from "@/components/Logo";
 import clsx from "clsx";
 
-/** Tailwind `sm` upper bound — auto-hide header only below this width. */
-const MOBILE_MAX_PX = 639;
+/** Mobile header breakpoint (px): <= this is “mobile”. */
+const MOBILE_MAX_PX = 888;
 const SCROLL_DELTA = 10;
 /** Always show bar when near top of page. */
 const TOP_REVEAL_PX = 32;
@@ -59,48 +59,48 @@ export function Navbar() {
       inert={concealed ? true : undefined}
       className={clsx(
         "fixed top-0 left-0 right-0 z-50 bg-(--ui-bg)/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md",
-        "max-sm:transition-transform max-sm:duration-300 max-sm:ease-out motion-reduce:max-sm:transition-none",
-        concealed && "max-sm:pointer-events-none max-sm:-translate-y-full",
+        "max-[888px]:transition-transform max-[888px]:duration-300 max-[888px]:ease-out motion-reduce:max-[888px]:transition-none",
+        concealed && "max-[888px]:pointer-events-none max-[888px]:-translate-y-full",
       )}
     >
       <div
         className={clsx(
-          "relative mx-auto w-full max-w-7xl 2xl:max-w-[90rem]",
-          "max-sm:flex max-sm:flex-col max-sm:items-center max-sm:gap-1 max-sm:pb-1.5 max-sm:pt-3",
-          "max-sm:pl-[max(0.625rem,env(safe-area-inset-left,0px))] max-sm:pr-[max(0.625rem,env(safe-area-inset-right,0px))]",
-          "sm:min-h-[56px] sm:py-3 sm:pl-[max(1rem,calc(env(safe-area-inset-left,0px)+0.625rem))] sm:pb-0 md:py-4",
+          "relative mx-auto w-full max-w-7xl 2xl:max-w-360",
+          "max-[888px]:flex max-[888px]:flex-col max-[888px]:items-center max-[888px]:gap-1 max-[888px]:pb-1.5 max-[888px]:pt-3",
+          "max-[888px]:pl-[max(0.625rem,env(safe-area-inset-left,0px))] max-[888px]:pr-[max(0.625rem,env(safe-area-inset-right,0px))]",
+          "min-[889px]:grid min-[889px]:grid-cols-[1fr_auto_1fr] min-[889px]:items-center",
+          "min-[889px]:min-h-[56px] min-[889px]:py-3 min-[889px]:px-[max(1rem,calc(env(safe-area-inset-left,0px)+0.625rem))] min-[889px]:pb-0 md:py-4",
         )}
       >
-        <div className="relative z-20 flex max-sm:justify-center sm:inline-flex sm:min-h-[44px] sm:items-center">
+        <div className="relative z-20 flex max-[888px]:justify-center min-[889px]:w-12 min-[889px]:min-h-[44px] min-[889px]:items-center">
           <Logo size={12} />
         </div>
         <nav
           aria-label="Main"
           className={clsx(
             "flex w-full items-center",
-            "relative z-10 max-sm:pointer-events-auto",
-            "sm:pointer-events-none sm:absolute sm:inset-y-0 sm:justify-center",
-            "sm:left-[max(4.25rem,calc(max(1rem,env(safe-area-inset-left,0px)+0.625rem)+3rem+0.5rem))] sm:right-28 lg:right-32",
+            "relative z-10 max-[888px]:pointer-events-auto",
+            "min-[889px]:w-auto min-[889px]:justify-center",
           )}
         >
           <div
             className={clsx(
               "pointer-events-auto w-full",
-              "max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:overflow-y-hidden max-sm:overscroll-x-contain max-sm:[-ms-overflow-style:none] max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden max-sm:touch-pan-x",
-              "max-sm:px-[max(3.25rem,calc(0.375rem+env(safe-area-inset-right,0px)))]",
-              "sm:w-full sm:px-0",
+              "max-[888px]:snap-x max-[888px]:snap-mandatory max-[888px]:overflow-x-auto max-[888px]:overflow-y-hidden max-[888px]:overscroll-x-contain max-[888px]:[-ms-overflow-style:none] max-[888px]:[scrollbar-width:none] max-[888px]:[&::-webkit-scrollbar]:hidden max-[888px]:touch-pan-x",
+              "max-[888px]:px-[max(3.25rem,calc(0.375rem+env(safe-area-inset-right,0px)))]",
+              "min-[889px]:w-auto min-[889px]:px-0",
             )}
           >
             <div
               className={clsx(
-                "max-sm:flex max-sm:min-w-full max-sm:w-max max-sm:justify-center",
-                "sm:contents",
+                "max-[888px]:flex max-[888px]:min-w-full max-[888px]:w-max max-[888px]:justify-center",
+                "min-[889px]:contents",
               )}
             >
               <div
                 className={clsx(
-                  "flex flex-nowrap items-stretch max-sm:shrink-0 max-sm:gap-x-0.5 max-sm:py-0",
-                  "sm:w-full sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-5 sm:gap-y-2 md:gap-x-7 lg:gap-x-9",
+                  "flex flex-nowrap items-stretch max-[888px]:shrink-0 max-[888px]:gap-x-0.5 max-[888px]:py-0",
+                  "min-[889px]:w-full min-[889px]:flex-wrap min-[889px]:items-center min-[889px]:justify-center min-[889px]:gap-x-5 min-[889px]:gap-y-2 md:gap-x-7 lg:gap-x-9",
                 )}
               >
               {items.map((item) => {
@@ -114,14 +114,14 @@ export function Navbar() {
                     key={item.name}
                     href={href}
                     className={clsx(
-                      "max-sm:snap-start",
+                      "max-[888px]:snap-start",
                       "inline-flex shrink-0 items-center justify-center font-medium tracking-wide motion-safe:transition-[color,text-decoration-color]",
-                      "max-sm:min-h-8 max-sm:px-1 max-sm:text-[0.6875rem] max-sm:leading-tight max-sm:underline-offset-[0.4rem]",
-                      "sm:min-h-[44px] sm:px-2 sm:py-2 sm:text-sm sm:underline-offset-[0.65rem] md:px-3 md:text-[0.9375rem]",
-                      "rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[var(--font-primary)]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]",
+                      "max-[888px]:min-h-8 max-[888px]:px-1 max-[888px]:text-[0.6875rem] max-[888px]:leading-tight max-[888px]:underline-offset-[0.4rem]",
+                      "min-[889px]:min-h-[44px] min-[889px]:px-2 min-[889px]:py-2 min-[889px]:text-sm min-[889px]:underline-offset-[0.65rem] md:px-3 md:text-[0.9375rem]",
+                      "rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-(--font-primary)/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]",
                       active
-                        ? "underline decoration-2 text-[var(--font-primary)] decoration-[var(--font-primary)] max-sm:decoration-1"
-                        : "no-underline text-muted hover:underline hover:decoration-2 hover:text-(--font-primary) hover:decoration-current/25 active:text-(--font-primary) max-sm:hover:decoration-1",
+                        ? "underline decoration-2 text-(--font-primary) decoration-(--font-primary) max-[888px]:decoration-1"
+                        : "no-underline text-muted hover:underline hover:decoration-2 hover:text-(--font-primary) hover:decoration-current/25 active:text-(--font-primary) max-[888px]:hover:decoration-1",
                     )}
                   >
                     {t(item.name)}
@@ -132,6 +132,8 @@ export function Navbar() {
             </div>
           </div>
         </nav>
+        {/* Spacer to keep the nav group perfectly centered on desktop */}
+        <div className="hidden min-[889px]:block min-[889px]:w-12" aria-hidden />
       </div>
     </header>
   );

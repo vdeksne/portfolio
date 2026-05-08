@@ -1,5 +1,12 @@
 import * as z from "zod";
-import type { ArticleMeta, FaqData, PageMeta, Project } from "@/lib/content";
+import type {
+  ArticleMeta,
+  Certification,
+  Education,
+  FaqData,
+  PageMeta,
+  Project,
+} from "@/lib/content";
 
 export const localeSchema = z.enum(["en", "lv"]);
 
@@ -36,6 +43,39 @@ export const experiencesSchema = z.object({
       company: z.string().min(1),
       date: z.string().min(1),
     }),
+  ),
+});
+
+export const certificationsSchema: z.ZodType<{ items: Certification[] }> =
+  z.object({
+    items: z.array(
+      z
+        .object({
+          name: z.string().min(1),
+          issuer: z.string().min(1),
+          date: z.string().min(1),
+          link: z.string().optional(),
+        })
+        .transform((o) => ({
+          ...o,
+          link: o.link?.trim() ? o.link.trim() : undefined,
+        })),
+    ),
+  });
+
+export const educationSchema: z.ZodType<{ items: Education[] }> = z.object({
+  items: z.array(
+    z
+      .object({
+        school: z.string().min(1),
+        location: z.string().optional(),
+        program: z.string().min(1),
+        date: z.string().min(1),
+      })
+      .transform((o) => ({
+        ...o,
+        location: o.location?.trim() ? o.location.trim() : undefined,
+      })),
   ),
 });
 

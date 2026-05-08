@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -81,6 +80,25 @@ export function ContactForm({
       </h2>
       <Divider className="mb-8 mt-2" />
       <div className="flex flex-col sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-full flex-row flex-nowrap items-center gap-3 overflow-x-auto overscroll-x-contain pb-0.5 sm:gap-4 md:overflow-visible">
+          <span className="text-muted shrink-0 whitespace-nowrap text-sm sm:text-base">
+            {siteConfig.profile.phone}
+          </span>
+          <span className="text-muted shrink-0 select-none" aria-hidden>
+            |
+          </span>
+          <a
+            href={`mailto:${siteConfig.profile.email}`}
+            className="text-muted min-w-0 shrink truncate text-sm transition-colors duration-300 hover:text-(--font-primary) sm:max-w-none sm:shrink-0 sm:whitespace-nowrap sm:text-base"
+            title={siteConfig.profile.email}
+          >
+            {siteConfig.profile.email}
+          </a>
+          <div className="ml-auto shrink-0">
+            <MeetingButton />
+          </div>
+        </div>
+        <Divider className="my-10" />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-full flex-col gap-3"
@@ -142,7 +160,7 @@ export function ContactForm({
               <button
                 type="submit"
                 disabled={!resendEnabled || isSubmitting}
-                className="w-full rounded-lg bg-white px-4 py-2 font-medium text-[#070707] hover:bg-white/90 disabled:opacity-40"
+                className="w-full rounded-lg bg-white px-4 py-2 font-medium text-[#070707] underline-offset-[0.35rem] decoration-2 decoration-[#070707] transition-[text-decoration-color,background-color] duration-200 enabled:hover:underline hover:bg-white/90 disabled:opacity-40 disabled:no-underline"
                 title={!resendEnabled ? t("disabled") : undefined}
               >
                 {t("submit")}
@@ -150,24 +168,6 @@ export function ContactForm({
             </div>
           </div>
         </form>
-        <Divider className="my-10" />
-        <div className="mx-auto flex w-full flex-col items-start justify-center gap-4 sm:flex-row sm:items-start">
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-3 text-neutral-400">
-              <Phone className="size-6" aria-hidden />
-              <span>{siteConfig.profile.phone}</span>
-            </div>
-            <div className="flex items-center gap-3 text-neutral-400">
-              <a
-                href={`mailto:${siteConfig.profile.email}`}
-                className="transition-colors duration-300 hover:text-[var(--font-muted)]"
-              >
-                {siteConfig.profile.email}
-              </a>
-            </div>
-          </div>
-          <MeetingButton />
-        </div>
       </div>
     </section>
   );

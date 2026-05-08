@@ -1,6 +1,10 @@
 import { Fragment } from "react";
+import { AboutDownloadButton } from "@/components/About/AboutDownloadButton";
+import { CertificationsList } from "@/components/About/CertificationsList";
+import { EducationList } from "@/components/About/EducationList";
 import { ExperiencesList } from "@/components/About/ExperiencesList";
 import { AboutProfilePicture } from "@/components/About/AboutProfilePicture";
+import type { Certification, Education } from "@/lib/content";
 
 export type AboutStackItem = { name: string; link: string };
 export type AboutExperience = { title: string; company: string; date: string };
@@ -16,6 +20,12 @@ export type AboutSectionViewProps = {
   stackHeading: string;
   stackDescription?: string;
   stackItems: AboutStackItem[];
+  education: Education[];
+  educationHeading: string;
+  educationDescription?: string;
+  certifications: Certification[];
+  certificationsHeading: string;
+  certificationsDescription?: string;
 };
 
 export function AboutSectionView({
@@ -29,6 +39,12 @@ export function AboutSectionView({
   stackHeading,
   stackDescription,
   stackItems,
+  education,
+  educationHeading,
+  educationDescription,
+  certifications,
+  certificationsHeading,
+  certificationsDescription,
 }: AboutSectionViewProps) {
   return (
     <section className="mx-auto mt-3 flex w-full max-w-4xl flex-col px-6 py-8 text-(--font-primary) sm:mt-10 sm:px-8 lg:px-10">
@@ -58,6 +74,16 @@ export function AboutSectionView({
       <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
         <ExperiencesList experiences={experiences} heading={experiencesLabel} />
       </div>
+
+      {education.length > 0 ? (
+        <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
+          <EducationList
+            education={education}
+            heading={educationHeading}
+            description={educationDescription}
+          />
+        </div>
+      ) : null}
 
       <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
         <h2 className="font-newsreader text-2xl tracking-tight text-(--font-primary) sm:text-3xl">
@@ -93,6 +119,20 @@ export function AboutSectionView({
             </Fragment>
           ))}
         </div>
+      </div>
+
+      {certifications.length > 0 ? (
+        <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
+          <CertificationsList
+            certifications={certifications}
+            heading={certificationsHeading}
+            description={certificationsDescription}
+          />
+        </div>
+      ) : null}
+
+      <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
+        <AboutDownloadButton />
       </div>
     </section>
   );

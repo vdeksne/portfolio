@@ -93,6 +93,14 @@ html.light .logo-mark {
   filter: invert(1);
 }
 
+/* Footer/social SVGs: monochrome; theme uses html.light (not Tailwind dark:). */
+.social-links-icon {
+  filter: brightness(0) invert(1);
+}
+html.light .social-links-icon {
+  filter: brightness(0);
+}
+
 /* Works project cards: light grey “frames” in light mode */
 html.light .project-card-frame {
   background: #f2f2f2;

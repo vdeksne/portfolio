@@ -4,6 +4,8 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArticlesPanel,
+  CertificationsPanel,
+  EducationPanel,
   ExperiencesPanel,
   FaqPanel,
   PAGE_OPTIONS,
@@ -23,7 +25,15 @@ import {
 } from "@/components/admin/adminUi";
 import type { Locale } from "@/lib/types";
 
-type Tab = "pages" | "projects" | "faq" | "stack" | "experiences" | "articles";
+type Tab =
+  | "pages"
+  | "projects"
+  | "faq"
+  | "stack"
+  | "experiences"
+  | "education"
+  | "certifications"
+  | "articles";
 
 const TABS: { id: Tab; label: string; description: string }[] = [
   {
@@ -55,6 +65,18 @@ const TABS: { id: Tab; label: string; description: string }[] = [
     label: "Experiences",
     description:
       "Work history shown on the About page. Reorder, edit, delete, or add entries — shared JSON.",
+  },
+  {
+    id: "education",
+    label: "Education",
+    description:
+      "Education history shown on the About page (between Experiences and Stack). Shared JSON (school, program, date, optional location).",
+  },
+  {
+    id: "certifications",
+    label: "Certifications",
+    description:
+      "Certificates and credentials below Stack on About. Shared JSON (name, issuer, date, optional link).",
   },
   {
     id: "articles",
@@ -236,6 +258,10 @@ function AdminDashboardInner() {
           {tab === "faq" ? <FaqPanel flash={flash} setErr={setErr} /> : null}
           {tab === "stack" ? <StackPanel flash={flash} setErr={setErr} /> : null}
           {tab === "experiences" ? <ExperiencesPanel flash={flash} setErr={setErr} /> : null}
+          {tab === "education" ? <EducationPanel flash={flash} setErr={setErr} /> : null}
+          {tab === "certifications" ? (
+            <CertificationsPanel flash={flash} setErr={setErr} />
+          ) : null}
           {tab === "articles" ? <ArticlesPanel flash={flash} setErr={setErr} /> : null}
         </div>
       </div>

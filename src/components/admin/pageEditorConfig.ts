@@ -55,7 +55,7 @@ export const PAGE_EDITOR: Record<PageEditorSlug, PageEditorDefinition> = {
   },
   about: {
     block: "about",
-    group: "About — headline, photo, bio, stack heading, experiences",
+    group: "About — headline, photo, bio, education, stack, certifications, experiences",
     fields: [
       { key: "title", label: "Page title", rows: 1 },
       { key: "subtitle", label: "Subtitle", rows: 2 },
@@ -82,6 +82,30 @@ export const PAGE_EDITOR: Record<PageEditorSlug, PageEditorDefinition> = {
         label: "Stack section description",
         rows: 3,
         hint: "Short line under the title. Tool names themselves are edited in Pages → Stack (shared JSON), not here.",
+      },
+      {
+        key: "education_title",
+        label: "Education section title",
+        rows: 1,
+        hint: "Heading above the education list. If empty, the site uses “Education” / “Izglītība”. Entries are edited in Editor → Education.",
+      },
+      {
+        key: "education_description",
+        label: "Education section description",
+        rows: 3,
+        hint: "Optional line under the title. Individual entries are in content/education.json via the Education tab.",
+      },
+      {
+        key: "certifications_title",
+        label: "Certifications section title",
+        rows: 1,
+        hint: "Heading above the certifications list. If empty, the site uses “Certifications” / “Sertifikāti”. Entries are edited in Editor → Certifications.",
+      },
+      {
+        key: "certifications_description",
+        label: "Certifications section description",
+        rows: 3,
+        hint: "Optional line under the title. Individual certificates are in content/certifications.json via the Certifications tab.",
       },
       {
         key: "experiences",

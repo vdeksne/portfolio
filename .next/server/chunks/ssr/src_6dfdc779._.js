@@ -113,7 +113,7 @@ function Logo({ size = 8 }) {
 }
 function FooterLogo() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Logo, {
-        size: 5
+        size: 10
     }, void 0, false, {
         fileName: "[project]/src/components/Logo.tsx",
         lineNumber: 33,
@@ -144,7 +144,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$cl
 ;
 ;
 ;
-/** Tailwind `sm` upper bound — auto-hide header only below this width. */ const MOBILE_MAX_PX = 639;
+/** Mobile header breakpoint (px): <= this is “mobile”. */ const MOBILE_MAX_PX = 888;
 const SCROLL_DELTA = 10;
 /** Always show bar when near top of page. */ const TOP_REVEAL_PX = 32;
 function Navbar() {
@@ -184,39 +184,39 @@ function Navbar() {
     }, []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
         inert: concealed ? true : undefined,
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("fixed top-0 left-0 right-0 z-50 bg-(--ui-bg)/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md", "max-sm:transition-transform max-sm:duration-300 max-sm:ease-out motion-reduce:max-sm:transition-none", concealed && "max-sm:pointer-events-none max-sm:-translate-y-full"),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("fixed top-0 left-0 right-0 z-50 bg-(--ui-bg)/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md", "max-[888px]:transition-transform max-[888px]:duration-300 max-[888px]:ease-out motion-reduce:max-[888px]:transition-none", concealed && "max-[888px]:pointer-events-none max-[888px]:-translate-y-full"),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("relative mx-auto w-full max-w-7xl 2xl:max-w-[90rem]", "max-sm:flex max-sm:flex-col max-sm:items-center max-sm:gap-1 max-sm:pb-1.5 max-sm:pt-3", "max-sm:pl-[max(0.625rem,env(safe-area-inset-left,0px))] max-sm:pr-[max(0.625rem,env(safe-area-inset-right,0px))]", "sm:min-h-[56px] sm:py-3 sm:pl-[max(1rem,calc(env(safe-area-inset-left,0px)+0.625rem))] sm:pb-0 md:py-4"),
+            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("relative mx-auto w-full max-w-7xl 2xl:max-w-360", "max-[888px]:flex max-[888px]:flex-col max-[888px]:items-center max-[888px]:gap-1 max-[888px]:pb-1.5 max-[888px]:pt-3", "max-[888px]:pl-[max(0.625rem,env(safe-area-inset-left,0px))] max-[888px]:pr-[max(0.625rem,env(safe-area-inset-right,0px))]", "min-[889px]:grid min-[889px]:grid-cols-[1fr_auto_1fr] min-[889px]:items-center", "min-[889px]:min-h-[56px] min-[889px]:py-3 min-[889px]:px-[max(1rem,calc(env(safe-area-inset-left,0px)+0.625rem))] min-[889px]:pb-0 md:py-4"),
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "relative z-20 flex max-sm:justify-center sm:inline-flex sm:min-h-[44px] sm:items-center",
+                    className: "relative z-20 flex max-[888px]:justify-center min-[889px]:w-12 min-[889px]:min-h-[44px] min-[889px]:items-center",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Logo$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Logo"], {
                         size: 12
                     }, void 0, false, {
                         fileName: "[project]/src/components/Nav/Navbar.tsx",
-                        lineNumber: 75,
+                        lineNumber: 76,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/Nav/Navbar.tsx",
-                    lineNumber: 74,
+                    lineNumber: 75,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                     "aria-label": "Main",
-                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("flex w-full items-center", "relative z-10 max-sm:pointer-events-auto", "sm:pointer-events-none sm:absolute sm:inset-y-0 sm:justify-center", "sm:left-[max(4.25rem,calc(max(1rem,env(safe-area-inset-left,0px)+0.625rem)+3rem+0.5rem))] sm:right-28 lg:right-32"),
+                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("flex w-full items-center", "relative z-10 max-[888px]:pointer-events-auto", "min-[889px]:w-auto min-[889px]:justify-center"),
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("pointer-events-auto w-full", "max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:overflow-y-hidden max-sm:overscroll-x-contain max-sm:[-ms-overflow-style:none] max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden max-sm:touch-pan-x", "max-sm:px-[max(3.25rem,calc(0.375rem+env(safe-area-inset-right,0px)))]", "sm:w-full sm:px-0"),
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("pointer-events-auto w-full", "max-[888px]:snap-x max-[888px]:snap-mandatory max-[888px]:overflow-x-auto max-[888px]:overflow-y-hidden max-[888px]:overscroll-x-contain max-[888px]:[-ms-overflow-style:none] max-[888px]:[scrollbar-width:none] max-[888px]:[&::-webkit-scrollbar]:hidden max-[888px]:touch-pan-x", "max-[888px]:px-[max(3.25rem,calc(0.375rem+env(safe-area-inset-right,0px)))]", "min-[889px]:w-auto min-[889px]:px-0"),
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("max-sm:flex max-sm:min-w-full max-sm:w-max max-sm:justify-center", "sm:contents"),
+                            className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("max-[888px]:flex max-[888px]:min-w-full max-[888px]:w-max max-[888px]:justify-center", "min-[889px]:contents"),
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("flex flex-nowrap items-stretch max-sm:shrink-0 max-sm:gap-x-0.5 max-sm:py-0", "sm:w-full sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-5 sm:gap-y-2 md:gap-x-7 lg:gap-x-9"),
+                                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("flex flex-nowrap items-stretch max-[888px]:shrink-0 max-[888px]:gap-x-0.5 max-[888px]:py-0", "min-[889px]:w-full min-[889px]:flex-wrap min-[889px]:items-center min-[889px]:justify-center min-[889px]:gap-x-5 min-[889px]:gap-y-2 md:gap-x-7 lg:gap-x-9"),
                                 children: items.map((item)=>{
                                     const href = item.to;
                                     const active = href === "/" ? pathname === "/" || pathname === "" : pathname.startsWith(href);
                                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Link"], {
                                         href: href,
-                                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("max-sm:snap-start", "inline-flex shrink-0 items-center justify-center font-medium tracking-wide motion-safe:transition-[color,text-decoration-color]", "max-sm:min-h-8 max-sm:px-1 max-sm:text-[0.6875rem] max-sm:leading-tight max-sm:underline-offset-[0.4rem]", "sm:min-h-[44px] sm:px-2 sm:py-2 sm:text-sm sm:underline-offset-[0.65rem] md:px-3 md:text-[0.9375rem]", "rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[var(--font-primary)]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]", active ? "underline decoration-2 text-[var(--font-primary)] decoration-[var(--font-primary)] max-sm:decoration-1" : "no-underline text-muted hover:underline hover:decoration-2 hover:text-(--font-primary) hover:decoration-current/25 active:text-(--font-primary) max-sm:hover:decoration-1"),
+                                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("max-[888px]:snap-start", "inline-flex shrink-0 items-center justify-center font-medium tracking-wide motion-safe:transition-[color,text-decoration-color]", "max-[888px]:min-h-8 max-[888px]:px-1 max-[888px]:text-[0.6875rem] max-[888px]:leading-tight max-[888px]:underline-offset-[0.4rem]", "min-[889px]:min-h-[44px] min-[889px]:px-2 min-[889px]:py-2 min-[889px]:text-sm min-[889px]:underline-offset-[0.65rem] md:px-3 md:text-[0.9375rem]", "rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-(--font-primary)/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]", active ? "underline decoration-2 text-(--font-primary) decoration-(--font-primary) max-[888px]:decoration-1" : "no-underline text-muted hover:underline hover:decoration-2 hover:text-(--font-primary) hover:decoration-current/25 active:text-(--font-primary) max-[888px]:hover:decoration-1"),
                                         children: t(item.name)
                                     }, item.name, false, {
                                         fileName: "[project]/src/components/Nav/Navbar.tsx",
@@ -241,7 +241,15 @@ function Navbar() {
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/Nav/Navbar.tsx",
-                    lineNumber: 77,
+                    lineNumber: 78,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "hidden min-[889px]:block min-[889px]:w-12",
+                    "aria-hidden": true
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Nav/Navbar.tsx",
+                    lineNumber: 136,
                     columnNumber: 9
                 }, this)
             ]
@@ -399,9 +407,11 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/.pnpm/next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$2d$intl$40$3$2e$26$2e$5_next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2d$intl$2f$dist$2f$index$2e$react$2d$client$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/.pnpm/next-intl@3.26.5_next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0__react@19.0.0/node_modules/next-intl/dist/index.react-client.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/.pnpm/next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/i18n/routing.ts [app-ssr] (ecmascript)");
 "use client";
+;
 ;
 ;
 ;
@@ -418,26 +428,43 @@ function LanguageToggle() {
     const locale = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$2d$intl$40$3$2e$26$2e$5_next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2d$intl$2f$dist$2f$index$2e$react$2d$client$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useLocale"])();
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "fixed right-[max(0.625rem,env(safe-area-inset-right,0px))] top-[max(0.5rem,env(safe-area-inset-top,0px))] z-60 flex min-h-[44px] items-stretch gap-px rounded-full bg-(--ui-bg)/90 px-0.5 py-0.5 text-[0.6875rem] shadow-lg backdrop-blur-md sm:right-[max(0.875rem,env(safe-area-inset-right,0px))] sm:top-4 sm:min-h-0 sm:gap-0.5 sm:px-1 sm:py-1 sm:text-xs",
+        className: "fixed right-[max(0.625rem,env(safe-area-inset-right,0px))] top-[max(0.5rem,env(safe-area-inset-top,0px))] z-60 flex items-center gap-2 px-3 py-2 text-[0.625rem] sm:right-[max(0.875rem,env(safe-area-inset-right,0px))] sm:top-4 sm:px-1 sm:py-1 sm:text-xs",
         role: "navigation",
         "aria-label": "Language",
-        children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["routing"].locales.map((loc)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Link"], {
-                href: pathname,
-                locale: loc,
-                lang: loc,
-                title: labelLong[loc] ?? loc,
-                "aria-label": labelLong[loc] ?? loc,
-                "aria-current": locale === loc ? "true" : undefined,
-                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("inline-flex min-h-[44px] min-w-[2.75rem] flex-1 touch-manipulation items-center justify-center rounded-full px-2 font-semibold tabular-nums tracking-wide transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--font-primary)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg) sm:h-auto sm:min-h-0 sm:min-w-0 sm:flex-none sm:px-3 sm:py-1.5", locale === loc ? "bg-(--bg-card) text-(--font-primary) shadow-inner" : "text-muted hover:bg-white/5 hover:text-[var(--font-primary)]"),
-                children: labelShort[loc] ?? loc.toUpperCase()
-            }, loc, false, {
+        children: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["routing"].locales.map((loc, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                children: [
+                    idx > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        className: "text-muted select-none opacity-60",
+                        "aria-hidden": true,
+                        children: "|"
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Nav/LanguageToggle.tsx",
+                        lineNumber: 31,
+                        columnNumber: 13
+                    }, this) : null,
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Link"], {
+                        href: pathname,
+                        locale: loc,
+                        lang: loc,
+                        title: labelLong[loc] ?? loc,
+                        "aria-label": labelLong[loc] ?? loc,
+                        "aria-current": locale === loc ? "true" : undefined,
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("inline-flex touch-manipulation items-center justify-center font-medium tabular-nums tracking-wide outline-none underline-offset-[0.35rem] transition-[color,text-decoration-color] focus-visible:ring-2 focus-visible:ring-(--font-primary)/50 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg)", locale === loc ? "text-(--font-primary) underline decoration-current/70 decoration-2" : "text-muted hover:text-(--font-primary) hover:underline hover:decoration-current/25"),
+                        children: labelShort[loc] ?? loc.toUpperCase()
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/Nav/LanguageToggle.tsx",
+                        lineNumber: 35,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, loc, true, {
                 fileName: "[project]/src/components/Nav/LanguageToggle.tsx",
-                lineNumber: 28,
+                lineNumber: 29,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/src/components/Nav/LanguageToggle.tsx",
-        lineNumber: 22,
+        lineNumber: 23,
         columnNumber: 5
     }, this);
 }

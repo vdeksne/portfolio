@@ -23,7 +23,7 @@ export function HomeSection({
     <section className="relative min-w-0 overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 z-0 select-none">
         <div
-          className="absolute left-1/2 top-[22%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[24%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[26%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]"
+          className="absolute left-1/2 top-[44%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[42%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[38%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]"
           aria-hidden
         >
           <HomeGlobeDynamic />

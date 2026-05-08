@@ -184,7 +184,6 @@ function HomeGlobe() {
         let desiredLightTheme = false;
         let diffuseOriginal = null;
         let diffuseGray = null;
-        let packedBumpRoughCloud = null;
         const syncDiffuseMapToTheme = ()=>{
             if (desiredLightTheme) {
                 if (diffuseGray) material.map = diffuseGray;
@@ -387,7 +386,6 @@ function HomeGlobe() {
                         return;
                     }
                     textureDisposables.push(cloudTex);
-                    packedBumpRoughCloud = cloudTex;
                     cloudMat.uniforms.cloudMap.value = cloudTex;
                     cloudMat.uniforms.uUsePacked.value = 1;
                     // Reuse packed data for subtle relief in light mode (raw model feel).
@@ -604,12 +602,12 @@ function HomeGlobe() {
             "aria-hidden": true
         }, void 0, false, {
             fileName: "[project]/src/components/Home/HomeGlobe.tsx",
-            lineNumber: 712,
+            lineNumber: 710,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/Home/HomeGlobe.tsx",
-        lineNumber: 707,
+        lineNumber: 705,
         columnNumber: 5
     }, this);
 }

@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "school": "Riga Technical University",
+      "location": "Latvia",
+      "program": "BS, Computer Systems in Computer Science",
+      "date": "2024 - 2028"
+    },
+    {
+      "school": "New College of Florida",
+      "location": "Sarasota, USA",
+      "program": "Race and Ethnicity in Global Perspective; Globalization, Social Justice and Human Rights",
+      "date": "2016 - 2017"
+    },
+    {
+      "school": "Ringling College of Art and Design",
+      "location": "Sarasota, USA",
+      "program": "BA, Business of Art and Design",
+      "date": "2014 - 2018"
+    },
+    {
+      "school": "Parsons School of Design",
+      "location": "Paris, France",
+      "program": "BBA, Strategic Design and Management",
+      "date": "2017 - 2018"
+    },
+    {
+      "school": "UWC Red Cross Nordic",
+      "location": "Flekke, Norway",
+      "program": "International Baccalaureate (IB Diploma)",
+      "date": "2011 - 2013"
+    },
+    {
+      "school": "Lourdes Academy",
+      "location": "Oshkosh, WI, USA",
+      "program": "High School Education, Grade: Honors",
+      "date": "2010 - 2011"
+    }
+  ]
+}

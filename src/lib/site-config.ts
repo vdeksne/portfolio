@@ -2,6 +2,11 @@ export const siteConfig = {
   global: {
     meetingLink: "https://cal.com/viktorija-deksne/15min",
     available: true,
+    /** Add your PDF at public/resume.pdf or set href to any URL. */
+    resume: {
+      href: "/resume.pdf",
+      fileName: "Viktorija-Deksne-CV.pdf",
+    },
   },
   profile: {
     name: "Viktorija Deksne",

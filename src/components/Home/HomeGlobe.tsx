@@ -235,7 +235,6 @@ export function HomeGlobe() {
     let desiredLightTheme = false;
     let diffuseOriginal: THREE.Texture | null = null;
     let diffuseGray: THREE.Texture | null = null;
-    let packedBumpRoughCloud: THREE.Texture | null = null;
 
     const syncDiffuseMapToTheme = () => {
       if (desiredLightTheme) {
@@ -473,7 +472,6 @@ export function HomeGlobe() {
             return;
           }
           textureDisposables.push(cloudTex);
-          packedBumpRoughCloud = cloudTex;
           cloudMat.uniforms.cloudMap.value = cloudTex;
           cloudMat.uniforms.uUsePacked.value = 1;
 

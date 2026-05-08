@@ -342,6 +342,8 @@ __turbopack_context__.s({
     "deleteArticleFile": (()=>deleteArticleFile),
     "deleteProjectFile": (()=>deleteProjectFile),
     "getArticle": (()=>getArticle),
+    "getCertifications": (()=>getCertifications),
+    "getEducation": (()=>getEducation),
     "getExperiences": (()=>getExperiences),
     "getFaq": (()=>getFaq),
     "getPageByRoute": (()=>getPageByRoute),
@@ -355,6 +357,8 @@ __turbopack_context__.s({
     "routeKeyToAdminSlug": (()=>routeKeyToAdminSlug),
     "syncAboutProfileImageToOtherLocales": (()=>syncAboutProfileImageToOtherLocales),
     "writeArticleFile": (()=>writeArticleFile),
+    "writeCertificationsFile": (()=>writeCertificationsFile),
+    "writeEducationFile": (()=>writeEducationFile),
     "writeExperiencesFile": (()=>writeExperiencesFile),
     "writeFaqFile": (()=>writeFaqFile),
     "writePageMarkdown": (()=>writePageMarkdown),
@@ -609,6 +613,14 @@ function getExperiences() {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "experiences.json"), "utf8");
     return JSON.parse(raw);
 }
+function getCertifications() {
+    const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "certifications.json"), "utf8");
+    return JSON.parse(raw);
+}
+function getEducation() {
+    const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "education.json"), "utf8");
+    return JSON.parse(raw);
+}
 function getFaq(locale) {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "faq.json"), "utf8");
     return JSON.parse(raw);
@@ -645,6 +657,14 @@ function writeStackFile(data) {
 }
 function writeExperiencesFile(data) {
     const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "experiences.json");
+    __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+function writeCertificationsFile(data) {
+    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "certifications.json");
+    __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+function writeEducationFile(data) {
+    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "education.json");
     __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 function listProjectRows(locale) {

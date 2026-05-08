@@ -30,5 +30,5 @@ export function Logo({ size = 8 }: { size?: number }) {
 }
 
 export function FooterLogo() {
-  return <Logo size={5} />;
+  return <Logo size={10} />;
 }

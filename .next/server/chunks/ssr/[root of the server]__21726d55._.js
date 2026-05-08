@@ -342,6 +342,8 @@ __turbopack_context__.s({
     "deleteArticleFile": (()=>deleteArticleFile),
     "deleteProjectFile": (()=>deleteProjectFile),
     "getArticle": (()=>getArticle),
+    "getCertifications": (()=>getCertifications),
+    "getEducation": (()=>getEducation),
     "getExperiences": (()=>getExperiences),
     "getFaq": (()=>getFaq),
     "getPageByRoute": (()=>getPageByRoute),
@@ -355,6 +357,8 @@ __turbopack_context__.s({
     "routeKeyToAdminSlug": (()=>routeKeyToAdminSlug),
     "syncAboutProfileImageToOtherLocales": (()=>syncAboutProfileImageToOtherLocales),
     "writeArticleFile": (()=>writeArticleFile),
+    "writeCertificationsFile": (()=>writeCertificationsFile),
+    "writeEducationFile": (()=>writeEducationFile),
     "writeExperiencesFile": (()=>writeExperiencesFile),
     "writeFaqFile": (()=>writeFaqFile),
     "writePageMarkdown": (()=>writePageMarkdown),
@@ -609,6 +613,14 @@ function getExperiences() {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "experiences.json"), "utf8");
     return JSON.parse(raw);
 }
+function getCertifications() {
+    const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "certifications.json"), "utf8");
+    return JSON.parse(raw);
+}
+function getEducation() {
+    const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "education.json"), "utf8");
+    return JSON.parse(raw);
+}
 function getFaq(locale) {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "faq.json"), "utf8");
     return JSON.parse(raw);
@@ -645,6 +657,14 @@ function writeStackFile(data) {
 }
 function writeExperiencesFile(data) {
     const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "experiences.json");
+    __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+function writeCertificationsFile(data) {
+    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "certifications.json");
+    __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
+}
+function writeEducationFile(data) {
+    const filePath = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "education.json");
     __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 function listProjectRows(locale) {
@@ -849,7 +869,7 @@ function HomeSection({ heroTitle, heroSubtitle, projects, faq }) {
                 className: "pointer-events-none absolute inset-0 z-0 select-none",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "absolute left-1/2 top-[22%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[24%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[26%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]",
+                        className: "absolute left-1/2 top-[44%] h-[min(92vw,30rem)] w-[min(92vw,30rem)] max-w-[min(100vw,52rem)] -translate-x-1/2 -translate-y-1/2 opacity-[0.7] sm:top-[42%] sm:h-[min(88vw,34rem)] sm:w-[min(88vw,34rem)] md:top-[38%] md:h-[min(80vh,46rem)] md:w-[min(80vh,46rem)] lg:h-[min(84vh,50rem)] lg:w-[min(84vh,50rem)] xl:h-[min(86vh,52rem)] xl:w-[min(86vh,52rem)]",
                         "aria-hidden": true,
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Home$2f$HomeGlobeDynamic$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["HomeGlobeDynamic"], {}, void 0, false, {
                             fileName: "[project]/src/components/Home/HomeSection.tsx",

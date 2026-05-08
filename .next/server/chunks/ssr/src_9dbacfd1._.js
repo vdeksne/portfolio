@@ -172,7 +172,7 @@ function Logo({ size = 8 }) {
 }
 function FooterLogo() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(Logo, {
-        size: 5
+        size: 10
     }, void 0, false, {
         fileName: "[project]/src/components/Logo.tsx",
         lineNumber: 33,
@@ -192,7 +192,11 @@ __turbopack_context__.s({
 const siteConfig = {
     global: {
         meetingLink: "https://cal.com/viktorija-deksne/15min",
-        available: true
+        available: true,
+        /** Add your PDF at public/resume.pdf or set href to any URL. */ resume: {
+            href: "/resume.pdf",
+            fileName: "Viktorija-Deksne-CV.pdf"
+        }
     },
     profile: {
         name: "Viktorija Deksne",
@@ -298,14 +302,14 @@ function SocialLinks({ compact = false }) {
                 href: social.link,
                 target: "_blank",
                 rel: "noreferrer",
-                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])("flex shrink-0 touch-manipulation items-center justify-center rounded-md text-white transition-opacity hover:opacity-80 active:opacity-70", compact ? "size-6 p-0.5 sm:size-6" : "size-11 min-h-11 min-w-11 sm:size-10 sm:min-h-10 sm:min-w-10"),
+                className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])("flex shrink-0 touch-manipulation items-center justify-center rounded-md text-(--font-primary) transition-opacity hover:opacity-80 active:opacity-70", compact ? "size-6 p-0.5 sm:size-6" : "size-11 min-h-11 min-w-11 sm:size-10 sm:min-h-10 sm:min-w-10"),
                 "aria-label": `Go to ${social.name} profile`,
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                     src: `/icons/${social.icon}.svg`,
                     alt: "",
                     width: compact ? 12 : 24,
                     height: compact ? 12 : 24,
-                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])("brightness-0 invert", compact ? "size-3" : "size-6 sm:size-7")
+                    className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$clsx$40$2$2e$1$2e$1$2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])("social-links-icon", compact ? "size-3" : "size-6 sm:size-7")
                 }, void 0, false, {
                     fileName: "[project]/src/components/SocialLinks.tsx",
                     lineNumber: 43,

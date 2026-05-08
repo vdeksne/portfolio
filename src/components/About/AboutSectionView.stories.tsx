@@ -33,6 +33,26 @@ export const Default: Story = {
       { name: "Tailwind CSS", link: "https://tailwindcss.com/" },
       { name: "Figma", link: "https://www.figma.com/" },
     ],
+    education: [
+      {
+        school: "Riga Technical University",
+        location: "Latvia",
+        program: "BS, Computer Systems in Computer Science",
+        date: "2024 - 2028",
+      },
+    ],
+    educationHeading: "Education",
+    educationDescription: "Academic background and coursework.",
+    certifications: [
+      {
+        name: "Professional certificate",
+        issuer: "Example Org",
+        date: "2024",
+        link: "https://example.com",
+      },
+    ],
+    certificationsHeading: "Certifications",
+    certificationsDescription: "Selected credentials.",
   },
 };
 
