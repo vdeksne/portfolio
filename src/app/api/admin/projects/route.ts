@@ -1,5 +1,6 @@
 import {
   listProjectRows,
+  listProjectRowsWithDbOverlay,
   writeProjectFile,
   type Project,
 } from "@/lib/content";
@@ -7,8 +8,7 @@ import { requireCmsAuth } from "@/lib/cms/guard";
 import { rejectIfVercelCmsFilesystemWrite } from "@/lib/cms/vercel-readonly-guard";
 import { projectSchema } from "@/lib/cms/schemas";
 import { localeFromRequest } from "@/lib/cms/query";
-import { getDb } from "@/lib/db";
-import { listProjectsFromDb, upsertProjectToDb } from "@/lib/projects-db";
+import { upsertProjectToDb } from "@/lib/projects-db";
 import * as z from "zod";
 
 const createBodySchema = z.object({
@@ -24,11 +24,7 @@ export async function GET(req: Request) {
     return Response.json({ error: "Missing or invalid ?locale=en|lv" }, { status: 400 });
   }
   if (process.env.VERCEL === "1") {
-    const db = getDb();
-    if (db) {
-      const rows = await listProjectsFromDb(locale);
-      if (rows && rows.length > 0) return Response.json(rows);
-    }
+    return Response.json(await listProjectRowsWithDbOverlay(locale));
   }
   return Response.json(listProjectRows(locale));
 }

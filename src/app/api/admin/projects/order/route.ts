@@ -1,4 +1,9 @@
-import { readProjectFile, writeProjectFile, type Project } from "@/lib/content";
+import {
+  isCompleteProjectPayload,
+  readProjectFile,
+  writeProjectFile,
+  type Project,
+} from "@/lib/content";
 import { requireCmsAuth } from "@/lib/cms/guard";
 import { rejectIfVercelCmsFilesystemWrite } from "@/lib/cms/vercel-readonly-guard";
 import { localeFromRequest } from "@/lib/cms/query";
@@ -40,7 +45,10 @@ export async function PUT(req: Request) {
     }
     for (let i = 0; i < ids.length; i++) {
       const id = ids[i]!;
-      const existing = await getProjectFromDb(locale, id);
+      const fromDb = await getProjectFromDb(locale, id);
+      const fromDisk = readProjectFile(locale, id);
+      const existing =
+        fromDb && isCompleteProjectPayload(fromDb) ? fromDb : fromDisk;
       if (!existing) continue;
       const next: Project = { ...existing, order: i };
       await upsertProjectToDb(locale, id, next);

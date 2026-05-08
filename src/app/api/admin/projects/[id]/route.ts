@@ -1,5 +1,6 @@
 import {
   deleteProjectFile,
+  isCompleteProjectPayload,
   readProjectFile,
   writeProjectFile,
   type Project,
@@ -26,7 +27,7 @@ export async function GET(
     const db = getDb();
     if (db) {
       const p = await getProjectFromDb(locale, id.toLowerCase());
-      if (p) return Response.json(p);
+      if (p && isCompleteProjectPayload(p)) return Response.json(p);
     }
   }
   const project = readProjectFile(locale, id);

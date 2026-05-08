@@ -63,6 +63,8 @@ export type Project = {
   order?: number;
 };
 
+export type ProjectFileRow = { id: string; project: Project };
+
 function projectYear(p: Project): number | null {
   const date = (p.date ?? "").trim();
   const m1 = date.match(/^(\d{4})/);
@@ -71,6 +73,59 @@ function projectYear(p: Project): number | null {
   const m2 = rel.match(/(19\d{2}|20\d{2})/);
   if (m2?.[1]) return Number(m2[1]);
   return null;
+}
+
+/** DB row must look like a real saved project before it can override repo JSON on Vercel. */
+export function isCompleteProjectPayload(p: unknown): p is Project {
+  if (!p || typeof p !== "object" || Array.isArray(p)) return false;
+  const o = p as Record<string, unknown>;
+  const req = (v: unknown) => typeof v === "string" && v.trim().length > 0;
+  return req(o.name) && req(o.image) && req(o.link) && req(o.release);
+}
+
+function sortProjectFileRows(rows: ProjectFileRow[]): ProjectFileRow[] {
+  return [...rows].sort((a, b) => {
+    const pa = a.project;
+    const pb = b.project;
+    const ao =
+      typeof pa.order === "number" ? pa.order : Number.POSITIVE_INFINITY;
+    const bo =
+      typeof pb.order === "number" ? pb.order : Number.POSITIVE_INFINITY;
+    if (ao !== bo) return ao - bo;
+    const ay = projectYear(pa) ?? Number.NEGATIVE_INFINITY;
+    const by = projectYear(pb) ?? Number.NEGATIVE_INFINITY;
+    if (ay !== by) return by - ay;
+    const af = pa.featured ? 1 : 0;
+    const bf = pb.featured ? 1 : 0;
+    if (af !== bf) return bf - af;
+    return String(pa.name ?? "").localeCompare(String(pb.name ?? ""));
+  });
+}
+
+async function mergeDiskAndDbProjectRows(locale: Locale): Promise<ProjectFileRow[]> {
+  const diskRows = listProjectRows(locale);
+  const byId = new Map<string, ProjectFileRow>(
+    diskRows.map((r) => [r.id, r]),
+  );
+  const dbRows = (await listProjectsFromDb(locale)) ?? [];
+  for (const row of dbRows) {
+    if (!isCompleteProjectPayload(row.project)) continue;
+    byId.set(row.id, { id: row.id, project: row.project });
+  }
+  return sortProjectFileRows([...byId.values()]);
+}
+
+/**
+ * Repo JSON is the default on Vercel; Postgres overlays per-id when the row is complete.
+ * Prevents empty/partial DB state from hiding bundled portfolio mock data after deploy.
+ */
+export async function listProjectRowsWithDbOverlay(
+  locale: Locale,
+): Promise<ProjectFileRow[]> {
+  if (process.env.VERCEL === "1" && getDb()) {
+    return mergeDiskAndDbProjectRows(locale);
+  }
+  return listProjectRows(locale);
 }
 
 export type Experience = {
@@ -264,50 +319,8 @@ export function getArticle(locale: Locale, slug: string) {
 }
 
 export async function listProjects(locale: Locale): Promise<Project[]> {
-  if (process.env.VERCEL === "1") {
-    const dbRows = await listProjectsFromDb(locale);
-    if (dbRows && dbRows.length > 0) {
-      const items = dbRows.map((r) => r.project);
-      items.sort((a, b) => {
-        const ao =
-          typeof a.order === "number" ? a.order : Number.POSITIVE_INFINITY;
-        const bo =
-          typeof b.order === "number" ? b.order : Number.POSITIVE_INFINITY;
-        if (ao !== bo) return ao - bo;
-        const ay = projectYear(a) ?? Number.NEGATIVE_INFINITY;
-        const by = projectYear(b) ?? Number.NEGATIVE_INFINITY;
-        if (ay !== by) return by - ay;
-        const af = a.featured ? 1 : 0;
-        const bf = b.featured ? 1 : 0;
-        if (af !== bf) return bf - af;
-        return String(a.name ?? "").localeCompare(String(b.name ?? ""));
-      });
-      return items;
-    }
-    /* DB missing or empty: use bundled content (same neutral project JSON as en). */
-  }
-  const dir = resolveProjectsContentDir(locale);
-  if (!fs.existsSync(dir)) return [];
-  const items = fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".json"))
-    .map((f) => {
-      const raw = fs.readFileSync(path.join(dir, f), "utf8");
-      return JSON.parse(raw) as Project;
-    });
-  items.sort((a, b) => {
-    const ao = typeof a.order === "number" ? a.order : Number.POSITIVE_INFINITY;
-    const bo = typeof b.order === "number" ? b.order : Number.POSITIVE_INFINITY;
-    if (ao !== bo) return ao - bo;
-    const ay = projectYear(a) ?? Number.NEGATIVE_INFINITY;
-    const by = projectYear(b) ?? Number.NEGATIVE_INFINITY;
-    if (ay !== by) return by - ay; // newest first
-    const af = a.featured ? 1 : 0;
-    const bf = b.featured ? 1 : 0;
-    if (af !== bf) return bf - af;
-    return String(a.name ?? "").localeCompare(String(b.name ?? ""));
-  });
-  return items;
+  const rows = await listProjectRowsWithDbOverlay(locale);
+  return rows.map((r) => r.project);
 }
 
 export function getStack() {
@@ -426,8 +439,6 @@ export function writeEducationFile(data: { items: Education[] }) {
   const filePath = path.join(CONTENT_DIR, "education.json");
   fs.writeFileSync(filePath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
-
-export type ProjectFileRow = { id: string; project: Project };
 
 export function listProjectRows(locale: Locale): ProjectFileRow[] {
   const dir = resolveProjectsContentDir(locale);
