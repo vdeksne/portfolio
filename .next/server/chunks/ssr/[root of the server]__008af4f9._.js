@@ -629,7 +629,10 @@ function getArticle(locale, slug) {
 }
 async function listProjects(locale) {
     const rows = await listProjectRowsWithDbOverlay(locale);
-    return rows.map((r)=>r.project);
+    return rows.map((r)=>({
+            ...r.project,
+            id: r.id
+        }));
 }
 function getStack() {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "stack.json"), "utf8");

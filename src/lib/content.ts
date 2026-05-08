@@ -49,6 +49,8 @@ export type ArticleMeta = {
 };
 
 export type Project = {
+  /** Stable id (from filename / DB key). Set by `listProjects`. */
+  id?: string;
   name: string;
   image: string;
   link: string;
@@ -320,7 +322,7 @@ export function getArticle(locale: Locale, slug: string) {
 
 export async function listProjects(locale: Locale): Promise<Project[]> {
   const rows = await listProjectRowsWithDbOverlay(locale);
-  return rows.map((r) => r.project);
+  return rows.map((r) => ({ ...r.project, id: r.id }));
 }
 
 export function getStack() {

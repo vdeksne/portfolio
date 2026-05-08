@@ -20,12 +20,22 @@ export async function generateMetadata({
 
 export default async function WorksPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
+  searchParams?: Promise<{ project?: string }>;
 }) {
   const { locale } = await params;
+  const sp = (await searchParams) ?? {};
   const page = await getPageByRoute(locale, "works");
   if (!page) throw new Error("Missing works content");
   const projects = await listProjects(locale);
-  return <WorksSection slots={page.slots} projects={projects} />;
+  const initialProjectId = (sp.project ?? "").trim().toLowerCase() || undefined;
+  return (
+    <WorksSection
+      slots={page.slots}
+      projects={projects}
+      initialProjectId={initialProjectId}
+    />
+  );
 }

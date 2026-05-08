@@ -1,6 +1,7 @@
 {
   "/[locale]/page": "app/[locale]/page.js",
   "/[locale]/works/page": "app/[locale]/works/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/admin/(protected)/page": "app/admin/(protected)/page.js",
   "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js",
   "/api/admin/projects/[id]/route": "app/api/admin/projects/[id]/route.js",

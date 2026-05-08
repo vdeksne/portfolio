@@ -229,28 +229,14 @@ function HomeProjects({ projects }) {
                         ]
                     }, void 0, true);
                     const className = "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 px-1 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-0 sm:py-2 border-b border-transparent hover:border-(--font-primary) active:border-(--font-primary)";
-                    if (project.release === "soon") {
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Link"], {
-                            href: "/",
-                            className: className,
-                            "aria-label": `go to ${project.name} project website`,
-                            children: row
-                        }, project.name, false, {
-                            fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                            lineNumber: 36,
-                            columnNumber: 15
-                        }, this);
-                    }
-                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                        href: project.link,
+                    const href = project.id && project.release !== "soon" ? `/works?project=${encodeURIComponent(project.id)}` : "/works";
+                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$i18n$2f$routing$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Link"], {
+                        href: href,
                         className: className,
-                        "aria-label": `go to ${project.name} project website`,
-                        target: "_blank",
-                        rel: "noreferrer",
                         children: row
-                    }, project.name, false, {
+                    }, project.id ?? project.name, false, {
                         fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                        lineNumber: 47,
+                        lineNumber: 39,
                         columnNumber: 13
                     }, this);
                 })
@@ -267,12 +253,12 @@ function HomeProjects({ projects }) {
                     children: t("global.see_more")
                 }, void 0, false, {
                     fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                    lineNumber: 64,
+                    lineNumber: 49,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/Home/HomeProjects.tsx",
-                lineNumber: 60,
+                lineNumber: 45,
                 columnNumber: 7
             }, this)
         ]

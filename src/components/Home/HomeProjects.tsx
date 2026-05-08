@@ -31,29 +31,14 @@ export function HomeProjects({ projects }: { projects: Project[] }) {
           );
           const className =
             "flex min-h-11 min-w-0 cursor-pointer flex-col gap-1 px-1 py-3 touch-manipulation sm:min-h-0 sm:flex-row sm:items-center sm:gap-2 sm:px-0 sm:py-2 border-b border-transparent hover:border-(--font-primary) active:border-(--font-primary)";
-          if (project.release === "soon") {
-            return (
-              <Link
-                key={project.name}
-                href="/"
-                className={className}
-                aria-label={`go to ${project.name} project website`}
-              >
-                {row}
-              </Link>
-            );
-          }
+          const href =
+            project.id && project.release !== "soon"
+              ? (`/works?project=${encodeURIComponent(project.id)}` as const)
+              : ("/works" as const);
           return (
-            <a
-              key={project.name}
-              href={project.link}
-              className={className}
-              aria-label={`go to ${project.name} project website`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link key={project.id ?? project.name} href={href} className={className}>
               {row}
-            </a>
+            </Link>
           );
         })}
       </div>

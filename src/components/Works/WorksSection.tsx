@@ -5,9 +5,11 @@ import type { Project } from "@/lib/content";
 export function WorksSection({
   slots,
   projects,
+  initialProjectId,
 }: {
   slots: { title?: string; subtitle?: string };
   projects: Project[];
+  initialProjectId?: string;
 }) {
   return (
     <section className="mx-auto mt-4 flex w-full max-w-5xl flex-col p-7 sm:mt-20 xl:max-w-6xl">
@@ -20,7 +22,11 @@ export function WorksSection({
       <Divider className="mb-8 mt-2" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {projects.map((project) => (
-          <ProjectCardModal key={project.name} project={project} />
+          <ProjectCardModal
+            key={project.id ?? project.name}
+            project={project}
+            initialOpen={Boolean(initialProjectId && project.id === initialProjectId)}
+          />
         ))}
       </div>
     </section>
