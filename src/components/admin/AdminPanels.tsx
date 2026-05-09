@@ -1145,6 +1145,7 @@ export function ProjectsPanel({
   setErr: (s: string | null) => void;
 }) {
   const { locale } = useAdminContentLocale();
+  const [syncBothLocales, setSyncBothLocales] = useState(true);
   const [rows, setRows] = useState<ProjectRow[]>([]);
   const [selected, setSelected] = useState("");
   const [id, setId] = useState("");
@@ -1187,6 +1188,31 @@ export function ProjectsPanel({
     setFeatured(false);
     setOrder("");
   }, [locale]);
+
+  const PROJECT_LOCALES = ["en", "lv"] as const;
+
+  async function saveToLocale(targetLocale: (typeof PROJECT_LOCALES)[number]) {
+    const orderNum = Number.isFinite(Number(order)) ? Number(order) : undefined;
+    const mergedTools = mergeProjectTools(selectedToolPresets, toolsExtra);
+    const project: Project = {
+      name,
+      image,
+      link,
+      release,
+      ...(description.trim() ? { description: description.trim() } : {}),
+      ...(mergedTools.length ? { tools: mergedTools } : {}),
+      ...(date.trim() ? { date: date.trim() } : {}),
+      ...(orderNum != null ? { order: orderNum } : {}),
+    };
+    if (featured) project.featured = true;
+    await adminJson(
+      `/api/admin/projects/${encodeURIComponent(id)}?locale=${targetLocale}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(project),
+      },
+    );
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -1244,24 +1270,12 @@ export function ProjectsPanel({
 
   async function save() {
     setErr(null);
-    const orderNum = Number.isFinite(Number(order)) ? Number(order) : undefined;
-    const mergedTools = mergeProjectTools(selectedToolPresets, toolsExtra);
-    const project: Project = {
-      name,
-      image,
-      link,
-      release,
-      ...(description.trim() ? { description: description.trim() } : {}),
-      ...(mergedTools.length ? { tools: mergedTools } : {}),
-      ...(date.trim() ? { date: date.trim() } : {}),
-      ...(orderNum != null ? { order: orderNum } : {}),
-    };
-    if (featured) project.featured = true;
     try {
-      await adminJson(`/api/admin/projects/${encodeURIComponent(id)}?locale=${locale}`, {
-        method: "PUT",
-        body: JSON.stringify(project),
-      });
+      if (syncBothLocales) {
+        await Promise.all(PROJECT_LOCALES.map((l) => saveToLocale(l)));
+      } else {
+        await saveToLocale(locale);
+      }
       flash("Project saved.");
       await load();
     } catch (e) {
@@ -1291,13 +1305,19 @@ export function ProjectsPanel({
         ...(order.trim() ? { order: Number(order) } : {}),
       };
       if (featured) proj.featured = true;
-      await adminJson(`/api/admin/projects?locale=${locale}`, {
-        method: "POST",
-        body: JSON.stringify({
-          id: slug,
-          project: proj,
-        }),
-      });
+      const createOne = (targetLocale: (typeof PROJECT_LOCALES)[number]) =>
+        adminJson(`/api/admin/projects?locale=${targetLocale}`, {
+          method: "POST",
+          body: JSON.stringify({
+            id: slug,
+            project: proj,
+          }),
+        });
+      if (syncBothLocales) {
+        await Promise.all(PROJECT_LOCALES.map((l) => createOne(l)));
+      } else {
+        await createOne(locale);
+      }
       setCreating(false);
       flash("Project created.");
       const list = await load();
@@ -1312,9 +1332,15 @@ export function ProjectsPanel({
     if (!id || !window.confirm(`Delete project file "${id}.json"?`)) return;
     setErr(null);
     try {
-      await adminJson(`/api/admin/projects/${encodeURIComponent(id)}?locale=${locale}`, {
-        method: "DELETE",
-      });
+      const delOne = (targetLocale: (typeof PROJECT_LOCALES)[number]) =>
+        adminJson(`/api/admin/projects/${encodeURIComponent(id)}?locale=${targetLocale}`, {
+          method: "DELETE",
+        });
+      if (syncBothLocales) {
+        await Promise.all(PROJECT_LOCALES.map((l) => delOne(l)));
+      } else {
+        await delOne(locale);
+      }
       flash("Project deleted.");
       setSelected("");
       setId("");
@@ -1343,10 +1369,17 @@ export function ProjectsPanel({
   async function saveOrder(nextRows: ProjectRow[]) {
     setErr(null);
     try {
-      await adminJson(`/api/admin/projects/order?locale=${locale}`, {
-        method: "PUT",
-        body: JSON.stringify({ ids: nextRows.map((r) => r.id) }),
-      });
+      const body = JSON.stringify({ ids: nextRows.map((r) => r.id) });
+      const putOne = (targetLocale: (typeof PROJECT_LOCALES)[number]) =>
+        adminJson(`/api/admin/projects/order?locale=${targetLocale}`, {
+          method: "PUT",
+          body,
+        });
+      if (syncBothLocales) {
+        await Promise.all(PROJECT_LOCALES.map((l) => putOne(l)));
+      } else {
+        await putOne(locale);
+      }
       flash("Order saved.");
       await load();
     } catch (e) {
@@ -1373,6 +1406,16 @@ export function ProjectsPanel({
         <strong className="font-medium text-white/70">Featured on home</strong> for the project
         highlighted on the landing page.
       </p>
+
+      <label className="flex cursor-pointer items-center gap-2.5 text-sm text-white/80">
+        <input
+          type="checkbox"
+          checked={syncBothLocales}
+          onChange={(e) => setSyncBothLocales(e.target.checked)}
+          className="size-4 rounded border-white/30 accent-white"
+        />
+        Show on both language sites (save to EN + LV)
+      </label>
 
       <div className={`${panelCard} border-white/6 bg-black/15`}>
         <EditorSectionHeader
@@ -1414,9 +1457,14 @@ export function ProjectsPanel({
                     onClick={() => {
                       if (!window.confirm(`Delete project file "${r.id}.json"?`)) return;
                       setErr(null);
-                      adminJson(`/api/admin/projects/${encodeURIComponent(r.id)}?locale=${locale}`, {
-                        method: "DELETE",
-                      })
+                      const delOne = (targetLocale: (typeof PROJECT_LOCALES)[number]) =>
+                        adminJson(`/api/admin/projects/${encodeURIComponent(r.id)}?locale=${targetLocale}`, {
+                          method: "DELETE",
+                        });
+                      const req = syncBothLocales
+                        ? Promise.all(PROJECT_LOCALES.map((l) => delOne(l)))
+                        : delOne(locale);
+                      req
                         .then(() => {
                           flash("Project deleted.");
                           // If it was selected, clear editor.
@@ -1587,7 +1635,7 @@ export function ProjectsPanel({
                   }}
                   className="size-4 shrink-0 rounded border-white/30 accent-white"
                 />
-                <span className="min-w-0 break-words">{opt}</span>
+                <span className="min-w-0 wrap-break-word">{opt}</span>
               </label>
             ))}
           </div>

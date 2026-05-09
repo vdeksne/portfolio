@@ -1,0 +1,10 @@
+[
+  {
+    "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!api|admin|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*))(\\\\.json)?[\\/#\\?]?$",
+    "originalSource": "/((?!api|admin|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)"
+  },
+  {
+    "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/(\\/?index|\\/?index\\\\.json))?[\\/#\\?]?$",
+    "originalSource": "/"
+  }
+]

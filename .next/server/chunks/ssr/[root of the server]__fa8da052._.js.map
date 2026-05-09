@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 85, "column": 0}, "map": {"version":3,"sources":["file:///Users/viktorijadeksne/Documents/VD_Portfolio_2026/src/components/MarkdownBody.tsx"],"sourcesContent":["\"use client\";\n\nimport ReactMarkdown from \"react-markdown\";\nimport remarkGfm from \"remark-gfm\";\n\nexport function MarkdownBody({ source }: { source: string }) {\n  return (\n    <ReactMarkdown\n      remarkPlugins={[remarkGfm]}\n      components={{\n        img: ({ src, alt }) => (\n          // eslint-disable-next-line @next/next/no-img-element\n          <img src={src} alt={alt ?? \"\"} className=\"my-4 max-w-full rounded-lg\" />\n        ),\n      }}\n    >\n      {source}\n    </ReactMarkdown>\n  );\n}\n"],"names":[],"mappings":";;;;AAEA;AACA;AAHA;;;;AAKO,SAAS,aAAa,EAAE,MAAM,EAAsB;IACzD,qBACE,+YAAC,gTAAA,CAAA,UAAa;QACZ,eAAe;YAAC,uMAAA,CAAA,UAAS;SAAC;QAC1B,YAAY;YACV,KAAK,CAAC,EAAE,GAAG,EAAE,GAAG,EAAE,GAChB,qDAAqD;8BACrD,+YAAC;oBAAI,KAAK;oBAAK,KAAK,OAAO;oBAAI,WAAU;;;;;;QAE7C;kBAEC;;;;;;AAGP","debugId":null}}]
+}

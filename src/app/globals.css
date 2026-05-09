@@ -28,19 +28,20 @@ html {
 }
 
 html.light {
-  --ui-bg: #fff;
-  --bg-secondary: #fff;
-  --bg-card: #fff;
-  --bg-card-hover: #fff;
+  /* Softer light palette (less glare, better long-form reading). */
+  --ui-bg: #f6f3ec;
+  --bg-secondary: #f6f3ec;
+  --bg-card: #fbf9f4;
+  --bg-card-hover: #ffffff;
 
-  --font-primary: #000;
-  --font-muted: #000;
-  --font-inverted: #fff;
+  --font-primary: #141414;
+  --font-muted: #141414;
+  --font-inverted: #fbf9f4;
 
-  --border-primary: #000;
-  --border-primary-hover: #000;
-  --border-muted: #000;
-  --font-placeholder: #000;
+  --border-primary: rgba(20, 20, 20, 0.14);
+  --border-primary-hover: rgba(20, 20, 20, 0.22);
+  --border-muted: rgba(20, 20, 20, 0.12);
+  --font-placeholder: rgba(20, 20, 20, 0.45);
 }
 
 /* Home globe overlays need a lighter treatment in light mode. */
@@ -86,6 +87,13 @@ body {
   text-align: left;
   background-color: var(--ui-bg);
   color: var(--font-primary);
+  /* Prevent layout shift when scrollbar appears/disappears on route changes. */
+  scrollbar-gutter: stable;
+}
+
+/* Extra guard: always reserve vertical scrollbar space (Safari/older engines). */
+html {
+  overflow-y: scroll;
 }
 
 /* Best-effort: discourage image drag/copy. */
@@ -111,20 +119,20 @@ html.light .social-links-icon {
 
 /* Works project cards: light grey “frames” in light mode */
 html.light .project-card-frame {
-  background: #f2f2f2;
+  background: #f1eee7;
   box-shadow: none;
 }
 html.light .project-card-caption {
-  background: rgba(242, 242, 242, 0.92);
+  background: rgba(241, 238, 231, 0.92);
 }
 html.light .project-card-title {
-  color: #000;
+  color: #141414;
 }
 html.light .project-card-meta {
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(20, 20, 20, 0.6);
 }
 html.light .project-card-arrow {
-  color: #000;
+  color: #141414;
 }
 
 ::-webkit-scrollbar {
@@ -214,7 +222,7 @@ html.light .faq-tab:hover {
 }
 
 .writing h1 {
-  @apply text-2xl sm:text-3xl font-[600] mb-6 mt-8;
+  @apply text-2xl sm:text-3xl font-semibold mb-6 mt-8;
   color: var(--font-primary);
 }
 
@@ -257,7 +265,7 @@ html.light .faq-tab:hover {
 }
 
 .writing strong {
-  @apply font-[500];
+  @apply font-medium;
   color: var(--font-primary);
 }
 

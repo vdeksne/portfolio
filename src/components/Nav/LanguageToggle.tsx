@@ -21,7 +21,7 @@ export function LanguageToggle() {
 
   return (
     <div
-      className="fixed right-[max(0.625rem,env(safe-area-inset-right,0px))] top-[max(0.5rem,env(safe-area-inset-top,0px))] z-60 flex items-center gap-2 px-3 py-2 text-[0.625rem] sm:right-[max(0.875rem,env(safe-area-inset-right,0px))] sm:top-4 sm:px-1 sm:py-1 sm:text-xs"
+      className="flex items-center gap-2 px-1 py-1 text-xs"
       role="navigation"
       aria-label="Language"
     >
@@ -40,7 +40,7 @@ export function LanguageToggle() {
             aria-label={labelLong[loc] ?? loc}
             aria-current={locale === loc ? "true" : undefined}
             className={clsx(
-              "inline-flex touch-manipulation items-center justify-center font-medium tabular-nums tracking-wide outline-none underline-offset-[0.35rem] transition-[color,text-decoration-color] focus-visible:ring-2 focus-visible:ring-(--font-primary)/50 focus-visible:ring-offset-2 focus-visible:ring-offset-(--ui-bg)",
+              "inline-flex touch-manipulation items-center justify-center font-medium tabular-nums tracking-wide outline-none underline-offset-[0.35rem] transition-[color,text-decoration-color] focus-visible:ring-2 focus-visible:ring-(--font-primary)/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070707]",
               locale === loc
                 ? "text-(--font-primary) underline decoration-current/70 decoration-2"
                 : "text-muted hover:text-(--font-primary) hover:underline hover:decoration-current/25",
