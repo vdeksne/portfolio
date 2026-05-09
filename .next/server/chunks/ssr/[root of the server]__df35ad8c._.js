@@ -1287,7 +1287,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$About$2
 ;
 ;
 ;
-function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, experiencesLabel, experiences, stackHeading, stackDescription, stackItems, education, educationHeading, educationDescription, certifications, certificationsHeading, certificationsDescription }) {
+function AboutSectionView({ title, subtitle, profileImage, intro, resumeHref, resumeFileName, introLabel, experiencesLabel, experiences, stackHeading, stackDescription, stackItems, education, educationHeading, educationDescription, certifications, certificationsHeading, certificationsDescription }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         className: "mx-auto mt-3 flex w-full max-w-4xl flex-col px-6 py-8 text-(--font-primary) sm:mt-10 sm:px-8 lg:px-10",
         children: [
@@ -1299,7 +1299,7 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 52,
+                        lineNumber: 56,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1307,13 +1307,13 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                         children: subtitle
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 55,
+                        lineNumber: 59,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 51,
+                lineNumber: 55,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1325,12 +1325,12 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                             pictureSrc: profileImage
                         }, void 0, false, {
                             fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                            lineNumber: 62,
+                            lineNumber: 66,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 61,
+                        lineNumber: 65,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1341,7 +1341,7 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                                 children: introLabel
                             }, void 0, false, {
                                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                                lineNumber: 65,
+                                lineNumber: 69,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1349,19 +1349,19 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                                 children: intro
                             }, void 0, false, {
                                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                                lineNumber: 68,
+                                lineNumber: 72,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 64,
+                        lineNumber: 68,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 60,
+                lineNumber: 64,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1371,12 +1371,12 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                     heading: experiencesLabel
                 }, void 0, false, {
                     fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                    lineNumber: 75,
+                    lineNumber: 79,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 74,
+                lineNumber: 78,
                 columnNumber: 7
             }, this),
             education.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1387,12 +1387,12 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                     description: educationDescription
                 }, void 0, false, {
                     fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                    lineNumber: 80,
+                    lineNumber: 84,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 79,
+                lineNumber: 83,
                 columnNumber: 9
             }, this) : null,
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1403,7 +1403,7 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                         children: stackHeading
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 89,
+                        lineNumber: 93,
                         columnNumber: 9
                     }, this),
                     stackDescription?.trim() ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1411,7 +1411,7 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                         children: stackDescription
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 93,
+                        lineNumber: 97,
                         columnNumber: 11
                     }, this) : null,
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1425,7 +1425,7 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                                         children: "·"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                                        lineNumber: 104,
+                                        lineNumber: 108,
                                         columnNumber: 17
                                     }, this) : null,
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1436,24 +1436,24 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                                         children: item.name
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 115,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, item.name, true, {
                                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                                lineNumber: 102,
+                                lineNumber: 106,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                        lineNumber: 97,
+                        lineNumber: 101,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 88,
+                lineNumber: 92,
                 columnNumber: 7
             }, this),
             certifications.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1464,30 +1464,33 @@ function AboutSectionView({ title, subtitle, profileImage, intro, introLabel, ex
                     description: certificationsDescription
                 }, void 0, false, {
                     fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                    lineNumber: 126,
+                    lineNumber: 130,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 125,
+                lineNumber: 129,
                 columnNumber: 9
             }, this) : null,
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$About$2f$AboutDownloadButton$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["AboutDownloadButton"], {}, void 0, false, {
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$About$2f$AboutDownloadButton$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["AboutDownloadButton"], {
+                    hrefOverride: resumeHref,
+                    fileNameOverride: resumeFileName
+                }, void 0, false, {
                     fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                    lineNumber: 135,
+                    lineNumber: 139,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/About/AboutSectionView.tsx",
-                lineNumber: 134,
+                lineNumber: 138,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/About/AboutSectionView.tsx",
-        lineNumber: 50,
+        lineNumber: 54,
         columnNumber: 5
     }, this);
 }
@@ -1523,6 +1526,8 @@ async function AboutSection({ slots }) {
         subtitle: slots.subtitle,
         profileImage: slots.profile_image,
         intro: slots.intro,
+        resumeHref: slots.resume_href,
+        resumeFileName: slots.resume_filename,
         introLabel: t("about_intro"),
         experiencesLabel: t("experiences"),
         experiences: experiences.items,
@@ -1540,7 +1545,7 @@ async function AboutSection({ slots }) {
         certificationsDescription: slots.certifications_description
     }, void 0, false, {
         fileName: "[project]/src/components/About/AboutSection.tsx",
-        lineNumber: 31,
+        lineNumber: 33,
         columnNumber: 5
     }, this);
 }

@@ -72,6 +72,18 @@ export const PAGE_EDITOR: Record<PageEditorSlug, PageEditorDefinition> = {
         hint: "Bio next to your photo on the public page (intro label is translated; body is whatever you type here).",
       },
       {
+        key: "resume_href",
+        label: "CV file URL (PDF)",
+        rows: 1,
+        hint: "Upload a PDF or paste a URL. This controls the CV button on the About page.",
+      },
+      {
+        key: "resume_filename",
+        label: "CV download filename (optional)",
+        rows: 1,
+        hint: "Used only for same-origin files (e.g. /uploads/… or /resume.pdf).",
+      },
+      {
         key: "stack_title",
         label: "Stack section title",
         rows: 1,

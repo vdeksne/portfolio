@@ -29,6 +29,37 @@ export async function adminUploadImage(file: File): Promise<{ url: string }> {
   return { url };
 }
 
+export async function adminUploadFile(file: File): Promise<{ url: string }> {
+  const body = new FormData();
+  body.set("file", file);
+  const res = await fetch("/api/admin/upload", {
+    method: "POST",
+    credentials: "include",
+    body,
+  });
+  const data = (await res.json().catch(() => ({}))) as { error?: unknown; url?: string };
+  if (!res.ok) {
+    const msg =
+      typeof data.error === "string" ? data.error : JSON.stringify(data.error ?? res.statusText);
+    throw new Error(msg);
+  }
+  const url = typeof data.url === "string" ? data.url.trim() : "";
+  const ok =
+    url.startsWith("/uploads/") ||
+    url.startsWith("http://") ||
+    url.startsWith("https://");
+  if (!ok) {
+    throw new Error(
+      `Upload failed. Server returned: ${JSON.stringify(
+        { status: res.status, url: data.url, error: data.error },
+        null,
+        2,
+      )}`,
+    );
+  }
+  return { url };
+}
+
 export async function adminJson<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
     ...init,

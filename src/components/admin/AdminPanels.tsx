@@ -19,6 +19,7 @@ import type { LucideIcon } from "lucide-react";
 import type { FaqData, Project } from "@/lib/content";
 import { adminJson, inputCls, selectCls } from "@/components/admin/adminFetch";
 import { AdminImageField } from "@/components/admin/AdminImageField";
+import { AdminFileField } from "@/components/admin/AdminFileField";
 import { useAdminContentLocale } from "@/components/admin/AdminContentLocale";
 import {
   btnDanger,
@@ -1754,6 +1755,8 @@ function AboutPageFields({
   const subtitleF = field("subtitle")!;
   const imageF = field("profile_image")!;
   const introF = field("intro")!;
+  const resumeHrefF = field("resume_href")!;
+  const resumeFileNameF = field("resume_filename")!;
   const stackTitleF = field("stack_title")!;
   const stackDescF = field("stack_description")!;
   const eduTitleF = field("education_title")!;
@@ -1831,6 +1834,37 @@ function AboutPageFields({
             />
             {introF.hint ? (
               <span className="text-xs font-normal text-white/45">{introF.hint}</span>
+            ) : null}
+          </label>
+        </div>
+      </div>
+
+      <div className={panelCard}>
+        <EditorSectionHeader
+          icon={FileCode2}
+          title="CV download"
+          description="Upload a PDF (or paste a URL). This controls the CV button at the bottom of the About page."
+        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <AdminFileField
+            label={resumeHrefF.label}
+            value={slots.resume_href ?? ""}
+            onChange={(url) => setSlot("resume_href", url)}
+            setErr={setErr}
+            helper={resumeHrefF.hint}
+            accept="application/pdf,.pdf"
+            buttonLabel="Upload CV (PDF)"
+          />
+          <label className="flex flex-col gap-1.5">
+            <span className={labelText}>{resumeFileNameF.label}</span>
+            <input
+              value={slots.resume_filename ?? ""}
+              onChange={(e) => setSlot("resume_filename", e.target.value)}
+              className={inputCls}
+              placeholder="e.g. Viktorija-Deksne-CV.pdf"
+            />
+            {resumeFileNameF.hint ? (
+              <span className="text-xs font-normal text-white/45">{resumeFileNameF.hint}</span>
             ) : null}
           </label>
         </div>

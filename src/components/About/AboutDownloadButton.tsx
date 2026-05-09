@@ -4,9 +4,17 @@ import { useTranslations } from "next-intl";
 import { Download } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 
-export function AboutDownloadButton() {
+export function AboutDownloadButton({
+  hrefOverride,
+  fileNameOverride,
+}: {
+  hrefOverride?: string;
+  fileNameOverride?: string;
+}) {
   const t = useTranslations("global");
-  const { href, fileName } = siteConfig.global.resume;
+  const href = (hrefOverride?.trim() || siteConfig.global.resume.href).trim();
+  const fileName =
+    (fileNameOverride?.trim() || siteConfig.global.resume.fileName).trim();
   const isSameOrigin = href.startsWith("/");
 
   return (

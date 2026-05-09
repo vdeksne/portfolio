@@ -22,6 +22,7 @@ const MIME_TO_EXT = new Map<string, string>([
   ["image/svg+xml", ".svg"],
   ["image/svg", ".svg"],
   ["image/avif", ".avif"],
+  ["application/pdf", ".pdf"],
 ]);
 
 const EXT_FROM_NAME = new Map<string, string>([
@@ -32,6 +33,7 @@ const EXT_FROM_NAME = new Map<string, string>([
   ["gif", ".gif"],
   ["svg", ".svg"],
   ["avif", ".avif"],
+  ["pdf", ".pdf"],
 ]);
 
 const EXT_TO_MIME: Record<string, string> = {
@@ -41,6 +43,7 @@ const EXT_TO_MIME: Record<string, string> = {
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
   ".avif": "image/avif",
+  ".pdf": "application/pdf",
 };
 
 function extFromFilename(filename: string): string | null {
@@ -65,6 +68,13 @@ function isHeicHeif(buf: Buffer): boolean {
 }
 
 function sniffExt(buf: Buffer): string | null {
+  // PDF
+  if (
+    buf.length >= 5 &&
+    buf.subarray(0, 5).toString("ascii") === "%PDF-"
+  ) {
+    return ".pdf";
+  }
   if (buf.length >= 12 && buf.subarray(4, 8).toString("ascii") === "ftyp") {
     const brand = buf.subarray(8, 12).toString("ascii").toLowerCase();
     if (brand.startsWith("avif")) return ".avif";
@@ -127,7 +137,7 @@ function resolveExtension(file: File, buf: Buffer): { ext: string } | { error: s
 
   return {
     error:
-      "Could not detect image type. Use JPEG, PNG, WebP, GIF, SVG, or AVIF — not HEIC.",
+      "Could not detect file type. Use PDF or an image (JPEG, PNG, WebP, GIF, SVG, AVIF).",
   };
 }
 
@@ -144,7 +154,7 @@ export async function POST(req: Request) {
     return Response.json(
       {
         error:
-          "Upload requires Vercel Blob. Project → Storage → Blob → create or link a store (sets BLOB_READ_WRITE_TOKEN), or paste an external image URL.",
+          "Upload requires Vercel Blob. Project → Storage → Blob → create or link a store (sets BLOB_READ_WRITE_TOKEN), or paste an external URL.",
       },
       { status: 503 },
     );
@@ -167,7 +177,7 @@ export async function POST(req: Request) {
 
   if (file.size > MAX_BYTES) {
     return Response.json(
-      { error: "Image is too large. Maximum size is 4 MB (exports from phones often work under this)." },
+      { error: "File is too large. Maximum size is 4 MB." },
       { status: 400 },
     );
   }

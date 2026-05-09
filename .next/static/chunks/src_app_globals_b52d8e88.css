@@ -2058,6 +2058,16 @@
     }
   }
 
+  .decoration-current\/25 {
+    text-decoration-color: currentColor;
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .decoration-current\/25 {
+      text-decoration-color: color-mix(in oklab, currentcolor 25%, transparent);
+    }
+  }
+
   .decoration-current\/70 {
     text-decoration-color: currentColor;
   }
@@ -2684,6 +2694,18 @@
     @supports (color: color-mix(in lab, red, red)) {
       .hover\:text-white\/80:hover {
         color: color-mix(in oklab, var(--color-white) 80%, transparent);
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    .hover\:text-white\/85:hover {
+      color: #ffffffd9;
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .hover\:text-white\/85:hover {
+        color: color-mix(in oklab, var(--color-white) 85%, transparent);
       }
     }
   }

@@ -7,5 +7,11 @@
   "/[locale]/writing/page": "app/[locale]/writing/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/(protected)/page": "app/admin/(protected)/page.js",
-  "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js"
+  "/api/admin/articles/route": "app/api/admin/articles/route.js",
+  "/api/admin/certifications/route": "app/api/admin/certifications/route.js",
+  "/api/admin/education/route": "app/api/admin/education/route.js",
+  "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js",
+  "/api/admin/projects/route": "app/api/admin/projects/route.js",
+  "/api/admin/stack/route": "app/api/admin/stack/route.js",
+  "/api/admin/upload/route": "app/api/admin/upload/route.js"
 }

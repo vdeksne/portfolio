@@ -14,6 +14,8 @@ export type AboutSectionViewProps = {
   subtitle?: string;
   profileImage?: string;
   intro?: string;
+  resumeHref?: string;
+  resumeFileName?: string;
   introLabel: string;
   experiencesLabel: string;
   experiences: AboutExperience[];
@@ -33,6 +35,8 @@ export function AboutSectionView({
   subtitle,
   profileImage,
   intro,
+  resumeHref,
+  resumeFileName,
   introLabel,
   experiencesLabel,
   experiences,
@@ -132,7 +136,10 @@ export function AboutSectionView({
       ) : null}
 
       <div className="mt-14 border-t border-white/6 pt-10 sm:mt-16 sm:pt-12">
-        <AboutDownloadButton />
+        <AboutDownloadButton
+          hrefOverride={resumeHref}
+          fileNameOverride={resumeFileName}
+        />
       </div>
     </section>
   );

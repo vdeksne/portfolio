@@ -7,6 +7,8 @@ type AboutSlots = {
   subtitle?: string;
   profile_image?: string;
   intro?: string;
+  resume_href?: string;
+  resume_filename?: string;
   stack_title?: string;
   stack_description?: string;
   education_title?: string;
@@ -33,6 +35,8 @@ export async function AboutSection({ slots }: { slots: AboutSlots }) {
       subtitle={slots.subtitle}
       profileImage={slots.profile_image}
       intro={slots.intro}
+      resumeHref={slots.resume_href}
+      resumeFileName={slots.resume_filename}
       introLabel={t("about_intro")}
       experiencesLabel={t("experiences")}
       experiences={experiences.items}

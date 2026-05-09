@@ -84,10 +84,11 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function AboutDownloadButton() {
+function AboutDownloadButton({ hrefOverride, fileNameOverride }) {
     _s();
     const t = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$2d$intl$40$3$2e$26$2e$5_next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2d$intl$2f$dist$2f$index$2e$react$2d$client$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTranslations"])("global");
-    const { href, fileName } = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteConfig"].global.resume;
+    const href = (hrefOverride?.trim() || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteConfig"].global.resume.href).trim();
+    const fileName = (fileNameOverride?.trim() || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["siteConfig"].global.resume.fileName).trim();
     const isSameOrigin = href.startsWith("/");
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$15$2e$2$2e$6_$40$babel$2b$core$40$7$2e$29$2e$0_react$2d$dom$40$19$2e$0$2e$0_react$40$19$2e$0$2e$0_$5f$react$40$19$2e$0$2e$0$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
         href: href,
@@ -104,19 +105,19 @@ function AboutDownloadButton() {
                     "aria-hidden": true
                 }, void 0, false, {
                     fileName: "[project]/src/components/About/AboutDownloadButton.tsx",
-                    lineNumber: 19,
+                    lineNumber: 27,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/About/AboutDownloadButton.tsx",
-                lineNumber: 18,
+                lineNumber: 26,
                 columnNumber: 7
             }, this),
             t("cv")
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/About/AboutDownloadButton.tsx",
-        lineNumber: 13,
+        lineNumber: 21,
         columnNumber: 5
     }, this);
 }
