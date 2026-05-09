@@ -92,13 +92,13 @@ export function ProjectDetailsModal({
             </div>
 
             <div className="overflow-hidden rounded-2xl bg-(--bg-card)">
-              <div className="relative h-56 w-full sm:h-72">
+              <div className="relative h-[min(42vh,17.5rem)] w-full sm:h-72">
                 <Image
                   fill
                   sizes="(max-width: 640px) 100vw, 768px"
                   alt={`${project.name} preview`}
                   src={project.image}
-                  className="object-cover"
+                  className="object-contain object-center"
                 />
               </div>
 

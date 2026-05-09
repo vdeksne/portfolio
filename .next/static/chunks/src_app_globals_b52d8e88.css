@@ -656,6 +656,14 @@
     height: calc(var(--spacing) * 64);
   }
 
+  .h-\[min\(40vh\,16rem\)\] {
+    height: min(40vh, 16rem);
+  }
+
+  .h-\[min\(42vh\,17\.5rem\)\] {
+    height: min(42vh, 17.5rem);
+  }
+
   .h-\[min\(92vw\,30rem\)\] {
     height: min(92vw, 30rem);
   }
@@ -1530,6 +1538,14 @@
 
   .object-cover {
     object-fit: cover;
+  }
+
+  .object-center {
+    object-position: center;
+  }
+
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
   }
 
   .p-0\.5 {
@@ -3743,6 +3759,12 @@
       .sm\:bg-white\/10 {
         background-color: color-mix(in oklab, var(--color-white) 10%, transparent);
       }
+    }
+  }
+
+  @media (width >= 40rem) {
+    .sm\:p-0 {
+      padding: calc(var(--spacing) * 0);
     }
   }
 

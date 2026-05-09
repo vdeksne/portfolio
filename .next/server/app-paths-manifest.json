@@ -2,5 +2,6 @@
   "/[locale]/about/page": "app/[locale]/about/page.js",
   "/[locale]/contact/page": "app/[locale]/contact/page.js",
   "/[locale]/page": "app/[locale]/page.js",
+  "/[locale]/works/page": "app/[locale]/works/page.js",
   "/_not-found/page": "app/_not-found/page.js"
 }
