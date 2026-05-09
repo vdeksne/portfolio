@@ -80,21 +80,23 @@ export function ContactForm({
       </h2>
       <Divider className="mb-8 mt-2" />
       <div className="flex flex-col sm:items-center sm:justify-between">
-        <div className="mx-auto flex w-full max-w-full flex-row flex-nowrap items-center gap-3 overflow-x-auto overscroll-x-contain pb-0.5 sm:gap-4 md:overflow-visible">
-          <span className="text-muted shrink-0 whitespace-nowrap text-sm sm:text-base">
-            {siteConfig.profile.phone}
-          </span>
-          <span className="text-muted shrink-0 select-none" aria-hidden>
-            |
-          </span>
-          <a
-            href={`mailto:${siteConfig.profile.email}`}
-            className="text-muted min-w-0 shrink truncate text-sm transition-colors duration-300 hover:text-(--font-primary) sm:max-w-none sm:shrink-0 sm:whitespace-nowrap sm:text-base"
-            title={siteConfig.profile.email}
-          >
-            {siteConfig.profile.email}
-          </a>
-          <div className="ml-auto shrink-0">
+        <div className="mx-auto flex w-full max-w-full flex-col items-start gap-y-3 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-4 sm:gap-y-0 sm:pb-0.5 md:overflow-visible">
+          <div className="flex min-w-0 flex-row flex-nowrap items-center gap-3 overflow-x-auto overscroll-x-contain pb-0.5 sm:min-w-0 sm:flex-1 sm:overflow-visible sm:pb-0">
+            <span className="text-muted shrink-0 whitespace-nowrap text-sm sm:text-base">
+              {siteConfig.profile.phone}
+            </span>
+            <span className="text-muted shrink-0 select-none" aria-hidden>
+              |
+            </span>
+            <a
+              href={`mailto:${siteConfig.profile.email}`}
+              className="text-muted min-w-0 shrink truncate text-sm transition-colors duration-300 hover:text-(--font-primary) sm:max-w-none sm:shrink-0 sm:whitespace-nowrap sm:text-base"
+              title={siteConfig.profile.email}
+            >
+              {siteConfig.profile.email}
+            </a>
+          </div>
+          <div className="shrink-0 sm:ml-auto">
             <MeetingButton />
           </div>
         </div>

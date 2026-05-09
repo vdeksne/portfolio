@@ -555,6 +555,33 @@ function HomeGlobe() {
             window.addEventListener("touchstart", touchMove, {
                 passive: true
             });
+            /** Below `md`: page scroll adds extra Y rotation (rad/s), with inertia decay. */ const mqMobileGlobe = window.matchMedia("(max-width: 767px)");
+            let scrollSpinVel = 0;
+            let lastScrollY = window.scrollY;
+            const syncScrollBaseline = {
+                "HomeGlobe.useEffect.syncScrollBaseline": ()=>{
+                    lastScrollY = window.scrollY;
+                    scrollSpinVel = 0;
+                }
+            }["HomeGlobe.useEffect.syncScrollBaseline"];
+            const onScrollForGlobe = {
+                "HomeGlobe.useEffect.onScrollForGlobe": ()=>{
+                    if (reduceMotionRef.current || !mqMobileGlobe.matches) return;
+                    const y = window.scrollY;
+                    const dy = y - lastScrollY;
+                    lastScrollY = y;
+                    scrollSpinVel += dy * 0.00135;
+                }
+            }["HomeGlobe.useEffect.onScrollForGlobe"];
+            const onMobileGlobeMq = {
+                "HomeGlobe.useEffect.onMobileGlobeMq": ()=>{
+                    syncScrollBaseline();
+                }
+            }["HomeGlobe.useEffect.onMobileGlobeMq"];
+            window.addEventListener("scroll", onScrollForGlobe, {
+                passive: true
+            });
+            mqMobileGlobe.addEventListener("change", onMobileGlobeMq);
             const onResize = {
                 "HomeGlobe.useEffect.onResize": ()=>{
                     const w = container.clientWidth;
@@ -590,6 +617,14 @@ function HomeGlobe() {
                         group.rotation.y += pointer.x * delta * 0.38 * slow;
                         group.rotation.z = lerp(group.rotation.z, pointer.x * 0.12, 0.06);
                     }
+                    if (reduceMotionRef.current) {
+                        scrollSpinVel = 0;
+                    } else if (mqMobileGlobe.matches) {
+                        scrollSpinVel *= Math.exp(-3.2 * delta);
+                        group.rotation.y += scrollSpinVel * delta;
+                    } else {
+                        scrollSpinVel = 0;
+                    }
                     /* Slightly faster cloud drift vs solid Earth */ clouds.rotation.y += delta * 0.029 * slow;
                     stars.rotation.y += delta * 0.018 * slow;
                     renderer.render(scene, camera);
@@ -603,6 +638,8 @@ function HomeGlobe() {
                     window.removeEventListener("mousemove", mouseMove);
                     window.removeEventListener("touchmove", touchMove);
                     window.removeEventListener("touchstart", touchMove);
+                    window.removeEventListener("scroll", onScrollForGlobe);
+                    mqMobileGlobe.removeEventListener("change", onMobileGlobeMq);
                     ro.disconnect();
                     themeObserver.disconnect();
                     geometry.dispose();
@@ -636,12 +673,12 @@ function HomeGlobe() {
             "aria-hidden": true
         }, void 0, false, {
             fileName: "[project]/src/components/Home/HomeGlobe.tsx",
-            lineNumber: 710,
+            lineNumber: 746,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/Home/HomeGlobe.tsx",
-        lineNumber: 705,
+        lineNumber: 741,
         columnNumber: 5
     }, this);
 }
