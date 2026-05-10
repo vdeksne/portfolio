@@ -7,12 +7,21 @@ import { getDb } from "@/lib/db";
 export async function fetchCmsJsonDoc(docKey: string): Promise<unknown | null> {
   const db = getDb();
   if (!db) return null;
-  const rows = (await db`
-    SELECT payload FROM cms_json_docs WHERE doc_key = ${docKey} LIMIT 1
-  `) as { payload: unknown }[];
-  const row = rows[0];
-  if (!row) return null;
-  return row.payload;
+  try {
+    const rows = (await db`
+      SELECT payload FROM cms_json_docs WHERE doc_key = ${docKey} LIMIT 1
+    `) as { payload: unknown }[];
+    const row = rows[0];
+    if (!row) return null;
+    return row.payload;
+  } catch (e) {
+    console.warn(
+      "[cms_json_docs]",
+      docKey,
+      e instanceof Error ? e.message : String(e),
+    );
+    return null;
+  }
 }
 
 export async function upsertCmsJsonDoc(

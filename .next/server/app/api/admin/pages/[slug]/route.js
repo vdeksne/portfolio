@@ -5,7 +5,7 @@ runtime.loadChunk("server/chunks/3e20b_esprima_dist_esprima_f46c8bfe.js");
 runtime.loadChunk("server/chunks/d4b13_@neondatabase_serverless_index_mjs_cf565074._.js");
 runtime.loadChunk("server/chunks/05b4d_zod_lib_index_mjs_17c65e86._.js");
 runtime.loadChunk("server/chunks/node_modules__pnpm_9571d9be._.js");
-runtime.loadChunk("server/chunks/[root of the server]__bae3d3c0._.js");
+runtime.loadChunk("server/chunks/[root of the server]__d06d5168._.js");
 runtime.getOrInstantiateRuntimeModule("[project]/.next-internal/server/app/api/admin/pages/[slug]/route/actions.js [app-rsc] (server actions loader, ecmascript)", CHUNK_PUBLIC_PATH);
 runtime.getOrInstantiateRuntimeModule("[project]/node_modules/.pnpm/next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/admin/pages/[slug]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)", CHUNK_PUBLIC_PATH);
 module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/.pnpm/next@15.2.6_@babel+core@7.29.0_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/admin/pages/[slug]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

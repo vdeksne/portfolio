@@ -39,20 +39,30 @@ export async function fetchCmsPageOverlay(
 ): Promise<CmsPageData | null> {
   const db = getDb();
   if (!db) return null;
-  const rows = (await db`
-    SELECT meta, slots, block FROM cms_pages
-    WHERE page_key = ${pageKey} AND locale = ${locale}
-    LIMIT 1
-  `) as { meta: unknown; slots: unknown; block: unknown }[];
-  const row = rows[0];
-  if (!row) return null;
-  const metaObj = safeJsonObject<CmsPageMeta>(row.meta) ?? ({} as CmsPageMeta);
-  const slotsObj = safeJsonObject<Record<string, string>>(row.slots) ?? {};
-  return {
-    meta: { ...metaObj },
-    slots: { ...slotsObj },
-    block: typeof row.block === "string" ? row.block : "",
-  };
+  try {
+    const rows = (await db`
+      SELECT meta, slots, block FROM cms_pages
+      WHERE page_key = ${pageKey} AND locale = ${locale}
+      LIMIT 1
+    `) as { meta: unknown; slots: unknown; block: unknown }[];
+    const row = rows[0];
+    if (!row) return null;
+    const metaObj = safeJsonObject<CmsPageMeta>(row.meta) ?? ({} as CmsPageMeta);
+    const slotsObj = safeJsonObject<Record<string, string>>(row.slots) ?? {};
+    return {
+      meta: { ...metaObj },
+      slots: { ...slotsObj },
+      block: typeof row.block === "string" ? row.block : "",
+    };
+  } catch (e) {
+    console.warn(
+      "[cms_pages]",
+      pageKey,
+      locale,
+      e instanceof Error ? e.message : String(e),
+    );
+    return null;
+  }
 }
 
 export async function upsertCmsPageRow(

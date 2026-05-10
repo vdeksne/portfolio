@@ -1,6 +1,6 @@
 module.exports = {
 
-"[project]/.next-internal/server/app/api/admin/experiences/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
+"[project]/.next-internal/server/app/api/admin/pages/[slug]/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
 
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
@@ -1075,7 +1075,84 @@ const articleCreateSchema = (0, __TURBOPACK__imported__module__$5b$project$5d2f$
     body: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])()
 });
 }}),
-"[project]/src/app/api/admin/experiences/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
+"[project]/src/lib/cms/query.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "localeFromRequest": (()=>localeFromRequest)
+});
+function localeFromRequest(req) {
+    const { searchParams } = new URL(req.url);
+    const l = searchParams.get("locale");
+    return l === "en" || l === "lv" ? l : null;
+}
+}}),
+"[project]/src/lib/site-config.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
+"use strict";
+
+var { g: global, __dirname } = __turbopack_context__;
+{
+__turbopack_context__.s({
+    "experiences": (()=>experiences),
+    "siteConfig": (()=>siteConfig)
+});
+const siteConfig = {
+    global: {
+        meetingLink: "https://cal.com/viktorija-deksne/15min",
+        available: true,
+        /** Add your PDF at public/resume.pdf or set href to any URL. */ resume: {
+            href: "/resume.pdf",
+            fileName: "Viktorija-Deksne-CV.pdf"
+        }
+    },
+    profile: {
+        name: "Viktorija Deksne",
+        job: "Frontend Engineer and Designer",
+        email: "viktorijadeksne@gmail.com",
+        phone: "(+371) 27266132",
+        picture: "https://raw.githubusercontent.com/vdeksne/portfolio2024_images/main/about/profile_img_V4.png"
+    },
+    socials: {
+        github: "https://github.com/vdeksne",
+        twitter: "https://twitter.com/DeksneViktorija",
+        linkedin: "https://www.linkedin.com/in/vdeksne/",
+        instagram: "https://www.instagram.com/viktorija_deksne/",
+        spotify: "https://open.spotify.com/user/1114444662?si=15a6f8dfc27a4b61"
+    },
+    seo: {
+        title: "Viktorija Deksne Portfolio",
+        description: "Made with ❤️ by Viktorija Deksne.",
+        /** Canonical site URL (trailing slash). Apex → www redirect: prefer www for stable og:url. Override with NEXT_PUBLIC_SITE_URL on Vercel if needed. */ url: "https://www.deksne.com/",
+        /** 1200×630 route — see `src/app/opengraph-image.tsx`. */ ogImage: "/opengraph-image"
+    },
+    appName: "Portfolio"
+};
+const experiences = [
+    {
+        title: "Front-End Developer",
+        company: "ShowHeroes",
+        date: "2021 - Today"
+    },
+    {
+        title: "Web Designer",
+        company: "YourMove",
+        date: "2018 - 2021"
+    },
+    {
+        title: "Art Director",
+        company: "Art Ovation Hotel",
+        date: "2017"
+    },
+    {
+        title: "Art Director",
+        company: "Porter Family Vineyards",
+        date: "2016"
+    }
+];
+}}),
+"[project]/src/app/api/admin/pages/[slug]/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname } = __turbopack_context__;
@@ -1086,24 +1163,118 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/content.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/cms/guard.ts [app-route] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$json$2d$docs$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/cms-json-docs-db.ts [app-route] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/db.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/cms/schemas.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$query$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/cms/query.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/site-config.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$pages$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/cms-pages-db.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/db.ts [app-route] (ecmascript)");
 ;
 ;
 ;
 ;
 ;
-async function GET() {
-    const denied = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["requireCmsAuth"])();
-    if (denied) return denied;
-    return Response.json(await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getExperiencesResolved"])());
+;
+;
+function coercePageWriteBody(raw) {
+    const o = raw;
+    const slots = {};
+    for (const [k, v] of Object.entries(o.slots ?? {})){
+        slots[k] = typeof v === "string" ? v : String(v ?? "");
+    }
+    const title = String(o.meta?.title ?? "").trim();
+    const description = String(o.meta?.description ?? "").trim();
+    const dateRaw = o.meta?.date;
+    return {
+        block: String(o.block ?? ""),
+        slots,
+        meta: {
+            title: title || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["siteConfig"].seo.title,
+            description: description || title || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$site$2d$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["siteConfig"].seo.description,
+            ...dateRaw != null && String(dateRaw).trim() !== "" ? {
+                date: String(dateRaw).trim()
+            } : {}
+        }
+    };
 }
-async function PUT(req) {
+async function GET(req, ctx) {
     const denied = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["requireCmsAuth"])();
     if (denied) return denied;
+    const locale = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$query$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["localeFromRequest"])(req);
+    if (!locale) {
+        return Response.json({
+            error: "Missing or invalid ?locale=en|lv"
+        }, {
+            status: 400
+        });
+    }
+    const { slug } = await ctx.params;
+    const routeKey = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["adminPageSlugToRouteKey"])(slug);
+    if (routeKey === null) {
+        return Response.json({
+            error: "Unknown page"
+        }, {
+            status: 404
+        });
+    }
+    const page = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getPageForAdmin"])(locale, routeKey);
+    if (!page) return Response.json({
+        error: "Not found"
+    }, {
+        status: 404
+    });
+    const url = new URL(req.url);
+    const debug = url.searchParams.get("debug") === "1";
+    if (!debug) return Response.json({
+        routeKey,
+        ...page
+    });
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
+    const pageKey = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$pages$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["routeKeyToDbPageKey"])(routeKey);
+    let overlay = null;
+    let overlayError = null;
+    if (db) {
+        try {
+            overlay = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$pages$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchCmsPageOverlay"])(pageKey, locale);
+        } catch (e) {
+            overlayError = e instanceof Error ? e.message : String(e);
+        }
+    }
+    return Response.json({
+        routeKey,
+        ...page,
+        debug: {
+            vercel: process.env.VERCEL ?? null,
+            vercelEnv: process.env.VERCEL_ENV ?? null,
+            dbConfigured: !!db,
+            pageKey,
+            overlay,
+            overlayError
+        }
+    });
+}
+async function PUT(req, ctx) {
+    const denied = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["requireCmsAuth"])();
+    if (denied) return denied;
+    const locale = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$query$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["localeFromRequest"])(req);
+    if (!locale) {
+        return Response.json({
+            error: "Missing or invalid ?locale=en|lv"
+        }, {
+            status: 400
+        });
+    }
+    const { slug } = await ctx.params;
+    const routeKey = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["adminPageSlugToRouteKey"])(slug);
+    if (routeKey === null) {
+        return Response.json({
+            error: "Unknown page"
+        }, {
+            status: 404
+        });
+    }
     const json = await req.json();
-    const parsed = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["experiencesSchema"].safeParse(json);
+    const normalized = coercePageWriteBody(json);
+    const parsed = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["pageWriteSchema"].safeParse(normalized);
     if (!parsed.success) {
         return Response.json({
             error: parsed.error.flatten()
@@ -1111,40 +1282,48 @@ async function PUT(req) {
             status: 400
         });
     }
-    if (process.env.VERCEL === "1") {
-        const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
-        if (!db) {
-            return Response.json({
-                error: "Vercel cannot write content/experiences.json. Add DATABASE_URL or POSTGRES_URL (Neon) in Vercel → Environment Variables for Production, redeploy, then run pnpm db:migrate on your machine with the same URL so the cms_json_docs table exists."
-            }, {
-                status: 503
-            });
-        }
-        try {
-            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$json$2d$docs$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["upsertCmsJsonDoc"])("experiences", parsed.data);
-        } catch (e) {
-            const msg = e instanceof Error ? e.message : String(e);
-            const code = typeof e === "object" && e !== null && "code" in e ? String(e.code) : "";
-            const missingTable = code === "42P01" || /relation ["']cms_json_docs["'] does not exist/i.test(msg);
-            if (missingTable) {
+    try {
+        if (process.env.VERCEL === "1") {
+            const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
+            if (!db) {
                 return Response.json({
-                    error: "Table cms_json_docs is missing. Run pnpm db:migrate using the same Neon URL as Vercel, then try Save again."
+                    error: "Vercel admin page saves need Postgres. Add DATABASE_URL or POSTGRES_URL (your Neon connection string) in Vercel → Settings → Environment Variables for Production, redeploy, then from your machine run: pnpm db:migrate"
                 }, {
                     status: 503
                 });
             }
-            console.error("[admin/experiences PUT]", e);
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$pages$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["upsertCmsPageRow"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$pages$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["routeKeyToDbPageKey"])(routeKey), locale, {
+                meta: parsed.data.meta,
+                slots: parsed.data.slots,
+                block: parsed.data.block
+            });
+            if (routeKey === "about") {
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["syncAboutProfileImageToOtherLocales"])(locale, parsed.data.slots.profile_image ?? "");
+            }
+        } else {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["writePageMarkdown"])(locale, routeKey, parsed.data.meta, parsed.data.block, parsed.data.slots);
+            if (routeKey === "about") {
+                await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["syncAboutProfileImageToOtherLocales"])(locale, parsed.data.slots.profile_image ?? "");
+            }
+        }
+    } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        console.error("[admin/pages PUT]", e);
+        const code = typeof e === "object" && e !== null && "code" in e ? String(e.code) : "";
+        const missingTable = code === "42P01" || /relation ["']cms_pages["'] does not exist/i.test(msg);
+        if (missingTable) {
             return Response.json({
-                error: `Could not save (${msg}).`
+                error: "The cms_pages table is missing. On your computer run pnpm db:migrate using the same Neon URL as Vercel (DATABASE_URL or POSTGRES_URL), then try Save again."
             }, {
                 status: 503
             });
         }
         return Response.json({
-            ok: true
+            error: `Could not save (${msg}).`
+        }, {
+            status: 503
         });
     }
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["writeExperiencesFile"])(parsed.data);
     return Response.json({
         ok: true
     });
@@ -1153,4 +1332,4 @@ async function PUT(req) {
 
 };
 
-//# sourceMappingURL=%5Broot%20of%20the%20server%5D__7928fcb9._.js.map
+//# sourceMappingURL=%5Broot%20of%20the%20server%5D__d06d5168._.js.map

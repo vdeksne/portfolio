@@ -212,24 +212,29 @@ function safeJsonObject(v) {
 async function fetchCmsPageOverlay(pageKey, locale) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) return null;
-    const rows = await db`
-    SELECT meta, slots, block FROM cms_pages
-    WHERE page_key = ${pageKey} AND locale = ${locale}
-    LIMIT 1
-  `;
-    const row = rows[0];
-    if (!row) return null;
-    const metaObj = safeJsonObject(row.meta) ?? {};
-    const slotsObj = safeJsonObject(row.slots) ?? {};
-    return {
-        meta: {
-            ...metaObj
-        },
-        slots: {
-            ...slotsObj
-        },
-        block: typeof row.block === "string" ? row.block : ""
-    };
+    try {
+        const rows = await db`
+      SELECT meta, slots, block FROM cms_pages
+      WHERE page_key = ${pageKey} AND locale = ${locale}
+      LIMIT 1
+    `;
+        const row = rows[0];
+        if (!row) return null;
+        const metaObj = safeJsonObject(row.meta) ?? {};
+        const slotsObj = safeJsonObject(row.slots) ?? {};
+        return {
+            meta: {
+                ...metaObj
+            },
+            slots: {
+                ...slotsObj
+            },
+            block: typeof row.block === "string" ? row.block : ""
+        };
+    } catch (e) {
+        console.warn("[cms_pages]", pageKey, locale, e instanceof Error ? e.message : String(e));
+        return null;
+    }
 }
 async function upsertCmsPageRow(pageKey, locale, data) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
@@ -282,12 +287,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$
 async function fetchCmsJsonDoc(docKey) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) return null;
-    const rows = await db`
-    SELECT payload FROM cms_json_docs WHERE doc_key = ${docKey} LIMIT 1
-  `;
-    const row = rows[0];
-    if (!row) return null;
-    return row.payload;
+    try {
+        const rows = await db`
+      SELECT payload FROM cms_json_docs WHERE doc_key = ${docKey} LIMIT 1
+    `;
+        const row = rows[0];
+        if (!row) return null;
+        return row.payload;
+    } catch (e) {
+        console.warn("[cms_json_docs]", docKey, e instanceof Error ? e.message : String(e));
+        return null;
+    }
 }
 async function upsertCmsJsonDoc(docKey, payload) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDb"])();
