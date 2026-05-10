@@ -14,6 +14,7 @@ import {
   upsertCmsPageRow,
 } from "./cms-pages-db";
 import { getDb } from "./db";
+import { fetchCmsJsonDoc } from "./cms-json-docs-db";
 import { listProjectsFromDb } from "./projects-db";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -343,6 +344,36 @@ export function getExperiences() {
   return JSON.parse(raw) as {
     items: Experience[];
   };
+}
+
+function parseExperiencesDoc(v: unknown): { items: Experience[] } | null {
+  if (!v || typeof v !== "object") return null;
+  const items = (v as { items?: unknown }).items;
+  if (!Array.isArray(items)) return null;
+  const out: Experience[] = [];
+  for (const x of items) {
+    if (!x || typeof x !== "object") return null;
+    const o = x as Record<string, unknown>;
+    if (
+      typeof o.title !== "string" ||
+      typeof o.company !== "string" ||
+      typeof o.date !== "string"
+    ) {
+      return null;
+    }
+    out.push({ title: o.title, company: o.company, date: o.date });
+  }
+  return { items: out };
+}
+
+/** Repo JSON default; on Vercel, `cms_json_docs` row replaces when present & valid. */
+export async function getExperiencesResolved(): Promise<{ items: Experience[] }> {
+  if (process.env.VERCEL === "1") {
+    const raw = await fetchCmsJsonDoc("experiences");
+    const parsed = parseExperiencesDoc(raw);
+    if (parsed) return parsed;
+  }
+  return getExperiences();
 }
 
 export function getCertifications() {

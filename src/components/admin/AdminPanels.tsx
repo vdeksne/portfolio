@@ -236,7 +236,7 @@ export function StackPanel({
           ) : null}
           {items.map((item, idx) => (
             <div
-              key={`${item.name}-${idx}`}
+              key={idx}
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
@@ -459,7 +459,7 @@ export function ExperiencesPanel({
           ) : null}
           {items.map((item, idx) => (
             <div
-              key={`${item.title}-${item.company}-${idx}`}
+              key={idx}
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
@@ -716,7 +716,7 @@ export function CertificationsPanel({
           ) : null}
           {items.map((item, idx) => (
             <div
-              key={`${item.name}-${item.issuer}-${idx}`}
+              key={idx}
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
@@ -988,7 +988,7 @@ export function EducationPanel({
           ) : null}
           {items.map((item, idx) => (
             <div
-              key={`${item.school}-${item.program}-${idx}`}
+              key={idx}
               className="rounded-xl border border-white/10 bg-black/20 p-4"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">

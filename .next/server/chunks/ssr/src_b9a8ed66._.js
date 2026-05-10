@@ -1324,7 +1324,7 @@ function StackPanel({ flash, setErr }) {
                                         lineNumber: 242,
                                         columnNumber: 15
                                     }, this)
-                                }, `${item.name}-${idx}`, false, {
+                                }, idx, false, {
                                     fileName: "[project]/src/components/admin/AdminPanels.tsx",
                                     lineNumber: 238,
                                     columnNumber: 13
@@ -1764,7 +1764,7 @@ function ExperiencesPanel({ flash, setErr }) {
                                         lineNumber: 465,
                                         columnNumber: 15
                                     }, this)
-                                }, `${item.title}-${item.company}-${idx}`, false, {
+                                }, idx, false, {
                                     fileName: "[project]/src/components/admin/AdminPanels.tsx",
                                     lineNumber: 461,
                                     columnNumber: 13
@@ -2247,7 +2247,7 @@ function CertificationsPanel({ flash, setErr }) {
                                         lineNumber: 722,
                                         columnNumber: 15
                                     }, this)
-                                }, `${item.name}-${item.issuer}-${idx}`, false, {
+                                }, idx, false, {
                                     fileName: "[project]/src/components/admin/AdminPanels.tsx",
                                     lineNumber: 718,
                                     columnNumber: 13
@@ -2728,7 +2728,7 @@ function EducationPanel({ flash, setErr }) {
                                         lineNumber: 994,
                                         columnNumber: 15
                                     }, this)
-                                }, `${item.school}-${item.program}-${idx}`, false, {
+                                }, idx, false, {
                                     fileName: "[project]/src/components/admin/AdminPanels.tsx",
                                     lineNumber: 990,
                                     columnNumber: 13

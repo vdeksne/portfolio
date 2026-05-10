@@ -122,7 +122,21 @@ async function main() {
     CREATE INDEX IF NOT EXISTS idx_cms_pages_updated_at ON cms_pages (updated_at DESC)
   `;
 
-  console.log("Migrations applied: uploaded_files, portfolio_projects, cms_pages");
+  await sql`
+    CREATE TABLE IF NOT EXISTS cms_json_docs (
+      doc_key TEXT PRIMARY KEY,
+      payload JSONB NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_cms_json_docs_updated_at
+    ON cms_json_docs (updated_at DESC)
+  `;
+
+  console.log(
+    "Migrations applied: uploaded_files, portfolio_projects, cms_pages, cms_json_docs",
+  );
 }
 
 main().catch((err) => {

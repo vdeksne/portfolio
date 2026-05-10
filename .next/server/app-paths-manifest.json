@@ -1,7 +1,10 @@
 {
   "/[locale]/about/page": "app/[locale]/about/page.js",
-  "/[locale]/contact/page": "app/[locale]/contact/page.js",
   "/[locale]/page": "app/[locale]/page.js",
-  "/[locale]/works/page": "app/[locale]/works/page.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/(protected)/page": "app/admin/(protected)/page.js",
+  "/api/admin/education/route": "app/api/admin/education/route.js",
+  "/api/admin/experiences/route": "app/api/admin/experiences/route.js",
+  "/api/admin/pages/[slug]/route": "app/api/admin/pages/[slug]/route.js",
+  "/api/admin/upload/route": "app/api/admin/upload/route.js"
 }
