@@ -294,10 +294,34 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/db.ts [app-route] (ecmascript)");
 ;
+/**
+ * One DDL pass per serverless instance (CREATE IF NOT EXISTS is idempotent).
+ */ let cmsJsonDocsDdlDone = false;
+async function ensureCmsJsonDocsTable(db) {
+    if (cmsJsonDocsDdlDone) return;
+    try {
+        await db`
+      CREATE TABLE IF NOT EXISTS cms_json_docs (
+        doc_key TEXT PRIMARY KEY,
+        payload JSONB NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+        await db`
+      CREATE INDEX IF NOT EXISTS idx_cms_json_docs_updated_at
+      ON cms_json_docs (updated_at DESC)
+    `;
+    } catch (e) {
+        console.error("[ensureCmsJsonDocsTable]", e);
+        throw e;
+    }
+    cmsJsonDocsDdlDone = true;
+}
 async function fetchCmsJsonDoc(docKey) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) return null;
     try {
+        await ensureCmsJsonDocsTable(db);
         const rows = await db`
       SELECT payload FROM cms_json_docs WHERE doc_key = ${docKey} LIMIT 1
     `;
@@ -312,6 +336,7 @@ async function fetchCmsJsonDoc(docKey) {
 async function upsertCmsJsonDoc(docKey, payload) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
     if (!db) throw new Error("Database not configured");
+    await ensureCmsJsonDocsTable(db);
     const json = JSON.stringify(payload);
     await db`
     INSERT INTO cms_json_docs (doc_key, payload, updated_at)
@@ -416,6 +441,7 @@ __turbopack_context__.s({
     "getArticle": (()=>getArticle),
     "getCertifications": (()=>getCertifications),
     "getEducation": (()=>getEducation),
+    "getEducationResolved": (()=>getEducationResolved),
     "getExperiences": (()=>getExperiences),
     "getExperiencesResolved": (()=>getExperiencesResolved),
     "getFaq": (()=>getFaq),
@@ -741,6 +767,42 @@ function getCertifications() {
 function getEducation() {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, "education.json"), "utf8");
     return JSON.parse(raw);
+}
+function parseEducationDoc(v) {
+    if (!v || typeof v !== "object") return null;
+    const items = v.items;
+    if (!Array.isArray(items)) return null;
+    const out = [];
+    for (const x of items){
+        if (!x || typeof x !== "object") return null;
+        const o = x;
+        if (typeof o.school !== "string" || typeof o.program !== "string" || typeof o.date !== "string") {
+            return null;
+        }
+        const entry = {
+            school: o.school,
+            program: o.program,
+            date: o.date
+        };
+        const locRaw = o.location;
+        if (locRaw !== undefined && locRaw !== null) {
+            if (typeof locRaw !== "string") return null;
+            const t = locRaw.trim();
+            if (t) entry.location = t;
+        }
+        out.push(entry);
+    }
+    return {
+        items: out
+    };
+}
+async function getEducationResolved() {
+    if (process.env.VERCEL === "1") {
+        const raw = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$json$2d$docs$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchCmsJsonDoc"])("education");
+        const parsed = parseEducationDoc(raw);
+        if (parsed) return parsed;
+    }
+    return getEducation();
 }
 function getFaq(locale) {
     const raw = __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$fs__$5b$external$5d$__$28$node$3a$fs$2c$__cjs$29$__["default"].readFileSync(__TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$path__$5b$external$5d$__$28$node$3a$path$2c$__cjs$29$__["default"].join(CONTENT_DIR, locale, "faq.json"), "utf8");

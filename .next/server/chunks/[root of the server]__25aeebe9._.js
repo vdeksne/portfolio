@@ -1,6 +1,6 @@
 module.exports = {
 
-"[project]/.next-internal/server/app/api/admin/experiences/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
+"[project]/.next-internal/server/app/api/admin/education/route/actions.js [app-rsc] (server actions loader, ecmascript)": (function(__turbopack_context__) {
 
 var { g: global, __dirname, m: module, e: exports } = __turbopack_context__;
 {
@@ -1137,7 +1137,7 @@ const articleCreateSchema = (0, __TURBOPACK__imported__module__$5b$project$5d2f$
     body: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$zod$40$3$2e$24$2e$2$2f$node_modules$2f$zod$2f$lib$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["string"])()
 });
 }}),
-"[project]/src/app/api/admin/experiences/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
+"[project]/src/app/api/admin/education/route.ts [app-route] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
 
 var { g: global, __dirname } = __turbopack_context__;
@@ -1159,13 +1159,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas
 async function GET() {
     const denied = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["requireCmsAuth"])();
     if (denied) return denied;
-    return Response.json(await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getExperiencesResolved"])());
+    return Response.json(await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getEducationResolved"])());
 }
 async function PUT(req) {
     const denied = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$guard$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["requireCmsAuth"])();
     if (denied) return denied;
     const json = await req.json();
-    const parsed = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["experiencesSchema"].safeParse(json);
+    const parsed = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2f$schemas$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["educationSchema"].safeParse(json);
     if (!parsed.success) {
         return Response.json({
             error: parsed.error.flatten()
@@ -1177,13 +1177,13 @@ async function PUT(req) {
         const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getDb"])();
         if (!db) {
             return Response.json({
-                error: "Vercel cannot write content/experiences.json. Add DATABASE_URL or POSTGRES_URL (Neon) in Vercel → Environment Variables for Production, redeploy, then run pnpm db:migrate on your machine with the same URL so the cms_json_docs table exists."
+                error: "Vercel cannot write content/education.json. Add DATABASE_URL or POSTGRES_URL (Neon) in Vercel → Environment Variables for Production, redeploy, then run pnpm db:migrate so the cms_json_docs table exists."
             }, {
                 status: 503
             });
         }
         try {
-            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$json$2d$docs$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["upsertCmsJsonDoc"])("experiences", parsed.data);
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$cms$2d$json$2d$docs$2d$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["upsertCmsJsonDoc"])("education", parsed.data);
         } catch (e) {
             const msg = e instanceof Error ? e.message : String(e);
             const code = typeof e === "object" && e !== null && "code" in e ? String(e.code) : "";
@@ -1195,7 +1195,7 @@ async function PUT(req) {
                     status: 503
                 });
             }
-            console.error("[admin/experiences PUT]", e);
+            console.error("[admin/education PUT]", e);
             return Response.json({
                 error: `Could not save (${msg}).`
             }, {
@@ -1206,7 +1206,7 @@ async function PUT(req) {
             ok: true
         });
     }
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["writeExperiencesFile"])(parsed.data);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$content$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["writeEducationFile"])(parsed.data);
     return Response.json({
         ok: true
     });
@@ -1215,4 +1215,4 @@ async function PUT(req) {
 
 };
 
-//# sourceMappingURL=%5Broot%20of%20the%20server%5D__7928fcb9._.js.map
+//# sourceMappingURL=%5Broot%20of%20the%20server%5D__25aeebe9._.js.map

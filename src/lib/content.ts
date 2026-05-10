@@ -396,6 +396,47 @@ export function getEducation() {
   };
 }
 
+function parseEducationDoc(v: unknown): { items: Education[] } | null {
+  if (!v || typeof v !== "object") return null;
+  const items = (v as { items?: unknown }).items;
+  if (!Array.isArray(items)) return null;
+  const out: Education[] = [];
+  for (const x of items) {
+    if (!x || typeof x !== "object") return null;
+    const o = x as Record<string, unknown>;
+    if (
+      typeof o.school !== "string" ||
+      typeof o.program !== "string" ||
+      typeof o.date !== "string"
+    ) {
+      return null;
+    }
+    const entry: Education = {
+      school: o.school,
+      program: o.program,
+      date: o.date,
+    };
+    const locRaw = o.location;
+    if (locRaw !== undefined && locRaw !== null) {
+      if (typeof locRaw !== "string") return null;
+      const t = locRaw.trim();
+      if (t) entry.location = t;
+    }
+    out.push(entry);
+  }
+  return { items: out };
+}
+
+/** Repo JSON default; on Vercel, `cms_json_docs` row replaces when present & valid. */
+export async function getEducationResolved(): Promise<{ items: Education[] }> {
+  if (process.env.VERCEL === "1") {
+    const raw = await fetchCmsJsonDoc("education");
+    const parsed = parseEducationDoc(raw);
+    if (parsed) return parsed;
+  }
+  return getEducation();
+}
+
 export type FaqData = {
   title: string;
   subtitle: string;

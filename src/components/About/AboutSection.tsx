@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import {
   getCertifications,
-  getEducation,
+  getEducationResolved,
   getExperiencesResolved,
   getStack,
 } from "@/lib/content";
@@ -25,7 +25,7 @@ type AboutSlots = {
 export async function AboutSection({ slots }: { slots: AboutSlots }) {
   const stack = getStack();
   const experiences = await getExperiencesResolved();
-  const education = getEducation();
+  const education = await getEducationResolved();
   const certifications = getCertifications();
   const t = await getTranslations("global");
   const tNav = await getTranslations("navigation");
